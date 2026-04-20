@@ -1,5 +1,6 @@
-import React from 'react';
-import { Search, MapPin, Sparkles, Star, ShieldCheck, Zap, ArrowRight, Utensils, Hotel, Scissors, Sofa, Heart, GraduationCap, Key, Building2, UserCog, Dog, Bed, Store, Activity, Dumbbell, Banknote, Calendar, CarFront, Truck, Send, Menu } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, MapPin, Sparkles, Star, ShieldCheck, Zap, ArrowRight, Utensils, Hotel, Scissors, Sofa, Heart, GraduationCap, Key, Building2, UserCog, Dog, Bed, Store, Activity, Dumbbell, Banknote, Calendar, CarFront, Truck, Send, Menu, Clock } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import UserLayout from '../../layouts/UserLayout';
 import Button from '../../components/common/Button';
@@ -31,10 +32,10 @@ const CATEGORIES = [
 ];
 
 const FEATURED_VENDORS = [
-  { id: 1, name: 'AquaSmooth Plumbing', rating: 4.9, reviews: 1240, type: 'Premium', verified: true, image: 'https://images.unsplash.com/photo-1581578731522-7411bc4c8038?auto=format&fit=crop&q=80&w=400' },
-  { id: 2, name: 'Apex Car Care', rating: 4.8, reviews: 3100, type: 'Featured', verified: true, image: 'https://images.unsplash.com/photo-1530046339160-ce3e5b0c7a2f?auto=format&fit=crop&q=80&w=400' },
+  { id: 1, name: 'AquaSmooth Plumbing', rating: 4.9, reviews: 1240, type: 'Premium', verified: true, image: 'https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&q=80&w=400' },
+  { id: 2, name: 'Apex Car Care', rating: 4.8, reviews: 3100, type: 'Featured', verified: true, image: 'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&q=80&w=400' },
   { id: 3, name: 'Zenith Home Spa', rating: 4.7, reviews: 890, type: 'Promoted', verified: false, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=400' },
-  { id: 4, name: 'Glow Dental Clinic', rating: 5.0, reviews: 450, type: 'Top Rated', verified: true, image: 'https://images.unsplash.com/photo-1629909613654-28717ee44bb6?auto=format&fit=crop&q=80&w=400' },
+  { id: 4, name: 'Glow Dental Clinic', rating: 5.0, reviews: 450, type: 'Top Rated', verified: true, image: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=400' },
 ];
 
 const Home = () => {
@@ -42,63 +43,73 @@ const Home = () => {
     <UserLayout>
       {/* Hero Section */}
       <section 
-        className="relative overflow-hidden pt-20 pb-32 px-6 min-h-[80vh] flex items-center justify-center border-b border-slate-100 bg-cover bg-center"
-        style={{ backgroundImage: `linear-gradient(to bottom, rgba(32, 89, 78, 0.1), rgba(255, 255, 255, 0.6), white), url(${heroBg})` }}
+        className="relative overflow-hidden pt-24 pb-12 md:pt-52 md:pb-44 px-6 min-h-[45vh] md:min-h-[90vh] flex items-center justify-center border-b border-slate-200 md:border-b-0 bg-white md:bg-cover md:bg-center"
+        style={{ 
+          backgroundImage: typeof window !== 'undefined' && window.innerWidth >= 768 
+            ? `linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2)), url(${heroBg})` 
+            : 'none' 
+        }}
       >
-        <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
-          <Badge variant="primary" className="mb-6 backdrop-blur-md bg-white/50 border-primary-200 text-primary-700 animate-bounce">
-            <Sparkles size={14} className="mr-1 inline" />
+        {/* Desktop Overlay - Only on MD */}
+        <div className="hidden md:block absolute inset-0 bg-black/40 z-0"></div>
+
+        <div className="max-w-[1400px] mx-auto flex flex-col items-center text-center relative z-10">
+          <Badge variant="primary" className="mb-6 backdrop-blur-md bg-primary-50 md:bg-white/20 border-primary-100 md:border-white/20 text-primary-700 md:text-white animate-bounce">
+            <Sparkles size={14} className="mr-1 inline text-primary-500 md:text-primary-300" />
             Empowering over 1M+ small businesses globally
           </Badge>
           
-          <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight max-w-4xl mb-8">
-            Find the Best <span className="text-primary-600 relative">
+          <h1 className="text-4xl md:text-7xl font-display font-bold leading-tight max-w-4xl mb-6 md:mb-8 text-slate-900 md:text-white drop-shadow-none md:drop-shadow-lg">
+            Find the Best <span className="text-primary-600 md:text-white relative">
               Services
-              <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary-300" viewBox="0 0 100 10" preserveAspectRatio="none">
+              <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary-200 md:text-white/40" viewBox="0 0 100 10" preserveAspectRatio="none">
                 <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="4" />
               </svg>
             </span> Near You
           </h1>
           
-          <p className="text-lg text-slate-500 max-w-2xl mb-12">
+          <p className="text-base md:text-lg text-slate-600 md:text-white/90 max-w-2xl mb-10 md:mb-12 drop-shadow-none md:drop-shadow">
             Instantly discover verified vendors, compare prices, and book the most trusted experts for your needs with AI-powered search.
           </p>
 
-          {/* AI Search Box */}
-          <div className="w-full max-w-3xl bg-white p-2 rounded-3xl shadow-2xl border border-slate-100 flex flex-col md:flex-row items-center gap-2">
-            <div className="flex-1 flex items-center gap-3 px-4 w-full">
-              <Search className="text-primary-500 flex-shrink-0" size={24} />
+          {/* AI Search Box - Classic Style */}
+          <div className="w-full max-w-2xl bg-white p-1.5 rounded-2xl shadow-xl md:shadow-2xl border border-slate-200 md:border-white/20 flex flex-col md:flex-row items-center gap-1">
+            <div className="flex-1 flex items-center gap-2 px-3 w-full">
+              <Search className="text-primary-500 flex-shrink-0" size={20} />
               <input 
                 type="text" 
-                placeholder="Ex. 'Best AC repair in Mumbai' or 'Electricians near me'"
-                className="w-full py-4 text-lg border-none focus:ring-0 placeholder:text-slate-400 font-medium"
+                placeholder="Search for Services near me"
+                className="w-full py-2.5 text-sm border-none focus:ring-0 focus:outline-none placeholder:text-slate-400 font-medium"
               />
             </div>
-            <div className="hidden md:block w-px h-10 bg-slate-100 mx-2"></div>
-            <div className="flex-shrink-0 flex items-center gap-3 px-4 w-full md:w-auto">
-              <MapPin className="text-slate-400 flex-shrink-0" size={20} />
+            
+            <div className="hidden md:block w-px h-8 bg-slate-100 mx-1"></div>
+            
+            <div className="flex-shrink-0 flex items-center gap-2 px-3 w-full md:w-64">
+              <MapPin className="text-primary-500 flex-shrink-0" size={18} />
               <input 
                 type="text" 
-                placeholder="Current Location"
-                className="w-full py-4 border-none focus:ring-0 text-slate-600 font-semibold"
+                placeholder="Indore"
+                className="w-full py-2.5 border-none focus:ring-0 focus:outline-none text-slate-600 font-semibold text-sm placeholder:text-slate-400"
               />
             </div>
-            <Button size="lg" className="w-full md:w-auto rounded-2xl shadow-xl shadow-primary-500/30">
-              Discover Now
+            
+            <Button size="sm" className="w-full md:w-auto rounded-xl px-10 py-3 shadow-lg shadow-primary-500/20">
+              Discover
             </Button>
           </div>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-slate-400 font-medium">
+          <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-slate-700 md:text-white font-bold drop-shadow-none md:drop-shadow">
             <div className="flex items-center gap-2">
-              <ShieldCheck size={18} className="text-emerald-500" />
+              <ShieldCheck size={18} className="text-emerald-600 md:text-emerald-400" />
               Verified Experts
             </div>
             <div className="flex items-center gap-2">
-              <Zap size={18} className="text-amber-500" />
+              <Zap size={18} className="text-amber-600 md:text-amber-400" />
               Instant Booking
             </div>
             <div className="flex items-center gap-2">
-              <Star size={18} className="text-primary-500" />
+              <Star size={18} className="text-primary-600 md:text-primary-300" />
               4.8/5 Avg Rating
             </div>
           </div>
@@ -137,7 +148,7 @@ const Home = () => {
 
       {/* Featured Vendors */}
       <section className="bg-slate-100/50 py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-[1400px] mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-display font-bold text-slate-900 mb-4">Handpicked Top Rated Experts</h2>
             <p className="text-slate-500 text-lg">We only feature vendors with proven track records and high customer satisfaction.</p>
@@ -167,7 +178,10 @@ const Home = () => {
                   </div>
                   <h4 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary-600 transition-colors cursor-pointer">{vendor.name}</h4>
                   <p className="text-sm text-slate-400 font-medium mb-6">Expert plumbing and sanitation solutions across Mumbai region.</p>
-                  <Button variant="outline" className="w-full overflow-hidden group-hover:bg-primary-600 group-hover:text-white group-hover:border-primary-600 transition-all duration-300">
+                  <Button 
+                    variant="outline" 
+                    className="w-full mt-auto border-primary-100 text-primary-600 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all duration-300 font-bold py-3 rounded-xl"
+                  >
                     Get Quote
                   </Button>
                 </div>
@@ -184,62 +198,97 @@ const Home = () => {
       </section>
 
       {/* Social Feed Preview Segment */}
-      <section className="max-w-7xl mx-auto px-6 py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
-          <div className="lg:col-span-1">
-            <Badge variant="primary" className="mb-4">Social Discovery</Badge>
-            <h2 className="text-4xl font-display font-bold text-slate-900 mb-6 leading-tight">
-              See What's Trending in Your Community
+      <section className="max-w-[1400px] mx-auto px-6 py-24 bg-white/50">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          <div className="lg:col-span-7">
+            <Badge variant="primary" className="mb-4 px-4 py-1.5 bg-primary-50 text-primary-700">Social Discovery</Badge>
+            <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-8 leading-tight">
+              See What's Trending <br/> 
+              in <span className="text-primary-600">Your Community</span>
             </h2>
-            <p className="text-slate-500 text-lg mb-8">
+            <p className="text-slate-500 text-xl mb-10 leading-relaxed max-w-2xl">
               Stay updated with the latest service works, tips, and transformations posted by vendors near you. Like, comment, and save your favorites!
             </p>
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600">
-                  <Sparkles size={24} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="flex items-center gap-5 p-5 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600 flex-shrink-0">
+                  <Sparkles size={28} />
                 </div>
                 <div>
-                  <h5 className="font-bold text-slate-900">Real Work Samples</h5>
+                  <h5 className="font-bold text-lg text-slate-900">Real Work Samples</h5>
                   <p className="text-sm text-slate-500">Unfiltered photos and videos from actual service jobs.</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600">
-                  <Star size={24} />
+              <div className="flex items-center gap-5 p-5 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 flex-shrink-0">
+                  <Star size={28} />
                 </div>
                 <div>
-                  <h5 className="font-bold text-slate-900">Community Reviews</h5>
+                  <h5 className="font-bold text-lg text-slate-900">Community Reviews</h5>
                   <p className="text-sm text-slate-500">Read what your neighbors are saying about local vendors.</p>
                 </div>
               </div>
             </div>
-            <Button size="lg" className="mt-10 rounded-2xl w-full sm:w-auto">Open Social Feed</Button>
+            <Button size="lg" className="mt-12 rounded-2xl w-full sm:w-auto px-12 py-4 text-lg shadow-lg shadow-primary-500/20">Open Social Feed</Button>
           </div>
 
-          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6 p-1 bg-slate-200 rounded-3xl">
-             <Card className="aspect-[4/5] bg-cover bg-center rounded-2xl relative overflow-hidden" 
-               style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1595206133361-b1fe343e5e23?auto=format&fit=crop&q=80&w=400")' }}>
+          <div className="lg:col-span-5 relative h-[500px] md:h-[650px] flex items-center justify-end group">
+            {/* Background Decorative Element */}
+            <div className="absolute inset-0 bg-primary-50 rounded-3xl blur-3xl opacity-30 transform scale-90 group-hover:scale-100 transition-transform duration-700"></div>
+            
+            <div className="relative w-full h-full flex items-center justify-end pr-10">
+              {/* Bottom Card */}
+              <motion.div 
+                initial={{ rotate: -8, x: -30, opacity: 0 }}
+                whileInView={{ rotate: -8, x: -30, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="absolute w-[280px] md:w-[320px] aspect-[4/5] bg-cover bg-center rounded-3xl shadow-2xl z-10 border-4 border-white overflow-hidden"
+                style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1528666336021-99c0d48149e3?auto=format&fit=crop&q=80&w=500")' }}
+              >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
-                    <span className="text-white text-sm font-bold">Luxe Interior Studio</span>
-                  </div>
-                  <p className="text-white/80 text-sm line-clamp-2">Just finished this beautiful minimalist living room transform in Goregaon. #interiordesign</p>
-                </div>
-             </Card>
-             <Card className="aspect-[4/5] bg-cover bg-center rounded-2xl relative overflow-hidden hidden sm:block mt-6" 
-               style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1528666336021-99c0d48149e3?auto=format&fit=crop&q=80&w=400")' }}>
+              </motion.div>
+
+              {/* Middle Card */}
+              <motion.div 
+                initial={{ rotate: 3, x: 20, opacity: 0 }}
+                whileInView={{ rotate: 3, x: 20, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="absolute w-[280px] md:w-[320px] aspect-[4/5] bg-cover bg-center rounded-3xl shadow-2xl z-20 border-4 border-white overflow-hidden"
+                style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1595206133361-b1fe343e5e23?auto=format&fit=crop&q=80&w=500")' }}
+              >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
-                    <span className="text-white text-sm font-bold">AutoShine Pros</span>
+              </motion.div>
+
+              {/* Top Card (Main) */}
+              <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                whileHover={{ scale: 1.05, rotate: 1 }}
+                transition={{ duration: 0.5 }}
+                className="relative w-[300px] md:w-[350px] aspect-[4/5] bg-cover bg-center rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] z-30 border-4 border-white overflow-hidden cursor-pointer"
+                style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=500")' }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full border-2 border-primary-400 bg-white shadow-lg flex items-center justify-center overflow-hidden">
+                      <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100" alt="avatar" />
+                    </div>
+                    <div>
+                      <span className="text-white text-base font-bold block leading-none mb-1">Luxe Interior Studio</span>
+                      <span className="text-primary-300 text-[10px] font-bold uppercase tracking-wider">Premium Artist</span>
+                    </div>
                   </div>
-                  <p className="text-white/80 text-sm line-clamp-2">Ceramic coating done for this beast! ✨ #carcleaning #mumbai</p>
+                  <p className="text-white text-sm md:text-base font-medium line-clamp-2 leading-relaxed">
+                    Just finished this beautiful minimalist living room transformation in Goregaon. Every corner tells a story! ✨ <span className="text-primary-400 font-bold">#interiordesign #minimalism</span>
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-white/60 text-xs">
+                    <span>2k Likes</span>
+                    <span>45 Comments</span>
+                  </div>
                 </div>
-             </Card>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
