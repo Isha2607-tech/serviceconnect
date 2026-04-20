@@ -1,4 +1,4 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Sparkles, Star, ShieldCheck, Zap, ArrowRight, Utensils, Hotel, Scissors, Sofa, Heart, GraduationCap, Key, Building2, UserCog, Dog, Bed, Store, Activity, Dumbbell, Banknote, Calendar, CarFront, Truck, Send, Menu } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import UserLayout from '../../layouts/UserLayout';
@@ -38,6 +38,16 @@ const FEATURED_VENDORS = [
 ];
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (cat) => {
+    if (cat.name === 'Hotels') {
+      navigate('/hotels');
+    } else {
+      navigate('/search');
+    }
+  };
+
   return (
     <UserLayout>
       {/* Hero Section */}
@@ -119,7 +129,11 @@ const Home = () => {
 
         <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-x-4 gap-y-10">
           {CATEGORIES.map((cat) => (
-            <div key={cat.id} className="flex flex-col items-center group cursor-pointer">
+            <div 
+              key={cat.id} 
+              className="flex flex-col items-center group cursor-pointer"
+              onClick={() => handleCategoryClick(cat)}
+            >
               <div className={cn(
                 "w-16 h-16 rounded-2xl mb-3 flex items-center justify-center transition-all duration-300 border border-slate-100 shadow-sm group-hover:shadow-md group-hover:-translate-y-1",
                 cat.color,
@@ -127,7 +141,7 @@ const Home = () => {
               )}>
                 <cat.icon size={cat.isMenu ? 28 : 24} />
               </div>
-              <span className="text-[11px] md:text-xs font-bold text-slate-700 text-center leading-tight transition-colors group-hover:text-primary-600">
+              <span className="text-[11px] md:text-sm font-bold text-slate-700 text-center leading-tight transition-colors group-hover:text-primary-600">
                 {cat.name}
               </span>
             </div>
