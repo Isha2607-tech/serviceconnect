@@ -53,7 +53,7 @@ const Home = () => {
   return (
     <UserLayout>
       {/* Mobile-Only Home View (JustDial Inspired) */}
-      <div className="md:hidden pt-20 bg-primary-50/30 min-h-screen">
+      <div className="md:hidden bg-primary-50/30 min-h-screen">
         {/* Mobile Header with Green Tint */}
         <div className="bg-primary-600 px-4 pt-4 pb-12 mb-[-32px] rounded-b-[40px] shadow-lg shadow-primary-500/20">
           <div className="flex items-center justify-between mb-6">

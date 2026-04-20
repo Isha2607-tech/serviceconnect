@@ -75,7 +75,8 @@ const Navbar = ({ onSearch }) => {
   return (
     <nav className={cn(
       'fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b',
-      showGlassyNav ? 'bg-primary-50/90 backdrop-blur-xl border-primary-100 py-3 shadow-md shadow-primary-900/5' : 'bg-transparent border-transparent py-5'
+      showGlassyNav ? 'bg-primary-50/90 backdrop-blur-xl border-primary-100 py-3 shadow-md shadow-primary-900/5' : 'bg-transparent border-transparent py-5',
+      !showGlassyNav && "md:block hidden"
     )}>
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
         {/* Logo */}
