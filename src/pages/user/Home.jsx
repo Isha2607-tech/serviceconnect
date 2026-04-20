@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Sparkles, Star, ShieldCheck, Zap, ArrowRight, Utensils, Hotel, Scissors, Sofa, Heart, GraduationCap, Key, Building2, UserCog, Dog, Bed, Store, Activity, Dumbbell, Banknote, Calendar, CarFront, Truck, Send, Menu, Clock } from 'lucide-react';
+import { Search, MapPin, Sparkles, Star, ShieldCheck, Zap, ArrowRight, Utensils, Hotel, Scissors, Sofa, Heart, GraduationCap, Key, Building2, UserCog, Dog, Bed, Store, Activity, Dumbbell, Banknote, Calendar, CarFront, Truck, Send, Menu, Clock, LayoutGrid, Bell } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import UserLayout from '../../layouts/UserLayout';
 import Button from '../../components/common/Button';
@@ -51,39 +52,99 @@ const Home = () => {
 
   return (
     <UserLayout>
-      {/* Hero Section */}
+      {/* Mobile-Only Home View (JustDial Inspired) */}
+      <div className="md:hidden pt-20 bg-primary-50/30 min-h-screen">
+        {/* Mobile Header with Green Tint */}
+        <div className="bg-primary-600 px-4 pt-4 pb-12 mb-[-32px] rounded-b-[40px] shadow-lg shadow-primary-500/20">
+          <div className="flex items-center justify-between mb-6">
+             <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white border border-white/30">
+                  <LayoutGrid size={22} />
+                </div>
+                <span className="text-white font-display font-bold text-xl drop-shadow-sm">ServiceConnect</span>
+             </div>
+             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white border border-white/10">
+                <Bell size={18} />
+             </div>
+          </div>
+          <div className="bg-white rounded-2xl shadow-xl p-3 flex items-center gap-3">
+            <Search className="text-primary-400" size={20} />
+            <input 
+              type="text" 
+              placeholder="What are you looking for?" 
+              className="w-full text-sm font-bold focus:outline-none placeholder:text-gray-400 text-slate-700"
+            />
+          </div>
+        </div>
+
+        {/* Mobile Categories - Offset over top header */}
+        <div className="px-4 relative z-10">
+          <div className="grid grid-cols-4 gap-y-6 bg-white p-6 rounded-[24px] border border-primary-50 shadow-xl mb-6">
+            {CATEGORIES.slice(0, 12).map((cat) => (
+              <div 
+                key={cat.id} 
+                className="flex flex-col items-center group active:scale-95 transition-transform"
+                onClick={() => handleCategoryClick(cat)}
+              >
+                <div className={cn(
+                  "w-12 h-12 rounded-2xl mb-2 flex items-center justify-center transition-all duration-300",
+                  cat.color.split(' ')[1] // Get actual BG color class
+                )}>
+                  <cat.icon size={22} className={cat.color.split(' ')[0]} />
+                </div>
+                <span className="text-[10px] font-bold text-gray-700 text-center leading-tight">
+                  {cat.name.split(' ')[0]}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Promotional Banner */}
+        <div className="px-4 mb-8">
+          <div className="bg-gradient-to-r from-primary-600 to-indigo-600 rounded-2xl p-6 text-white relative overflow-hidden shadow-lg shadow-primary-500/20">
+            <div className="relative z-10">
+              <h3 className="text-xl font-bold mb-2">Connect with <br/> 20 Crore+ Customers</h3>
+              <p className="text-white/80 text-xs mb-4">List your business on ServiceConnect for FREE</p>
+              <button className="bg-white text-primary-600 text-xs font-bold px-5 py-2 rounded-lg shadow-md">List My Business</button>
+            </div>
+            <div className="absolute right-0 bottom-0 top-0 w-1/3 opacity-30 flex items-center justify-center">
+               <Zap size={80} className="text-white fill-white" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hero Section (Desktop Only) */}
       <section
-        className="relative overflow-hidden pt-24 pb-12 md:pt-52 md:pb-44 px-6 min-h-[45vh] md:min-h-[90vh] flex items-center justify-center border-b border-slate-200 md:border-b-0 bg-white md:bg-cover md:bg-center"
+        className="hidden md:flex relative overflow-hidden pt-52 pb-44 px-6 min-h-[90vh] items-center justify-center border-b-0 bg-cover bg-center"
         style={{
-          backgroundImage: typeof window !== 'undefined' && window.innerWidth >= 768
-            ? `linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2)), url(${heroBg})`
-            : 'none'
+          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2)), url(${heroBg})`
         }}
       >
-        {/* Desktop Overlay - Only on MD */}
-        <div className="hidden md:block absolute inset-0 bg-black/40 z-0"></div>
+        <div className="absolute inset-0 bg-black/40 z-0"></div>
 
         <div className="max-w-[1400px] mx-auto flex flex-col items-center text-center relative z-10">
-          <Badge variant="primary" className="mb-6 backdrop-blur-md bg-primary-50 md:bg-white/20 border-primary-100 md:border-white/20 text-primary-700 md:text-white animate-bounce">
-            <Sparkles size={14} className="mr-1 inline text-primary-500 md:text-primary-300" />
+          <Badge variant="primary" className="mb-6 backdrop-blur-md bg-white/20 border-white/20 text-white animate-bounce">
+            <Sparkles size={14} className="mr-1 inline text-primary-300" />
             Empowering over 1M+ small businesses globally
           </Badge>
 
-          <h1 className="text-4xl md:text-7xl font-display font-bold leading-tight max-w-4xl mb-6 md:mb-8 text-slate-900 md:text-white drop-shadow-none md:drop-shadow-lg">
-            Find the Best <span className="text-primary-600 md:text-white relative">
+          <h1 className="text-7xl font-display font-bold leading-tight max-w-4xl mb-8 text-white drop-shadow-lg">
+            Find the Best <span className="text-white relative">
               Services
-              <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary-200 md:text-white/40" viewBox="0 0 100 10" preserveAspectRatio="none">
+              <svg className="absolute -bottom-2 left-0 w-full h-3 text-white/40" viewBox="0 0 100 10" preserveAspectRatio="none">
                 <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="4" />
               </svg>
             </span> Near You
           </h1>
 
-          <p className="text-base md:text-lg text-slate-600 md:text-white/90 max-w-2xl mb-10 md:mb-12 drop-shadow-none md:drop-shadow">
+          <p className="text-lg text-white/90 max-w-2xl mb-12 drop-shadow">
             Instantly discover verified vendors, compare prices, and book the most trusted experts for your needs with AI-powered search.
           </p>
 
           {/* AI Search Box - Classic Style */}
-          <div className="w-full max-w-2xl bg-white p-1.5 rounded-2xl shadow-xl md:shadow-2xl border border-slate-200 md:border-white/20 flex flex-col md:flex-row items-center gap-1">
+          <div className="w-full max-w-2xl bg-white p-1.5 rounded-2xl shadow-2xl border border-white/20 flex flex-row items-center gap-1">
             <div className="flex-1 flex items-center gap-2 px-3 w-full">
               <Search className="text-primary-500 flex-shrink-0" size={20} />
               <input
@@ -93,9 +154,9 @@ const Home = () => {
               />
             </div>
 
-            <div className="hidden md:block w-px h-8 bg-slate-100 mx-1"></div>
+            <div className="w-px h-8 bg-slate-100 mx-1"></div>
 
-            <div className="flex-shrink-0 flex items-center gap-2 px-3 w-full md:w-64">
+            <div className="flex-shrink-0 flex items-center gap-2 px-3 w-64">
               <MapPin className="text-primary-500 flex-shrink-0" size={18} />
               <input
                 type="text"
@@ -104,30 +165,30 @@ const Home = () => {
               />
             </div>
 
-            <Button size="sm" className="w-full md:w-auto rounded-xl px-10 py-3 shadow-lg shadow-primary-500/20">
+            <Button size="sm" className="w-auto rounded-xl px-10 py-3 shadow-lg shadow-primary-500/20">
               Discover
             </Button>
           </div>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-slate-700 md:text-white font-bold drop-shadow-none md:drop-shadow">
+          <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-white font-bold drop-shadow">
             <div className="flex items-center gap-2">
-              <ShieldCheck size={18} className="text-emerald-600 md:text-emerald-400" />
+              <ShieldCheck size={18} className="text-emerald-400" />
               Verified Experts
             </div>
             <div className="flex items-center gap-2">
-              <Zap size={18} className="text-amber-600 md:text-amber-400" />
+              <Zap size={18} className="text-amber-400" />
               Instant Booking
             </div>
             <div className="flex items-center gap-2">
-              <Star size={18} className="text-primary-600 md:text-primary-300" />
+              <Star size={18} className="text-primary-300" />
               4.8/5 Avg Rating
             </div>
           </div>
         </div>
       </section>
 
-      {/* Category Grid */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
+      {/* Category Grid (Desktop) */}
+      <section className="hidden md:block max-w-[1400px] mx-auto px-6 py-20">
         <div className="flex justify-between items-end mb-12">
           <div>
             <h2 className="text-3xl font-display font-bold text-slate-900 mb-2">Explore Popular Categories</h2>
@@ -138,7 +199,7 @@ const Home = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-x-4 gap-y-10">
+        <div className="grid grid-cols-10 gap-x-4 gap-y-10">
           {CATEGORIES.map((cat) => (
             <div
               key={cat.id}

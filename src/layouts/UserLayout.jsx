@@ -1,11 +1,15 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import { Home, Mail, Handshake, Scan, Newspaper, MoreHorizontal } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 const UserLayout = ({ children }) => {
+  const { pathname } = useLocation();
+  const isHomePage = pathname === '/';
+  
   const bottomNavItems = [
-    { icon: Home, label: 'Home', active: true },
+    { icon: Home, label: 'Home', active: isHomePage },
     { icon: Mail, label: 'Leads', badge: 14 },
     { icon: Handshake, label: 'B2B' },
     { icon: Scan, label: 'Pay' },
@@ -16,7 +20,10 @@ const UserLayout = ({ children }) => {
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
-      <main className="pb-20 md:pb-0">
+      <main className={cn(
+        "pb-20 md:pb-0",
+        !isHomePage && "pt-20"
+      )}>
         {children}
       </main>
 

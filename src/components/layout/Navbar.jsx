@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Menu, X, Bell, LayoutGrid, Zap, Sparkles } from 'lucide-react';
 import Button from '../common/Button';
 import { cn } from '../../utils/cn';
 
 const SEARCH_SUGGESTIONS = [
-  { name: 'Dentists', category: 'Category' },
-  { name: 'Real Estate Agents', category: 'Category' },
-  { name: 'Interior Designers', category: 'Category' },
-  { name: 'Banquet Halls', category: 'Category' },
-  { name: 'Gynaecologist & Obstetrician Doctors', category: 'Category' },
-  { name: 'Orthopaedic Doctors', category: 'Category' },
-  { name: 'Astrologers', category: 'Category' },
-  { name: 'Physiotherapists', category: 'Category' },
-  { name: 'Caterers', category: 'Category' },
+  { name: 'Plumbers', category: 'Category' },
+  { name: 'Electricians', category: 'Category' },
+  { name: 'Carpenters', category: 'Category' },
+  { name: 'AC Repair', category: 'Category' },
+  { name: 'Cleaning Services', category: 'Category' },
+  { name: 'Painters', category: 'Category' },
+  { name: 'Pest Control', category: 'Category' },
 ];
 
 const LOCATION_SUGGESTIONS = [
@@ -26,6 +25,8 @@ const LOCATION_SUGGESTIONS = [
 ];
 
 const Navbar = ({ onSearch }) => {
+  const { pathname } = useLocation();
+  const isHomePage = pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -69,10 +70,12 @@ const Navbar = ({ onSearch }) => {
     setShowLocSuggestions(false);
   };
 
+  const showGlassyNav = isScrolled || !isHomePage;
+
   return (
     <nav className={cn(
       'fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b',
-      isScrolled ? 'bg-white/80 backdrop-blur-lg border-slate-200 py-3' : 'bg-transparent border-transparent py-5'
+      showGlassyNav ? 'bg-primary-50/90 backdrop-blur-xl border-primary-100 py-3 shadow-md shadow-primary-900/5' : 'bg-transparent border-transparent py-5'
     )}>
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
         {/* Logo */}
@@ -82,16 +85,16 @@ const Navbar = ({ onSearch }) => {
           </div>
           <span className={cn(
             "text-xl font-display font-bold tracking-tight hidden sm:block transition-colors duration-300",
-            isScrolled ? "text-slate-900" : "text-white"
+            showGlassyNav ? "text-slate-900" : "text-white"
           )}>
             Service<span className="text-primary-500">Connect</span>
           </span>
         </div>
 
-        {/* Desktop Search Bar (JustDial Inspired) */}
+        {/* Desktop Search Bar */}
         <div className={cn(
           "hidden md:flex flex-1 max-w-2xl bg-white border border-slate-200 shadow-xl rounded-2xl p-1 items-center transition-all duration-300",
-          isScrolled ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
+          showGlassyNav ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
         )}>
           <div className="flex items-center gap-2 px-3 border-r border-slate-100 min-w-[140px] relative" ref={locRef}>
             <MapPin size={18} className="text-primary-500" />
@@ -160,7 +163,7 @@ const Navbar = ({ onSearch }) => {
         <div className="flex items-center gap-2 md:gap-4">
           <button className={cn(
             "p-2.5 rounded-xl transition-colors relative",
-            isScrolled ? "text-slate-500 hover:bg-slate-100" : "text-white/80 hover:bg-white/10"
+            showGlassyNav ? "text-slate-500 hover:bg-slate-100" : "text-white/80 hover:bg-white/10"
           )}>
             <Bell size={20} />
             <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-accent-500 rounded-full border-2 border-white"></span>
@@ -168,9 +171,9 @@ const Navbar = ({ onSearch }) => {
           
           <div className={cn(
             "hidden sm:flex items-center gap-2 pl-2 border-l",
-            isScrolled ? "border-slate-200" : "border-white/20"
+            showGlassyNav ? "border-slate-200" : "border-white/20"
           )}>
-            <Button variant="ghost" size="sm" className={isScrolled ? "text-slate-600 font-semibold" : "text-white font-semibold hover:bg-white/10"}>Post a Job</Button>
+            <Button variant="ghost" size="sm" className={showGlassyNav ? "text-slate-600 font-semibold" : "text-white font-semibold hover:bg-white/10"}>Post a Job</Button>
             <Button size="sm" className="rounded-xl px-5">Login</Button>
           </div>
         </div>
