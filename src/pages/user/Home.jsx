@@ -39,15 +39,25 @@ const FEATURED_VENDORS = [
 ];
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (cat) => {
+    if (cat.name === 'Hotels') {
+      navigate('/hotels');
+    } else {
+      navigate('/search');
+    }
+  };
+
   return (
     <UserLayout>
       {/* Hero Section */}
-      <section 
+      <section
         className="relative overflow-hidden pt-24 pb-12 md:pt-52 md:pb-44 px-6 min-h-[45vh] md:min-h-[90vh] flex items-center justify-center border-b border-slate-200 md:border-b-0 bg-white md:bg-cover md:bg-center"
-        style={{ 
-          backgroundImage: typeof window !== 'undefined' && window.innerWidth >= 768 
-            ? `linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2)), url(${heroBg})` 
-            : 'none' 
+        style={{
+          backgroundImage: typeof window !== 'undefined' && window.innerWidth >= 768
+            ? `linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2)), url(${heroBg})`
+            : 'none'
         }}
       >
         {/* Desktop Overlay - Only on MD */}
@@ -58,7 +68,7 @@ const Home = () => {
             <Sparkles size={14} className="mr-1 inline text-primary-500 md:text-primary-300" />
             Empowering over 1M+ small businesses globally
           </Badge>
-          
+
           <h1 className="text-4xl md:text-7xl font-display font-bold leading-tight max-w-4xl mb-6 md:mb-8 text-slate-900 md:text-white drop-shadow-none md:drop-shadow-lg">
             Find the Best <span className="text-primary-600 md:text-white relative">
               Services
@@ -67,7 +77,7 @@ const Home = () => {
               </svg>
             </span> Near You
           </h1>
-          
+
           <p className="text-base md:text-lg text-slate-600 md:text-white/90 max-w-2xl mb-10 md:mb-12 drop-shadow-none md:drop-shadow">
             Instantly discover verified vendors, compare prices, and book the most trusted experts for your needs with AI-powered search.
           </p>
@@ -76,24 +86,24 @@ const Home = () => {
           <div className="w-full max-w-2xl bg-white p-1.5 rounded-2xl shadow-xl md:shadow-2xl border border-slate-200 md:border-white/20 flex flex-col md:flex-row items-center gap-1">
             <div className="flex-1 flex items-center gap-2 px-3 w-full">
               <Search className="text-primary-500 flex-shrink-0" size={20} />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Search for Services near me"
                 className="w-full py-2.5 text-sm border-none focus:ring-0 focus:outline-none placeholder:text-slate-400 font-medium"
               />
             </div>
-            
+
             <div className="hidden md:block w-px h-8 bg-slate-100 mx-1"></div>
-            
+
             <div className="flex-shrink-0 flex items-center gap-2 px-3 w-full md:w-64">
               <MapPin className="text-primary-500 flex-shrink-0" size={18} />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Indore"
                 className="w-full py-2.5 border-none focus:ring-0 focus:outline-none text-slate-600 font-semibold text-sm placeholder:text-slate-400"
               />
             </div>
-            
+
             <Button size="sm" className="w-full md:w-auto rounded-xl px-10 py-3 shadow-lg shadow-primary-500/20">
               Discover
             </Button>
@@ -130,7 +140,11 @@ const Home = () => {
 
         <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-10 gap-x-4 gap-y-10">
           {CATEGORIES.map((cat) => (
-            <div key={cat.id} className="flex flex-col items-center group cursor-pointer">
+            <div
+              key={cat.id}
+              className="flex flex-col items-center group cursor-pointer"
+              onClick={() => handleCategoryClick(cat)}
+            >
               <div className={cn(
                 "w-16 h-16 rounded-2xl mb-3 flex items-center justify-center transition-all duration-300 border border-slate-100 shadow-sm group-hover:shadow-md group-hover:-translate-y-1",
                 cat.color,
@@ -138,7 +152,7 @@ const Home = () => {
               )}>
                 <cat.icon size={cat.isMenu ? 28 : 24} />
               </div>
-              <span className="text-[11px] md:text-xs font-bold text-slate-700 text-center leading-tight transition-colors group-hover:text-primary-600">
+              <span className="text-[11px] md:text-sm font-bold text-slate-700 text-center leading-tight transition-colors group-hover:text-primary-600">
                 {cat.name}
               </span>
             </div>
@@ -178,8 +192,8 @@ const Home = () => {
                   </div>
                   <h4 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary-600 transition-colors cursor-pointer">{vendor.name}</h4>
                   <p className="text-sm text-slate-400 font-medium mb-6">Expert plumbing and sanitation solutions across Mumbai region.</p>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className="w-full mt-auto border-primary-100 text-primary-600 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all duration-300 font-bold py-3 rounded-xl"
                   >
                     Get Quote
@@ -190,9 +204,9 @@ const Home = () => {
           </div>
 
           <div className="mt-16 flex justify-center">
-             <Button variant="secondary" className="px-10 rounded-2xl font-bold bg-white shadow-xl shadow-slate-200">
-               Load More Verified Vendors
-             </Button>
+            <Button variant="secondary" className="px-10 rounded-2xl font-bold bg-white shadow-xl shadow-slate-200">
+              Load More Verified Vendors
+            </Button>
           </div>
         </div>
       </section>
@@ -203,7 +217,7 @@ const Home = () => {
           <div className="lg:col-span-7">
             <Badge variant="primary" className="mb-4 px-4 py-1.5 bg-primary-50 text-primary-700">Social Discovery</Badge>
             <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-8 leading-tight">
-              See What's Trending <br/> 
+              See What's Trending <br />
               in <span className="text-primary-600">Your Community</span>
             </h2>
             <p className="text-slate-500 text-xl mb-10 leading-relaxed max-w-2xl">
@@ -235,10 +249,10 @@ const Home = () => {
           <div className="lg:col-span-5 relative h-[500px] md:h-[650px] flex items-center justify-end group">
             {/* Background Decorative Element */}
             <div className="absolute inset-0 bg-primary-50 rounded-3xl blur-3xl opacity-30 transform scale-90 group-hover:scale-100 transition-transform duration-700"></div>
-            
+
             <div className="relative w-full h-full flex items-center justify-end pr-10">
               {/* Bottom Card */}
-              <motion.div 
+              <motion.div
                 initial={{ rotate: -8, x: -30, opacity: 0 }}
                 whileInView={{ rotate: -8, x: -30, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -249,7 +263,7 @@ const Home = () => {
               </motion.div>
 
               {/* Middle Card */}
-              <motion.div 
+              <motion.div
                 initial={{ rotate: 3, x: 20, opacity: 0 }}
                 whileInView={{ rotate: 3, x: 20, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.1 }}
@@ -260,7 +274,7 @@ const Home = () => {
               </motion.div>
 
               {/* Top Card (Main) */}
-              <motion.div 
+              <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 whileHover={{ scale: 1.05, rotate: 1 }}
