@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f0fdfa;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-300: #90d1c8; /* User Light Color */
+  --color-primary-400: #3e9689; /* User Secondary/Base Color */
+  --color-primary-500: #3e9689; 
+  --color-primary-600: #20594e; /* User Deep Teal Color */
+  --color-primary-700: #1a4d43;
+  --color-primary-800: #164038;
+  --color-primary-900: #12332c;
+  --color-primary-950: #0d2621;
+
+  --color-secondary-50: #f8fafc;
+  --color-secondary-100: #f1f5f9;
+  --color-secondary-200: #e2e8f0;
+  --color-secondary-300: #cbd5e1;
+  --color-secondary-400: #94a3b8;
+  --color-secondary-500: #64748b;
+  --color-secondary-600: #475569;
+  --color-secondary-700: #334155;
+  --color-secondary-800: #1e293b;
+  --color-secondary-900: #0f172a;
+  --color-secondary-950: #020617;
+
+  --color-accent-500: #90d1c8;
+
+  --font-sans: "Inter", "Roboto", sans-serif;
+  --font-display: "Outfit", "Inter", sans-serif;
+
+  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(32, 89, 78, 0.15);
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-primary-100 selection:text-primary-900;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold tracking-tight text-slate-950;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-premium;
+  }
+
+  .btn-primary {
+    @apply px-6 py-2.5 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-500 transition-all duration-300 shadow-lg shadow-primary-600/20 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-2.5 bg-white text-slate-800 border border-slate-200 font-medium rounded-xl hover:bg-slate-50 transition-all duration-300 active:scale-95;
+  }
+
+  .card-hover {
+    @apply transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary-600/10;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-300/50 rounded-full border-2 border-slate-100 hover:bg-primary-400;
+}
