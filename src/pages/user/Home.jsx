@@ -42,6 +42,37 @@ const HOME_SERVICES = [
   { id: 4, name: 'PLUMBERS', image: 'https://images.pexels.com/photos/5691653/pexels-photo-5691653.jpeg?auto=compress&cs=tinysrgb&w=400' },
 ];
 
+const PREVIEW_CARDS = [
+  {
+    id: 0,
+    user: 'Luxe Interior Studio',
+    title: 'Minimalist Transformation',
+    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=600',
+    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100',
+    likes: '2k',
+    comments: '45',
+    text: 'Just finished this beautiful minimalist living room transformation in Goregaon. Every corner tells a story! ✨'
+  },
+  {
+    id: 1,
+    user: 'Zenith Home Spa',
+    title: 'Morning Wellness',
+    image: 'https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg?auto=compress&cs=tinysrgb&w=600',
+    likes: '1.2k',
+    comments: '28',
+    text: 'Relaxing home spa session today. Peace begins with a healthy mind and body. 🧘‍♀️'
+  },
+  {
+    id: 2,
+    user: 'Apex Car Care',
+    title: 'Extreme Detailing',
+    image: 'https://images.pexels.com/photos/3311574/pexels-photo-3311574.jpeg?auto=compress&cs=tinysrgb&w=600',
+    likes: '800',
+    comments: '15',
+    text: 'Brought this vintage beauty back to life with our premium detailing package! 🚗✨'
+  }
+];
+
 const Home = () => {
   const navigate = useNavigate();
   const [isSearchFixed, setIsSearchFixed] = useState(false);
@@ -49,6 +80,12 @@ const Home = () => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [locationQuery, setLocationQuery] = useState('');
+  const [previewStack, setPreviewStack] = useState([0, 1, 2]);
+
+  const handleSwap = (id) => {
+    const newStack = [id, ...previewStack.filter(item => item !== id)];
+    setPreviewStack(newStack);
+  };
 
   const RECENT_SEARCHES = [
     'Gynaecologist & Obstetrician',
@@ -543,7 +580,7 @@ const Home = () => {
       </section>
 
       {/* Social Feed Preview Segment */}
-      <section className="max-w-[1400px] mx-auto px-6 pt-10 pb-10 md:py-24 bg-white/50">
+      <section className="max-w-[1400px] mx-auto px-6 pt-10 pb-2 md:py-24 bg-white/50">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-7">
             <Badge variant="primary" className="mb-4 px-4 py-1.5 bg-primary-50 text-primary-700">Social Discovery</Badge>
@@ -583,62 +620,73 @@ const Home = () => {
             </Button>
           </div>
 
-          <div className="lg:col-span-5 relative h-[500px] md:h-[650px] flex items-center justify-end group">
+          <div className="lg:col-span-5 relative h-[380px] md:h-[650px] flex items-center justify-center group mt-4 lg:mt-0">
             {/* Background Decorative Element */}
             <div className="absolute inset-0 bg-primary-50 rounded-3xl blur-3xl opacity-30 transform scale-90 group-hover:scale-100 transition-transform duration-700"></div>
 
-            <div className="relative w-full h-full flex items-center justify-end pr-10">
-              {/* Bottom Card */}
-              <motion.div
-                initial={{ rotate: -8, x: -30, opacity: 0 }}
-                whileInView={{ rotate: -8, x: -30, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="absolute w-[280px] md:w-[320px] aspect-[4/5] bg-cover bg-center rounded-3xl shadow-2xl z-10 border-4 border-white overflow-hidden"
-                style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1528666336021-99c0d48149e3?auto=format&fit=crop&q=80&w=500")' }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              </motion.div>
-
-              {/* Middle Card */}
-              <motion.div
-                initial={{ rotate: 3, x: 20, opacity: 0 }}
-                whileInView={{ rotate: 3, x: 20, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className="absolute w-[280px] md:w-[320px] aspect-[4/5] bg-cover bg-center rounded-3xl shadow-2xl z-20 border-4 border-white overflow-hidden"
-                style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1595206133361-b1fe343e5e23?auto=format&fit=crop&q=80&w=500")' }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              </motion.div>
-
-              {/* Top Card (Main) */}
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                whileHover={{ scale: 1.05, rotate: 1 }}
-                transition={{ duration: 0.5 }}
-                className="relative w-[300px] md:w-[350px] aspect-[4/5] bg-cover bg-center rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] z-30 border-4 border-white overflow-hidden cursor-pointer"
-                style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=500")' }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-                <div className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full border-2 border-primary-400 bg-white shadow-lg flex items-center justify-center overflow-hidden">
-                      <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100" alt="avatar" />
-                    </div>
-                    <div>
-                      <span className="text-white text-base font-bold block leading-none mb-1">Luxe Interior Studio</span>
-                      <span className="text-primary-300 text-[10px] font-bold uppercase tracking-wider">Premium Artist</span>
-                    </div>
-                  </div>
-                  <p className="text-white text-sm md:text-base font-medium line-clamp-2 leading-relaxed">
-                    Just finished this beautiful minimalist living room transformation in Goregaon. Every corner tells a story! ✨ <span className="text-primary-400 font-bold">#interiordesign #minimalism</span>
-                  </p>
-                  <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-white/60 text-xs">
-                    <span>2k Likes</span>
-                    <span>45 Comments</span>
-                  </div>
-                </div>
-              </motion.div>
+            <div className="relative w-full h-full flex items-center justify-center">
+              {previewStack.slice().reverse().map((cardId, index) => {
+                const card = PREVIEW_CARDS.find(c => c.id === cardId);
+                const isFront = index === 2; // In reverse map, last item [0] is actually at index 2
+                
+                // Stack positioning logic based on position in previewStack (0 is front)
+                const stackPos = previewStack.indexOf(cardId);
+                
+                return (
+                  <motion.div
+                    key={cardId}
+                    layout
+                    initial={false}
+                    animate={{
+                      scale: 1 - stackPos * 0.05,
+                      y: stackPos * 15,
+                      x: stackPos === 1 ? -30 : stackPos === 2 ? 30 : 0,
+                      rotate: stackPos === 1 ? -5 : stackPos === 2 ? 5 : 0,
+                      zIndex: 30 - stackPos * 10,
+                      opacity: 1
+                    }}
+                    whileHover={stackPos === 0 ? { scale: 1.02 } : {}}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    onClick={() => stackPos !== 0 && handleSwap(cardId)}
+                    className={cn(
+                      "absolute w-[280px] md:w-[350px] aspect-[4/5] bg-cover bg-center rounded-3xl shadow-2xl border-4 border-white overflow-hidden",
+                      stackPos === 0 ? "cursor-default" : "cursor-pointer"
+                    )}
+                    style={{ backgroundImage: `url("${card.image}")` }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                    
+                    {/* Content only visible on top card */}
+                    <AnimatePresence>
+                      {stackPos === 0 && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0 }}
+                          className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8"
+                        >
+                          <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 rounded-full border-2 border-primary-400 bg-white shadow-lg flex items-center justify-center overflow-hidden shrink-0">
+                              <img src={card.avatar || "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100"} alt="avatar" className="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                              <span className="text-white text-base font-bold block leading-none mb-1">{card.user}</span>
+                              <span className="text-primary-300 text-[10px] font-bold uppercase tracking-wider">Verified Artist</span>
+                            </div>
+                          </div>
+                          <p className="text-white text-sm md:text-base font-medium line-clamp-2 leading-relaxed">
+                            {card.text} <span className="text-primary-400 font-bold">#expert #service</span>
+                          </p>
+                          <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-white/60 text-xs">
+                            <span>{card.likes} Likes</span>
+                            <span>{card.comments} Comments</span>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
