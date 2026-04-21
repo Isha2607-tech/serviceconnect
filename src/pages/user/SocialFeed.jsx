@@ -40,80 +40,103 @@ const FEED_ITEMS = [
   }
 ];
 
+const VENDOR_STORIES = [
+  { name: 'Luxe Salon', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=150' },
+  { name: 'Apex Car Detailing', image: 'https://images.unsplash.com/photo-1507133366044-c99f27311516?auto=format&fit=crop&q=80&w=150' },
+  { name: 'Pet Paradise', image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=150' },
+  { name: 'Gourmet Kitchen', image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=150' },
+  { name: 'Inner Peace Yoga', image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=150' },
+  { name: 'Spark Cleaners', image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=150' },
+  { name: 'Modern Interiors', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=150' }
+];
+
 const SocialFeed = () => {
   return (
     <UserLayout>
-       <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
+       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-24 md:pt-12 pb-12 flex flex-col lg:flex-row gap-12">
           {/* Main Feed */}
-          <div className="flex-1 max-w-2xl mx-auto space-y-10">
-             <div className="flex items-center justify-between mb-8">
-               <h2 className="text-3xl font-display font-bold text-slate-900">Social Discovery</h2>
-               <div className="flex gap-2">
-                  <Badge variant="primary">Trending</Badge>
-                  <Badge variant="neutral">New</Badge>
-               </div>
-             </div>
+          <div className="flex-1 max-w-2xl mx-auto w-full space-y-8">
+            <div className="flex items-center justify-between mb-6 px-1">
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-slate-900 tracking-tight">Social Discovery</h2>
+              <div className="flex gap-2">
+                <Badge variant="primary">Trending</Badge>
+              </div>
+            </div>
+
+            {/* Stories/Vendor Shorts Row */}
+            <div className="mb-10 -mx-4 md:mx-0 overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-5 px-4 md:px-0">
+               {VENDOR_STORIES.map((v, i) => (
+                  <div key={i} className="flex flex-col items-center gap-2 group cursor-pointer shrink-0">
+                     <div className="w-20 h-20 rounded-3xl p-1 border-2 border-primary-500 bg-white shadow-lg active:scale-95 transition-transform">
+                        <div className="w-full h-full rounded-2xl bg-slate-100 overflow-hidden relative">
+                           <img 
+                              src={v.image} 
+                              alt={v.name} 
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                           />
+                           <div className="absolute inset-0 bg-primary-600/10 mix-blend-overlay"></div>
+                        </div>
+                     </div>
+                     <span className="text-[10px] font-bold text-slate-700 max-w-[80px] break-words text-center leading-tight">{v.name}</span>
+                  </div>
+               ))}
+            </div>
 
              {FEED_ITEMS.map((post) => (
-                <Card key={post.id} className="overflow-hidden border-slate-200">
+                <Card key={post.id} className="overflow-hidden border-slate-100 shadow-sm md:shadow-md -mx-4 md:mx-0 rounded-none md:rounded-3xl mb-8 md:mb-12">
                    {/* Post Header */}
-                   <div className="p-4 flex items-center justify-between">
+                   <div className="p-3 md:p-4 flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-sm border-2 border-primary-50">
+                         <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-xs md:text-sm border-2 border-primary-50">
                             {post.avatar}
                          </div>
                          <div>
                             <div className="flex items-center gap-1.5">
-                               <span className="font-bold text-slate-900 leading-none">{post.vendor}</span>
+                               <span className="font-bold text-sm md:text-base text-slate-900 leading-none">{post.vendor}</span>
                                {post.verified && <ShieldCheck size={14} className="text-primary-600" />}
                             </div>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{post.time}</span>
+                            <span className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{post.time}</span>
                          </div>
                       </div>
-                      <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">
+                      <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg">
                          <MoreHorizontal size={20} />
                       </button>
                    </div>
 
                    {/* Post Image */}
-                   <div className="aspect-square bg-slate-100 overflow-hidden relative group">
-                      <img src={post.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                      <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 transition-transform duration-300">
-                        <button className="p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white hover:bg-white hover:text-primary-600 transition-all shadow-xl">
-                           <Bookmark size={20} />
-                        </button>
-                      </div>
+                   <div className="aspect-square bg-slate-50 overflow-hidden relative group">
+                      <img src={post.image} className="w-full h-full object-cover" />
                    </div>
 
                    {/* Post Actions */}
                    <div className="p-4">
-                      <div className="flex items-center justify-between mb-4">
-                         <div className="flex items-center gap-4">
-                            <button className="flex items-center gap-1.5 text-slate-600 hover:text-accent-500 transition-colors">
-                               <Heart size={24} />
-                               <span className="text-sm font-bold">{post.likes}</span>
+                      <div className="flex items-center justify-between mb-3 md:mb-4">
+                         <div className="flex items-center gap-5">
+                            <button className="flex items-center gap-1.5 text-slate-700">
+                               <Heart size={26} strokeWidth={2} />
+                               <span className="text-xs font-bold">{post.likes}</span>
                             </button>
-                            <button className="flex items-center gap-1.5 text-slate-600 hover:text-primary-600 transition-colors">
-                               <MessageCircle size={24} />
-                               <span className="text-sm font-bold">{post.comments}</span>
+                            <button className="flex items-center gap-1.5 text-slate-700">
+                               <MessageCircle size={26} strokeWidth={2} />
+                               <span className="text-xs font-bold">{post.comments}</span>
                             </button>
-                            <button className="text-slate-600 hover:text-primary-600 transition-colors">
-                               <Send size={24} />
+                            <button className="text-slate-700">
+                               <Send size={26} strokeWidth={2} />
                             </button>
                          </div>
-                         <button className="text-slate-600 hover:text-primary-600 transition-colors">
-                            <Bookmark size={24} />
+                         <button className="text-slate-700">
+                            <Bookmark size={26} strokeWidth={2} />
                          </button>
                       </div>
                       
-                      <div className="space-y-2">
-                         <p className="text-sm text-slate-700 leading-relaxed">
+                      <div className="space-y-1">
+                         <p className="text-sm text-slate-700 leading-relaxed line-clamp-2 md:line-clamp-none">
                             <span className="font-bold mr-2 text-slate-900">{post.vendor}</span>
                             {post.caption}
                          </p>
                       </div>
                       
-                      <button className="mt-6 w-full py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-500 hover:bg-primary-50 hover:text-primary-600 transition-all">
+                      <button className="mt-5 w-full py-4 bg-slate-50 border border-slate-100 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 active:bg-primary-50 active:text-primary-600 transition-all font-display">
                          Visit Business Profile
                       </button>
                    </div>

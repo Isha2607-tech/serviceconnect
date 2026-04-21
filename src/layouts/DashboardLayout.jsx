@@ -7,7 +7,7 @@ const DashboardLayout = ({ children, type = 'vendor' }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-transparent flex">
       <Sidebar type={type} activeTab={activeTab} setActiveTab={setActiveTab} />
       
       <main className="flex-1 ml-72">

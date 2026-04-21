@@ -1,62 +1,65 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
-import { Home, Mail, Handshake, Scan, Newspaper, MoreHorizontal } from 'lucide-react';
+import { Home, LayoutGrid, Camera, UserCircle } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { useNavigate } from 'react-router-dom';
 
 const UserLayout = ({ children }) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const isHomePage = pathname === '/';
   
   const bottomNavItems = [
-    { icon: Home, label: 'Home', active: isHomePage },
-    { icon: Mail, label: 'Leads', badge: 14 },
-    { icon: Handshake, label: 'B2B' },
-    { icon: Scan, label: 'Pay' },
-    { icon: Newspaper, label: 'News', badge: 1 },
-    { icon: MoreHorizontal, label: 'More' },
+    { icon: Home, label: 'Home', path: '/', active: pathname === '/' },
+    { icon: LayoutGrid, label: 'Categories', path: '/categories', active: pathname === '/categories' },
+    { icon: Camera, label: 'Social', path: '/social', active: pathname === '/social', badge: 'New' },
+    { icon: UserCircle, label: 'Profile', path: '/profile', active: pathname === '/profile' },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-transparent">
       <Navbar />
       <main className={cn(
-        "pb-20 md:pb-0",
-        !isHomePage && "pt-20"
+        "pb-20 md:pb-0"
       )}>
         {children}
       </main>
 
       {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-2 py-2 flex items-center justify-around z-[100] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-        {bottomNavItems.map((item, idx) => (
-          <button 
-            key={idx} 
-            className={cn(
-              "flex flex-col items-center gap-1 min-w-[60px] relative transition-colors",
-              item.active ? "text-primary-600" : "text-slate-400 hover:text-slate-600"
-            )}
-          >
-            <div className="relative">
-              <item.icon size={22} strokeWidth={item.active ? 2.5 : 2} />
-              {item.badge && (
-                <span className="absolute -top-1.5 -right-2.5 bg-accent-500 text-white text-[10px] font-bold px-1 min-w-[18px] h-[18px] rounded-full flex items-center justify-center border-2 border-white">
-                  {item.badge}
-                </span>
+      {!pathname.includes('/hotels/') && !pathname.match(/\/category\/[^/]+\/[^/]+/) && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-2 py-2 flex items-center justify-around z-[100] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+          {bottomNavItems.map((item, idx) => (
+            <button 
+              key={idx} 
+              onClick={() => navigate(item.path)}
+              className={cn(
+                "flex flex-col items-center gap-1 min-w-[70px] relative transition-all duration-300",
+                item.active ? "text-primary-600 scale-110" : "text-slate-400 hover:text-slate-600"
               )}
-            </div>
-            <span className={cn(
-              "text-[10px] font-bold tracking-tight",
-              item.active ? "text-primary-600" : "text-slate-500"
-            )}>
-              {item.label}
-            </span>
-          </button>
-        ))}
-      </div>
+            >
+              <div className="relative">
+                <item.icon size={22} strokeWidth={item.active ? 2.5 : 2} />
+                {item.badge && (
+                  <span className="absolute -top-1.5 -right-3.5 bg-accent-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                    {item.badge}
+                  </span>
+                )}
+              </div>
+              <span className={cn(
+                "text-[10px] font-bold tracking-tight",
+                item.active ? "text-primary-600" : "text-slate-500"
+              )}>
+                {item.label}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
       
-      {/* Premium Footer */}
-      <footer className="bg-slate-900 text-white pt-20 pb-10 mt-20">
+      {/* Premium Footer - Only on Home Page */}
+      {isHomePage && (
+        <footer className="bg-slate-900 text-white pt-20 pb-10 mt-20">
         <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-6">
@@ -126,6 +129,7 @@ const UserLayout = ({ children }) => {
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 };

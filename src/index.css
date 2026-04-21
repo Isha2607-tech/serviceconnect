@@ -40,7 +40,9 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-primary-100 selection:text-primary-900;
+    @apply bg-white text-slate-900 font-sans antialiased selection:bg-primary-100 selection:text-primary-900 min-h-screen;
+    background-image: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {

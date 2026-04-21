@@ -9,6 +9,10 @@ const HotelDetails = lazy(() => import('./pages/user/HotelDetails'));
 const SocialFeed = lazy(() => import('./pages/user/SocialFeed'));
 const VendorDashboard = lazy(() => import('./pages/vendor/Dashboard'));
 const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
+const Categories = lazy(() => import('./pages/user/Categories'));
+const CategoryResults = lazy(() => import('./pages/user/CategoryResults'));
+const CategoryDetails = lazy(() => import('./pages/user/CategoryDetails'));
+const Profile = lazy(() => import('./pages/user/Profile'));
 
 const App = () => {
   return (
@@ -24,11 +28,15 @@ const App = () => {
         <Routes>
           {/* User Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/category/:categoryName" element={<CategoryResults />} />
+          <Route path="/category/:categoryName/:id" element={<CategoryDetails />} />
           <Route path="/hotels" element={<HotelResults />} />
           <Route path="/hotels/:id" element={<HotelDetails />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/vendor/:id" element={<div className="p-20 text-center">Vendor Details Page Coming Soon</div>} />
           <Route path="/social" element={<SocialFeed />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/my-requests" element={<div className="p-20 text-center">My Requests Page Coming Soon</div>} />
 
           {/* Vendor/Admin Routes */}

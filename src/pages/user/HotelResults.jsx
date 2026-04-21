@@ -36,7 +36,8 @@ const HOTEL_DATA = [
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=600',
     verified: false,
     responsive: false,
-    highlight: 'High call pick up rate'
+    highlight: 'High call pick up rate',
+    phone: '09845258527'
   },
   {
     id: 2,
@@ -49,7 +50,8 @@ const HOTEL_DATA = [
     verified: true,
     responsive: true,
     highlight: 'High call pick up rate',
-    proximity: '3 minutes walk to Sai Dham Temple'
+    proximity: '3 minutes walk to Sai Dham Temple',
+    phone: '09845258527'
   },
   {
     id: 3,
@@ -61,7 +63,8 @@ const HOTEL_DATA = [
     image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=600',
     verified: true,
     responsive: true,
-    highlight: 'High call pick up rate'
+    highlight: 'High call pick up rate',
+    phone: '09845258527'
   },
   {
     id: 4,
@@ -73,7 +76,8 @@ const HOTEL_DATA = [
     image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=600',
     verified: false,
     responsive: true,
-    highlight: 'Instant response'
+    highlight: 'Instant response',
+    phone: '09845258527'
   },
   {
     id: 5,
@@ -85,7 +89,8 @@ const HOTEL_DATA = [
     image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80&w=600',
     verified: true,
     responsive: true,
-    highlight: 'High call pick up rate'
+    highlight: 'High call pick up rate',
+    phone: '09845258527'
   },
   {
     id: 6,
@@ -97,19 +102,190 @@ const HOTEL_DATA = [
     image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=600',
     verified: true,
     responsive: false,
-    highlight: 'Peaceful location'
+    highlight: 'Peaceful location',
+    phone: '09845258527'
   },
   {
     id: 7,
-    name: 'Blue Water Suites',
+    name: 'Blue Lagoon Resort',
     rating: 4.4,
     reviews: 890,
     location: 'Juhu, Mumbai',
-    tags: ['Beach Access', 'WiFi', 'Modern Amenities'],
-    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&q=80&w=600',
+    tags: ['Pool', 'WiFi', 'Beach Front'],
+    image: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=600',
     verified: true,
     responsive: true,
-    highlight: 'High call pick up rate'
+    highlight: 'Highly Recommended',
+    phone: '09845258527'
+  },
+  {
+    id: 8,
+    name: 'Skyline Suites',
+    rating: 4.1,
+    reviews: 420,
+    location: 'Worli, Mumbai',
+    tags: ['Sea View', 'Gym', 'Business Hub'],
+    image: 'https://images.unsplash.com/photo-1551882547-ff43c61fef4e?auto=format&fit=crop&q=80&w=600',
+    verified: true,
+    responsive: true,
+    highlight: 'Trusted by Corporate',
+    phone: '09845258527'
+  },
+  {
+    id: 9,
+    name: 'Royal Heritage Hotel',
+    rating: 4.7,
+    reviews: 1560,
+    location: 'Fort, Mumbai',
+    tags: ['Vintage', 'WiFi', 'Restaurant'],
+    image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&q=80&w=600',
+    verified: true,
+    responsive: false,
+    highlight: 'Classic Stay',
+    phone: '09845258527'
+  },
+  {
+    id: 10,
+    name: 'Harbor View Stay',
+    rating: 3.9,
+    reviews: 280,
+    location: 'Apollo Bunder, Mumbai',
+    tags: ['Harbor View', 'AC', 'Breakfast Included'],
+    image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&q=80&w=600',
+    verified: false,
+    responsive: true,
+    highlight: 'Near Gateway of India',
+    phone: '09845258527'
+  },
+  {
+    id: 11,
+    name: 'Palm Grove Residency',
+    rating: 4.3,
+    reviews: 730,
+    location: 'Malad West, Mumbai',
+    tags: ['Garden View', 'WiFi', 'Laundry'],
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800',
+    verified: true,
+    responsive: true,
+    highlight: 'High call pick up rate',
+    phone: '09845258527'
+  },
+  {
+    id: 12,
+    name: 'City Light Inn',
+    rating: 3.6,
+    reviews: 150,
+    location: 'Dadar, Mumbai',
+    tags: ['Budget', 'AC', 'WiFi'],
+    image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=800',
+    verified: false,
+    responsive: true,
+    highlight: 'Central Location',
+    phone: '09845258527'
+  },
+  {
+    id: 13,
+    name: 'The Orchid Boutique',
+    rating: 4.6,
+    reviews: 1120,
+    location: 'Vile Parle, Mumbai',
+    tags: ['Boutique', 'Organic Food', 'Spa'],
+    image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800',
+    verified: true,
+    responsive: true,
+    highlight: 'Award Winning',
+    phone: '09845258527'
+  },
+  {
+    id: 14,
+    name: 'Majestic Towers',
+    rating: 4.8,
+    reviews: 2100,
+    location: 'Bandra Kurla Complex, Mumbai',
+    tags: ['Luxury Suites', 'Infinity Pool', 'AC'],
+    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80&w=800',
+    verified: true,
+    responsive: true,
+    highlight: 'Premium Experience',
+    phone: '09845258527'
+  },
+  {
+    id: 15,
+    name: 'Coastal Breeze Inn',
+    rating: 4.2,
+    reviews: 640,
+    location: 'Versova, Mumbai',
+    tags: ['Sea Breeze', 'WiFi', 'Kitchenette'],
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=800',
+    verified: true,
+    responsive: true,
+    highlight: 'Near Beach',
+    phone: '09845258527'
+  },
+  {
+    id: 16,
+    name: 'Corporate Hub Hotel',
+    rating: 4.0,
+    reviews: 820,
+    location: 'Lower Parel, Mumbai',
+    tags: ['Business Desk', 'WiFi', 'Restaurant'],
+    image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&q=80&w=800',
+    verified: true,
+    responsive: true,
+    highlight: 'Trusted for Business',
+    phone: '09845258527'
+  },
+  {
+    id: 17,
+    name: 'Mountain Peak Hotel',
+    rating: 4.4,
+    reviews: 340,
+    location: 'Goregaon East, Mumbai',
+    tags: ['National Park View', 'WiFi', 'AC'],
+    image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&q=80&w=800',
+    verified: true,
+    responsive: false,
+    highlight: 'Quiet Environment',
+    phone: '09845258527'
+  },
+  {
+    id: 18,
+    name: 'The Pearl Residency',
+    rating: 3.7,
+    reviews: 210,
+    location: 'Sion, Mumbai',
+    tags: ['WiFi', 'AC', 'Budget'],
+    image: 'https://images.unsplash.com/photo-1521783988139-89397d700ed8?auto=format&fit=crop&q=80&w=800',
+    verified: false,
+    responsive: true,
+    highlight: 'Easy Commute',
+    phone: '09845258527'
+  },
+  {
+    id: 19,
+    name: 'Azure Bay Hotel',
+    rating: 4.5,
+    reviews: 1280,
+    location: 'Nariman Point, Mumbai',
+    tags: ['Sea View', 'WiFi', 'Bar'],
+    image: 'https://images.unsplash.com/photo-1517840901100-8179e982ad91?auto=format&fit=crop&q=80&w=800',
+    verified: true,
+    responsive: true,
+    highlight: 'Premium View',
+    phone: '09845258527'
+  },
+  {
+    id: 20,
+    name: 'Urban Oasis Inn',
+    rating: 4.1,
+    reviews: 590,
+    location: 'Chembur, Mumbai',
+    tags: ['WiFi', 'Pool', 'Restaurant'],
+    image: 'https://images.unsplash.com/photo-1560624052-449f5ddf0c31?auto=format&fit=crop&q=80&w=800',
+    verified: true,
+    responsive: true,
+    highlight: 'High call pick up rate',
+    phone: '09845258527'
   }
 ];
 
@@ -117,6 +293,8 @@ const HotelResults = () => {
   const navigate = useNavigate();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [activeQuickFilter, setActiveQuickFilter] = useState(null); // 'sort', 'star', 'budget'
   const [activeDropdown, setActiveDropdown] = useState(null); // 'sort', 'star', etc.
   const [checkIn, setCheckIn] = useState('22-04-2026');
   const [checkOut, setCheckOut] = useState('23-04-2026');
@@ -139,102 +317,64 @@ const HotelResults = () => {
                onClick={() => setIsDatePickerOpen(false)}
                className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
              />
-             <motion.div
-               initial={{ opacity: 0, scale: 0.95, y: 10 }}
-               animate={{ opacity: 1, scale: 1, y: 0 }}
-               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-               className="relative w-full max-w-[720px] bg-white rounded-2xl shadow-2xl overflow-hidden p-5"
-             >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="relative w-full max-w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden p-6"
+              >
                 <div className="flex justify-between items-center mb-4">
                    <button className="p-1.5 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 transition-colors">
                      <ArrowLeft size={18} />
                    </button>
                    
-                   <div className="flex-1 flex justify-around px-8">
-                      <h3 className="text-lg font-bold text-slate-800">April 2026</h3>
-                      <h3 className="text-lg font-bold text-slate-800">May 2026</h3>
-                   </div>
+                    <div className="flex-1 flex justify-center px-4">
+                       <h3 className="text-lg font-bold text-slate-800">April 2026</h3>
+                    </div>
 
                    <button className="p-1.5 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 transition-colors">
                      <ArrowRight size={18} />
                    </button>
                 </div>
 
-                <div className="flex gap-6 justify-center">
-                   {/* April Calendar */}
-                   <div className="flex-1 max-w-[320px]">
-                      <div className="grid grid-cols-7 border-l border-t border-slate-100">
-                         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-                            <div key={d} className="text-center text-[10px] font-bold text-slate-400 py-3 border-r border-b border-slate-100 uppercase">{d}</div>
-                         ))}
-                         {/* Empty days for Wed start */}
-                         <div className="p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
-                         <div className="p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
-                         <div className="p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
-                         {[...Array(30)].map((_, i) => {
-                            const day = i + 1;
-                            const isSelected = day === 22 || day === 23;
-                            return (
-                               <div 
-                                 key={i} 
-                                 className={cn(
-                                   "text-center p-3 text-xs font-bold cursor-pointer transition-all border-r border-b border-slate-100 aspect-square flex items-center justify-center",
-                                   day > 0 && day < 22 && "text-slate-300",
-                                   day >= 24 && "text-slate-800",
-                                   isSelected ? "bg-[#0076d7] text-white border-[#0076d7]" : "hover:bg-slate-50"
-                                 )}
-                               >
-                                 {day}
-                               </div>
-                            );
-                         })}
-                      </div>
-                   </div>
+                 <div className="flex justify-center">
+                    {/* Single Month Calendar (April) */}
+                    <div className="w-full">
+                       <div className="grid grid-cols-7 border-l border-t border-slate-100">
+                          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
+                             <div key={d} className="text-center text-[10px] font-bold text-slate-400 py-3 border-r border-b border-slate-100 uppercase">{d}</div>
+                          ))}
+                          {/* Empty days for Wed start */}
+                          <div className="p-2 border-r border-b border-slate-100 bg-slate-50/10"></div>
+                          <div className="p-2 border-r border-b border-slate-100 bg-slate-50/10"></div>
+                          <div className="p-2 border-r border-b border-slate-100 bg-slate-50/10"></div>
+                          {[...Array(30)].map((_, i) => {
+                             const day = i + 1;
+                             const isSelected = day === 22;
+                             return (
+                                <div 
+                                  key={i} 
+                                  onClick={() => setIsDatePickerOpen(false)}
+                                  className={cn(
+                                    "text-center p-3 text-xs font-bold cursor-pointer transition-all border-r border-b border-slate-100 aspect-square flex items-center justify-center",
+                                    day > 0 && day < 22 && "text-slate-300",
+                                    day >= 23 && "text-slate-800",
+                                    isSelected ? "bg-[#0076d7] text-white border-[#0076d7]" : "hover:bg-slate-50"
+                                  )}
+                                >
+                                  {day}
+                                </div>
+                             );
+                          })}
+                          {/* Fill remaining cells to maintain grid integrity */}
+                          {[...Array(2)].map((_, i) => (
+                             <div key={i} className="p-2 border-r border-b border-slate-100 bg-slate-50/10"></div>
+                          ))}
+                       </div>
+                    </div>
+                 </div>
 
-                   {/* May Calendar */}
-                   <div className="flex-1 max-w-[320px]">
-                      <div className="grid grid-cols-7 border-l border-t border-slate-100">
-                         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-                            <div key={d} className="text-center text-[10px] font-bold text-slate-400 py-3 border-r border-b border-slate-100 uppercase">{d}</div>
-                         ))}
-                         {/* Empty days for Fri start */}
-                         <div className="p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
-                         <div className="p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
-                         <div className="p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
-                         <div className="p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
-                         <div className="p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
-                         {[...Array(31)].map((_, i) => {
-                            const day = i + 1;
-                            return (
-                               <div 
-                                 key={i} 
-                                 className={cn(
-                                   "text-center p-3 text-xs font-bold cursor-pointer transition-all border-r border-b border-slate-100 aspect-square flex items-center justify-center",
-                                   "text-slate-800 hover:bg-slate-50"
-                                 )}
-                               >
-                                 {day}
-                               </div>
-                            );
-                         })}
-                      </div>
-                   </div>
-                </div>
 
-                <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between px-2">
-                   <div className="text-[15px] font-bold text-slate-900">
-                     You Have Selected <span className="font-extrabold">1 Night</span>
-                   </div>
-                   <div className="flex items-center gap-12">
-                      <button className="text-[#0076d7] font-bold text-[15px] hover:underline underline-offset-4">Reset</button>
-                      <button 
-                         onClick={() => setIsDatePickerOpen(false)}
-                         className="bg-[#0076d7] text-white px-14 py-2.5 rounded-xl font-bold text-[15px] hover:bg-blue-700 transition shadow-xl shadow-blue-500/30 active:scale-95"
-                      >
-                         Apply
-                      </button>
-                   </div>
-                </div>
              </motion.div>
           </div>
         )}
@@ -336,9 +476,134 @@ const HotelResults = () => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-[1400px] mx-auto px-6 py-4">
+      {/* All Filters Modal */}
+      <AnimatePresence>
+        {isFilterModalOpen && (
+          <div className="fixed inset-0 z-[120] flex items-end md:items-center justify-center">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsFilterModalOpen(false)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              className="relative w-full max-w-lg bg-white rounded-t-3xl md:rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              <div className="flex items-center justify-between p-6 border-b border-slate-100">
+                <h2 className="text-xl font-bold text-slate-900">All Filters</h2>
+                <button onClick={() => setIsFilterModalOpen(false)} className="p-2 text-slate-400 hover:text-slate-600">
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar">
+                {/* Sort Section */}
+                <section>
+                  <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-4">Sort By</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {SORT_OPTIONS.map(opt => (
+                      <button key={opt} className="px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-700 hover:border-primary-500 hover:text-primary-600 transition-all">
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Rating Section */}
+                <section>
+                  <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-4">Star Rating</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {STAR_OPTIONS.map(opt => (
+                      <button key={opt} className="px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-700 hover:border-primary-500 hover:text-primary-600 transition-all">
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Categories */}
+                {['Hotel View', 'Amenities', 'Pets Essential', 'User Ratings'].map(cat => (
+                  <section key={cat}>
+                    <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-4">{cat}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {(cat === 'Hotel View' ? VIEW_OPTIONS : ['Option 1', 'Option 2', 'Option 3']).map(opt => (
+                        <button key={opt} className="px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-700 hover:border-primary-500 hover:text-primary-600 transition-all">
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+
+              <div className="p-6 border-t border-slate-100 bg-slate-50/50">
+                <button 
+                  onClick={() => setIsFilterModalOpen(false)}
+                  className="w-full bg-[#0076d7] text-white font-bold py-4 rounded-xl shadow-xl shadow-blue-500/20 active:scale-[0.98] transition-all"
+                >
+                  Show Results
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Quick Filter Modal (Mobile Bottom Sheet) */}
+      <AnimatePresence>
+        {activeQuickFilter && (
+          <div className="fixed inset-0 z-[130] flex items-end justify-center md:hidden">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveQuickQuickFilter(null)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              className="relative w-[calc(100%-32px)] mx-4 mb-6 bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+            >
+              <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <h3 className="text-lg font-bold text-slate-900 capitalize">Select {activeQuickFilter}</h3>
+                <button onClick={() => setActiveQuickFilter(null)} className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
+                  <X size={22} />
+                </button>
+              </div>
+              <div className="p-2 space-y-1 bg-white">
+                {(activeQuickFilter === 'sort' ? SORT_OPTIONS : 
+                  STAR_OPTIONS).map(opt => (
+                  <button 
+                    key={opt}
+                    onClick={() => setActiveQuickFilter(null)}
+                    className="w-full text-left px-5 py-4 text-[16px] font-semibold text-slate-700 hover:bg-slate-50 border-b border-slate-50 last:border-0 hover:text-primary-600 transition-all"
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+              <div className="p-5 bg-white">
+                <button 
+                  onClick={() => setActiveQuickFilter(null)}
+                  className="w-full py-4 text-emerald-700 font-extrabold border border-emerald-100 rounded-xl bg-emerald-50/30 active:scale-[0.98] transition-all"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-24 pb-4">
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-[11px] text-slate-500 mb-4 py-1">
+        <div className="flex items-center gap-2 text-[11px] text-slate-500 mb-0">
           <span className="hover:text-primary-600 cursor-pointer">Mumbai</span>
           <ChevronRight size={10} />
           <span className="hover:text-primary-600 cursor-pointer">Hotels in Mumbai</span>
@@ -346,326 +611,274 @@ const HotelResults = () => {
           <span className="text-slate-400">14443+ Listings</span>
         </div>
 
-        <h1 className="text-2xl font-bold text-slate-900 mb-6 font-display">Popular Hotels in Mumbai</h1>
+        <h1 className="text-2xl font-bold text-slate-900 mb-1 font-display">Popular Hotels in Mumbai</h1>
 
         {/* Filters Bar */}
-        <div className="flex flex-wrap items-center gap-2 mb-8">
-          <div 
-            onClick={() => setIsDatePickerOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm bg-white cursor-pointer hover:border-primary-500 transition-colors shadow-sm"
-          >
-            <span className="font-bold text-slate-800">{checkIn}</span>
-            <Calendar size={16} className="text-slate-400" />
-          </div>
-          <div 
-            onClick={() => setIsDatePickerOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm bg-white cursor-pointer hover:border-primary-500 transition-colors shadow-sm"
-          >
-            <span className="font-bold text-slate-800">{checkOut}</span>
-            <Calendar size={16} className="text-slate-400" />
-          </div>
-          
-          {/* Sort By Dropdown */}
-          <div className="relative">
+        <div className="flex flex-col md:flex-row md:items-center gap-2 mb-1">
+          {/* Row 1: Dates + All Filters (Mobile) / Complete Bar (Desktop) */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
             <div 
-              onClick={() => setActiveDropdown(activeDropdown === 'sort' ? null : 'sort')}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
-                activeDropdown === 'sort' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
-              )}
+              onClick={() => setIsDatePickerOpen(true)}
+              className="flex items-center gap-2 px-3 py-2 border border-slate-200 rounded-lg text-[12px] md:text-sm bg-white cursor-pointer hover:border-primary-500 transition-colors shadow-sm shrink-0"
             >
-              Sort by
-              <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'sort' && "rotate-180")} />
+              <span className="font-bold text-slate-800">{checkIn}</span>
+              <Calendar size={14} className="text-slate-400" />
             </div>
-            
-            <AnimatePresence>
-              {activeDropdown === 'sort' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-2xl border border-slate-100 p-2 z-50"
-                >
-                  <div className="space-y-1">
-                    {SORT_OPTIONS.map(opt => (
-                      <button 
-                        key={opt}
-                        onClick={() => setActiveDropdown(null)}
-                        className="w-full text-left px-4 py-2.5 text-[15px] font-medium text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors"
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="mt-2 pt-2 border-t border-slate-50">
-                    <button 
-                      onClick={() => setActiveDropdown(null)}
-                      className="w-full py-2 text-primary-600 font-bold border border-primary-100 rounded-lg hover:bg-primary-50 transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div 
+              onClick={() => setIsDatePickerOpen(true)}
+              className="flex items-center gap-2 px-3 py-2 border border-slate-200 rounded-lg text-[12px] md:text-sm bg-white cursor-pointer hover:border-primary-500 transition-colors shadow-sm shrink-0"
+            >
+              <span className="font-bold text-slate-800">{checkOut}</span>
+              <Calendar size={14} className="text-slate-400" />
+            </div>
+
+            {/* All Filters Button - Always visible next to dates on mobile */}
+            <button 
+              onClick={() => setIsFilterModalOpen(true)}
+              className="flex items-center gap-2 px-3 py-2 border border-slate-900 rounded-lg text-[12px] md:text-sm bg-white font-bold hover:bg-slate-50 transition-all shrink-0"
+            >
+               <div className="flex flex-col gap-0.5 items-end">
+                  <div className="w-3.5 h-0.5 bg-slate-900"></div>
+                  <div className="w-2.5 h-0.5 bg-slate-900"></div>
+                  <div className="w-3.5 h-0.5 bg-slate-900"></div>
+               </div>
+               All Filters
+            </button>
           </div>
 
-          {/* Star Rating Dropdown */}
-          <div className="relative">
-            <div 
-              onClick={() => setActiveDropdown(activeDropdown === 'star' ? null : 'star')}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
-                activeDropdown === 'star' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
-              )}
-            >
-              Star Rating
-              <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'star' && "rotate-180")} />
+          {/* Row 2: Secondary Filters */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            {/* Sort By Dropdown */}
+            <div className="relative shrink-0">
+              <div 
+                onClick={() => {
+                  if (window.innerWidth < 768) setActiveQuickFilter('sort');
+                  else setActiveDropdown(activeDropdown === 'sort' ? null : 'sort');
+                }}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
+                  activeDropdown === 'sort' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
+                )}
+              >
+                Sort by
+                <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'sort' && "rotate-180")} />
+              </div>
+              
+              <AnimatePresence>
+                {activeDropdown === 'sort' && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-50 origin-top"
+                  >
+                    {/* Popover Arrow */}
+                    <div className="absolute -top-1.5 left-6 w-3 h-3 bg-white border-l border-t border-slate-100 rotate-45" />
+                    
+                    <div className="relative space-y-1">
+                      {SORT_OPTIONS.map(opt => (
+                        <button 
+                          key={opt}
+                          onClick={() => setActiveDropdown(null)}
+                          className="w-full text-left px-4 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors border-b border-slate-50 last:border-0"
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            
-            <AnimatePresence>
-              {activeDropdown === 'star' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-2xl border border-slate-100 p-2 z-50"
-                >
-                  <div className="space-y-1">
-                    {STAR_OPTIONS.map(opt => (
-                      <button 
-                        key={opt}
-                        onClick={() => setActiveDropdown(null)}
-                        className="w-full text-left px-4 py-2.5 text-[15px] font-medium text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors"
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="mt-2 pt-2 border-t border-slate-50">
-                    <button 
-                      onClick={() => setActiveDropdown(null)}
-                      className="w-full py-2 text-primary-600 font-bold border border-primary-100 rounded-lg hover:bg-primary-50 transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
 
-          {/* Budget Dropdown */}
-          <div className="relative">
-            <div 
-              onClick={() => setActiveDropdown(activeDropdown === 'budget' ? null : 'budget')}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
-                activeDropdown === 'budget' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
-              )}
-            >
-              Budget
-              <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'budget' && "rotate-180")} />
-            </div>
-            
-            <AnimatePresence>
-              {activeDropdown === 'budget' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-slate-100 p-2 z-50"
-                >
-                  <div className="space-y-1 overflow-y-auto max-h-[300px] no-scrollbar">
-                    {BUDGET_OPTIONS.map(opt => (
-                      <button 
-                        key={opt}
-                        onClick={() => setActiveDropdown(null)}
-                        className="w-full text-left px-4 py-2.5 text-[15px] font-medium text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors"
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="mt-2 pt-2 border-t border-slate-50">
-                    <button 
-                      onClick={() => setActiveDropdown(null)}
-                      className="w-full py-2 text-primary-600 font-bold border border-primary-100 rounded-lg hover:bg-primary-50 transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+            {/* Star Rating Dropdown */}
+            <div className="relative shrink-0">
+              <div 
+                onClick={() => {
+                  if (window.innerWidth < 768) setActiveQuickFilter('star');
+                  else setActiveDropdown(activeDropdown === 'star' ? null : 'star');
+                }}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
+                  activeDropdown === 'star' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
+                )}
+              >
+                Star Rating
+                <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'star' && "rotate-180")} />
+              </div>
+              
+              <AnimatePresence>
+                {activeDropdown === 'star' && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-50 origin-top"
+                  >
+                    {/* Popover Arrow */}
+                    <div className="absolute -top-1.5 left-6 w-3 h-3 bg-white border-l border-t border-slate-100 rotate-45" />
 
-          {/* Hotel View Dropdown */}
-          <div className="relative">
-            <div 
-              onClick={() => setActiveDropdown(activeDropdown === 'view' ? null : 'view')}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
-                activeDropdown === 'view' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
-              )}
-            >
-              Hotel View
-              <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'view' && "rotate-180")} />
+                    <div className="relative space-y-1">
+                      {STAR_OPTIONS.map(opt => (
+                        <button 
+                          key={opt}
+                          onClick={() => setActiveDropdown(null)}
+                          className="w-full text-left px-4 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors border-b border-slate-50 last:border-0"
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            
-            <AnimatePresence>
-              {activeDropdown === 'view' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 mt-2 w-52 bg-white rounded-xl shadow-2xl border border-slate-100 p-2 z-50"
-                >
-                  <div className="space-y-1">
-                    {VIEW_OPTIONS.map(opt => (
-                      <button 
-                        key={opt}
-                        onClick={() => setActiveDropdown(null)}
-                        className="w-full text-left px-4 py-2.5 text-[15px] font-medium text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors"
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="mt-2 pt-2 border-t border-slate-50">
-                    <button 
-                      onClick={() => setActiveDropdown(null)}
-                      className="w-full py-2 text-primary-600 font-bold border border-primary-100 rounded-lg hover:bg-primary-50 transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          
-          {['Pets Essential', 'User Ratings', 'Amenities'].map(filter => (
-            <div key={filter} className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm bg-slate-100/50 cursor-pointer hover:bg-white hover:border-primary-500 transition-all font-bold text-slate-700">
-              {filter}
-              <ChevronDown size={14} className="text-slate-400" />
-            </div>
-          ))}
 
-          <button className="flex items-center gap-2 px-4 py-2 border border-slate-900 rounded-lg text-sm bg-white font-bold hover:bg-slate-50 transition-all flex-shrink-0">
-             <div className="flex flex-col gap-0.5 items-end">
-                <div className="w-4 h-0.5 bg-slate-900"></div>
-                <div className="w-3 h-0.5 bg-slate-900"></div>
-                <div className="w-4 h-0.5 bg-slate-900"></div>
-             </div>
-             All Filters
-          </button>
+            {/* Secondary filters hidden on mobile, shown on desktop or in 'All Filters' */}
+            <div className="hidden lg:flex items-center gap-2">
+              {/* Hotel View Dropdown */}
+              <div className="relative shrink-0">
+                <div 
+                  onClick={() => setActiveDropdown(activeDropdown === 'view' ? null : 'view')}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
+                    activeDropdown === 'view' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
+                  )}
+                >
+                  Hotel View
+                  <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'view' && "rotate-180")} />
+                </div>
+              </div>
+              
+              {['Pets Essential', 'User Ratings', 'Amenities'].map(filter => (
+                <div key={filter} className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm bg-slate-100/50 cursor-pointer hover:bg-white hover:border-primary-500 transition-all font-bold text-slate-700 shrink-0">
+                  {filter}
+                  <ChevronDown size={14} className="text-slate-400" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Listings */}
-          <div className="lg:col-span-3 space-y-6">
-            {HOTEL_DATA.map(hotel => (
-              <Card key={hotel.id} className="p-4 flex flex-col md:flex-row gap-6 hover:shadow-xl transition-all duration-300 group border-slate-100">
-                {/* Image Section */}
-                <div 
-                  onClick={() => navigate(`/hotels/${hotel.id}`)}
-                  className="w-full md:w-72 h-56 relative rounded-xl overflow-hidden flex-shrink-0 cursor-pointer"
-                >
-                  <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-y-0 left-0 flex items-center px-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={(e) => {e.stopPropagation();}} className="bg-black/30 backdrop-blur-md p-1.5 rounded-full text-white hover:bg-black/50"><ChevronLeft size={18} /></button>
+          <div className="lg:col-span-3">
+            {/* Desktop View: Vertical Feed */}
+            <div className="hidden md:flex flex-col space-y-6">
+              {HOTEL_DATA.map(hotel => (
+                <Card key={hotel.id} className="p-4 md:p-6 flex flex-col md:flex-row gap-6 hover:shadow-xl transition-all duration-300 group border-slate-100">
+                  <div 
+                    onClick={() => navigate(`/hotels/${hotel.id}`)}
+                    className="w-full md:w-72 h-44 md:h-56 relative rounded-xl overflow-hidden flex-shrink-0 cursor-pointer"
+                  >
+                    <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-y-0 left-0 flex items-center px-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button onClick={(e) => {e.stopPropagation();}} className="bg-black/30 backdrop-blur-md p-1.5 rounded-full text-white hover:bg-black/50"><ChevronLeft size={18} /></button>
+                    </div>
+                    <div className="absolute inset-y-0 right-0 flex items-center px-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button onClick={(e) => {e.stopPropagation();}} className="bg-black/30 backdrop-blur-md p-1.5 rounded-full text-white hover:bg-black/50"><ChevronRight size={18} /></button>
+                    </div>
                   </div>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={(e) => {e.stopPropagation();}} className="bg-black/30 backdrop-blur-md p-1.5 rounded-full text-white hover:bg-black/50"><ChevronRight size={18} /></button>
-                  </div>
-                  <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
-                    <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-                    <div className="w-1.5 h-1.5 bg-white/40 rounded-full"></div>
-                    <div className="w-1.5 h-1.5 bg-white/40 rounded-full"></div>
-                  </div>
-                </div>
 
-                {/* Details Section */}
-                <div className="flex-1 flex flex-col">
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <div className="space-y-1">
-                      <div 
-                        className="flex items-center gap-2 cursor-pointer group/title"
-                        onClick={() => navigate(`/hotels/${hotel.id}`)}
-                      >
-                        <div className="bg-slate-900 text-white p-1 rounded-full"><Star size={10} fill="white" /></div>
-                        <h3 className="text-xl font-bold text-slate-900 group-hover/title:text-[#0076d7] transition-colors">{hotel.name}</h3>
-                      </div>
-                      <div className="flex items-center gap-3 flex-wrap">
-                        <div className="bg-green-600 text-white px-2 py-0.5 rounded-md text-sm font-bold flex items-center gap-1">
-                          {hotel.rating} <Star size={12} fill="currentColor" />
+                  <div className="flex-1 flex flex-col">
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <div className="space-y-1">
+                        <div 
+                          className="flex items-center gap-2 cursor-pointer group/title"
+                          onClick={() => navigate(`/hotels/${hotel.id}`)}
+                        >
+                          <div className="bg-slate-900 text-white p-1 rounded-full"><Star size={10} fill="white" /></div>
+                          <h3 className="text-xl font-bold text-slate-900 group-hover/title:text-[#0076d7] transition-colors">{hotel.name}</h3>
                         </div>
-                        <span className="text-slate-400 text-sm font-medium">{hotel.reviews} Ratings</span>
-                        {hotel.verified && (
-                          <span className="flex items-center gap-1 text-primary-600 text-xs font-bold bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
-                             Verified
-                          </span>
-                        )}
-                        {hotel.responsive && (
-                          <span className="flex items-center gap-1 text-orange-600 text-xs font-bold bg-orange-50 px-2 py-0.5 rounded border border-orange-100">
-                            <Zap size={12} fill="currentColor" /> Responsive
-                          </span>
-                        )}
+                        <div className="flex items-center gap-3">
+                          <div className="bg-green-600 text-white px-2 py-0.5 rounded-md text-sm font-bold flex items-center gap-1">
+                            {hotel.rating} <Star size={12} fill="currentColor" />
+                          </div>
+                          <span className="text-slate-400 text-sm font-medium">{hotel.reviews} Ratings</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-2 text-slate-600 text-sm mb-4 mt-2">
-                    <MapPin size={16} className="text-slate-400" />
-                    {hotel.location}
-                  </div>
-
-                  {hotel.proximity && (
-                    <div className="flex items-center gap-2 text-slate-700 text-xs mb-4 font-bold bg-slate-50 self-start px-2 py-1 rounded">
-                      <div className="w-1 h-1 bg-slate-900 rounded-full"></div>
-                      {hotel.proximity}
+                    <div className="flex items-center gap-2 text-slate-600 text-sm mb-4 mt-2">
+                      <MapPin size={16} className="text-slate-400" />
+                      {hotel.location}
                     </div>
-                  )}
 
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {hotel.tags.map(tag => (
-                      <span key={tag} className="bg-slate-100 text-slate-600 px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border border-slate-200">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {hotel.tags.map(tag => (
+                        <span key={tag} className="bg-slate-100 text-slate-600 px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border border-slate-200">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
 
-                  <div className="mt-auto flex flex-wrap items-center gap-3">
-                    {hotel.highlight && (
-                       <div className="flex items-center gap-1.5 text-orange-600 text-xs font-bold w-full mb-4">
-                         <Zap size={14} fill="currentColor" />
-                         {hotel.highlight}
-                       </div>
-                    )}
-                    
-                    <div className="flex items-center gap-2 w-full md:w-auto">
-                      <button className="bg-[#008a00] text-white hover:bg-green-800 rounded-lg font-bold flex items-center gap-2 px-6 py-2 transition-all active:scale-95 text-sm">
+                    <div className="mt-auto flex flex-wrap items-center gap-3">
+                      <button className="flex-1 md:flex-none bg-[#008a00] text-white hover:bg-green-800 rounded-lg font-bold flex items-center gap-2 px-6 py-2 transition-all active:scale-95 text-sm">
                         <Phone size={16} fill="currentColor" />
-                        09845258527
+                        {hotel.phone || '09845258527'}
                       </button>
-                      <button className="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-lg font-bold flex items-center gap-2 px-6 py-2 transition-all active:scale-95 text-sm">
+                      <button className="flex-1 md:flex-none bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-lg font-bold flex items-center gap-2 px-6 py-2 transition-all active:scale-95 text-sm">
                         <div className="text-[#25d366]"><MessageSquare size={18} fill="currentColor" /></div>
                         WhatsApp
                       </button>
+                      <button 
+                        onClick={() => setIsLeadModalOpen(true)}
+                        className="bg-[#0076d7] hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-lg flex items-center gap-2 transition-all active:scale-95 text-sm shadow-md"
+                      >
+                        <Zap size={16} fill="currentColor" />
+                        Get Best Deal
+                      </button>
                     </div>
-                    
-                    <button 
-                      onClick={() => setIsLeadModalOpen(true)}
-                      className="bg-[#0076d7] hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-lg flex items-center gap-2 transition-all active:scale-95 text-sm shadow-md"
-                    >
-                      <Zap size={16} fill="currentColor" />
-                      Get Best Deal
-                    </button>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* Mobile View: Dynamic Rows of 10 */}
+            <div className="md:hidden flex flex-col space-y-4">
+              {Array.from({ length: Math.ceil(HOTEL_DATA.length / 10) }, (_, i) => (
+                <div key={i} className="space-y-2">
+                  <div className="flex overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-4 px-4 space-x-4 pb-4">
+                    {HOTEL_DATA.slice(i * 10, (i + 1) * 10).map(hotel => (
+                      <Card key={hotel.id} className="min-w-[85vw] snap-start p-3 flex flex-col gap-4 border-slate-100 shadow-sm">
+                        <div 
+                          onClick={() => navigate(`/hotels/${hotel.id}`)}
+                          className="w-full h-40 relative rounded-xl overflow-hidden flex-shrink-0 bg-slate-100"
+                        >
+                          <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
+                           <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                             {hotel.rating} ★
+                           </div>
+                        </div>
+
+                        <div className="flex flex-col flex-1">
+                          <h3 className="text-[16px] font-bold text-slate-900 mb-1 leading-tight">{hotel.name}</h3>
+                          <div className="flex items-center gap-1.5 text-slate-500 text-[11px] mb-4 line-clamp-1">
+                             <MapPin size={12} className="text-slate-400" />
+                             {hotel.location}
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-2">
+                            <button className="bg-[#008a00] text-white rounded-lg font-bold flex items-center justify-center gap-1 py-1.5 text-[11px]">
+                              <Phone size={12} fill="currentColor" /> Call
+                            </button>
+                            <button className="border border-slate-200 text-[#25d366] rounded-lg font-bold flex items-center justify-center gap-1 py-1.5 text-[11px]">
+                              <MessageSquare size={12} fill="currentColor" /> WhatsApp
+                            </button>
+                            <button 
+                              onClick={() => setIsLeadModalOpen(true)}
+                              className="col-span-2 bg-[#0076d7] text-white rounded-lg font-bold py-2 text-[11px] mt-1 shadow-md"
+                            >
+                              Get Best Deal
+                            </button>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
                   </div>
                 </div>
-              </Card>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Sidebar Form */}
