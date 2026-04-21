@@ -59,7 +59,7 @@ const UserLayout = ({ children }) => {
       
       {/* Premium Footer - Only on Home Page */}
       {isHomePage && (
-        <footer className="bg-slate-900 text-white pt-20 pb-10 mt-20">
+        <footer className="bg-slate-900 text-white pt-12 md:pt-20 pb-10 mt-6 md:mt-20">
         <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-6">

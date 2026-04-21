@@ -29,17 +29,17 @@ const CATEGORIES = [
 ];
 
 const FEATURED_VENDORS = [
-  { id: 1, name: 'AquaSmooth Plumbing', rating: 4.9, reviews: 1240, type: 'Premium', verified: true, image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=400' },
-  { id: 2, name: 'Apex Car Care', rating: 4.8, reviews: 3100, type: 'Featured', verified: true, image: 'https://images.unsplash.com/photo-1542462661-88488e03bcba?auto=format&fit=crop&q=80&w=400' },
-  { id: 3, name: 'Zenith Home Spa', rating: 4.7, reviews: 890, type: 'Promoted', verified: false, image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=400' },
-  { id: 4, name: 'Glow Dental Clinic', rating: 5.0, reviews: 450, type: 'Top Rated', verified: true, image: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=400' },
+  { id: 1, name: 'AquaSmooth Plumbing', rating: 4.9, reviews: 1240, type: 'Premium', verified: true, image: 'https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 2, name: 'Apex Car Care', rating: 4.8, reviews: 3100, type: 'Featured', verified: true, image: 'https://images.pexels.com/photos/372810/pexels-photo-372810.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 3, name: 'Zenith Home Spa', rating: 4.7, reviews: 890, type: 'Promoted', verified: false, image: 'https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 4, name: 'Glow Dental Clinic', rating: 5.0, reviews: 450, type: 'Top Rated', verified: true, image: 'https://images.pexels.com/photos/3845766/pexels-photo-3845766.jpeg?auto=compress&cs=tinysrgb&w=400' },
 ];
 
 const HOME_SERVICES = [
-  { id: 1, name: 'AC REPAIR & SERVICE', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400' },
-  { id: 2, name: 'PAINTERS', image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=80&w=400' },
-  { id: 3, name: 'PEST CONTROL', image: 'https://images.unsplash.com/photo-1590479773265-7464e5d48118?auto=format&fit=crop&q=80&w=400' },
-  { id: 4, name: 'PLUMBERS', image: 'https://images.unsplash.com/photo-1505798577917-a65157d3320a?auto=format&fit=crop&q=80&w=400' },
+  { id: 1, name: 'AC REPAIR & SERVICE', image: 'https://images.pexels.com/photos/5463575/pexels-photo-5463575.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 2, name: 'PAINTERS', image: 'https://images.pexels.com/photos/6474471/pexels-photo-6474471.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 3, name: 'PEST CONTROL', image: 'https://images.pexels.com/photos/4064560/pexels-photo-4064560.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 4, name: 'PLUMBERS', image: 'https://images.pexels.com/photos/5691653/pexels-photo-5691653.jpeg?auto=compress&cs=tinysrgb&w=400' },
 ];
 
 const Home = () => {
@@ -199,7 +199,7 @@ const Home = () => {
                   <div className="space-y-4">
                     <h4 className="text-xs font-bold text-slate-400 tracking-wider uppercase">Trending Searches</h4>
                     {TRENDING_SEARCHES.map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-4 py-2 border-b border-gray-50 last:border-b-0" onClick={() => { setSearchQuery(item); navigate('/search'); }}>
+                      <div key={idx} className="flex items-center gap-4 py-2 border-b border-gray-50 last:border-b-0" onClick={() => { setSearchQuery(item); navigate('/categories'); }}>
                         <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
                           <TrendingUp size={18} />
                         </div>
@@ -485,7 +485,7 @@ const Home = () => {
             <div 
               key={s.id} 
               className="relative aspect-square md:aspect-square rounded-2xl overflow-hidden group cursor-pointer active:scale-95 transition-all shadow-md"
-              onClick={() => navigate('/search')}
+              onClick={() => navigate('/categories')}
             >
               <img src={s.image} alt={s.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent flex items-end p-4 md:p-6">
@@ -543,7 +543,7 @@ const Home = () => {
       </section>
 
       {/* Social Feed Preview Segment */}
-      <section className="max-w-[1400px] mx-auto px-6 pt-10 pb-24 md:py-24 bg-white/50">
+      <section className="max-w-[1400px] mx-auto px-6 pt-10 pb-10 md:py-24 bg-white/50">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-7">
             <Badge variant="primary" className="mb-4 px-4 py-1.5 bg-primary-50 text-primary-700">Social Discovery</Badge>

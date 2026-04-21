@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/user/Home'));
-const SearchResults = lazy(() => import('./pages/user/SearchResults'));
 const HotelResults = lazy(() => import('./pages/user/HotelResults'));
 const HotelDetails = lazy(() => import('./pages/user/HotelDetails'));
 const SocialFeed = lazy(() => import('./pages/user/SocialFeed'));
@@ -33,7 +32,6 @@ const App = () => {
           <Route path="/category/:categoryName/:id" element={<CategoryDetails />} />
           <Route path="/hotels" element={<HotelResults />} />
           <Route path="/hotels/:id" element={<HotelDetails />} />
-          <Route path="/search" element={<SearchResults />} />
           <Route path="/vendor/:id" element={<div className="p-20 text-center">Vendor Details Page Coming Soon</div>} />
           <Route path="/social" element={<SocialFeed />} />
           <Route path="/profile" element={<Profile />} />
