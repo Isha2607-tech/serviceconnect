@@ -9,6 +9,7 @@ const ServicesOverlay = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(GROUPED_CATEGORIES[0]?.id);
   const sectionRefs = useRef({});
+  const contentRef = useRef(null);
   const isScrollingRef = useRef(false);
 
   // Smooth scroll to section
@@ -16,13 +17,16 @@ const ServicesOverlay = ({ isOpen, onClose }) => {
     isScrollingRef.current = true;
     setActiveTab(id);
     const element = sectionRefs.current[id];
-    if (element) {
-      const headerOffset = 130; // Adjust for sticky header + tabs
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    const container = contentRef.current;
+    
+    if (element && container) {
+      const containerTop = container.getBoundingClientRect().top;
+      const elementTop = element.getBoundingClientRect().top;
+      const relativeTop = elementTop - containerTop;
+      const scrollTarget = container.scrollTop + relativeTop - 20; // Slight padding from top
 
-      window.scrollTo({
-        top: offsetPosition,
+      container.scrollTo({
+        top: scrollTarget,
         behavior: 'smooth'
       });
 
@@ -38,8 +42,8 @@ const ServicesOverlay = ({ isOpen, onClose }) => {
     if (!isOpen) return;
 
     const observerOptions = {
-      root: null,
-      rootMargin: '-140px 0px -70% 0px',
+      root: contentRef.current,
+      rootMargin: '-180px 0px -75% 0px',
       threshold: 0
     };
 
@@ -61,6 +65,14 @@ const ServicesOverlay = ({ isOpen, onClose }) => {
     });
 
     return () => observer.disconnect();
+  }, [isOpen]);
+
+  // Forced Scroll to top on open
+  useEffect(() => {
+    if (isOpen) {
+      const scrollContainer = contentRef.current;
+      if (scrollContainer) scrollContainer.scrollTop = 0;
+    }
   }, [isOpen]);
 
   // Lock body scroll when overlay is open
@@ -90,24 +102,12 @@ const ServicesOverlay = ({ isOpen, onClose }) => {
 
           {/* Full Screen Overlay with Morphing Animation */}
           <motion.div
-            initial={{ 
-              clipPath: 'circle(0% at 85% 65%)',
-              opacity: 0,
-              scale: 0.95
-            }}
-            animate={{ 
-              clipPath: 'circle(150% at 85% 65%)',
-              opacity: 1,
-              scale: 1
-            }}
-            exit={{ 
-              clipPath: 'circle(0% at 85% 65%)',
-              opacity: 0,
-              scale: 0.95
-            }}
+            initial={{ y: '-100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '-100%' }}
             transition={{ 
-              duration: 0.6,
-              ease: [0.22, 1, 0.36, 1] // Custom refined bezier
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1]
             }}
             className="fixed inset-0 z-[999] bg-[#F5F7F9] flex flex-col pt-safe origin-center"
           >
@@ -160,7 +160,10 @@ const ServicesOverlay = ({ isOpen, onClose }) => {
             </div>
 
             {/* Scrollable Content Area */}
-            <div className="flex-1 overflow-y-auto w-full px-4 pt-6 pb-24 no-scrollbar">
+            <div 
+              ref={contentRef}
+              className="flex-1 overflow-y-auto w-full px-4 pt-6 pb-[60vh] no-scrollbar"
+            >
               <div className="space-y-8 max-w-2xl mx-auto">
                 {GROUPED_CATEGORIES.map((group) => (
                   <div

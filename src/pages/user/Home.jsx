@@ -11,24 +11,25 @@ import heroBg from '../../assets/homepage.jpg';
 import hotelIcon from '../../assets/icons/hotel.png';
 import beautyIcon from '../../assets/icons/beauty.png';
 import LeadFormModal from '../../components/common/LeadFormModal';
+import ServicesOverlay from '../../components/user/ServicesOverlay';
 
 const CATEGORIES = [
-  { id: 1, name: 'Restaurants', icon: 'https://img.icons8.com/bubbles/180/restaurant.png', color: 'bg-orange-50' },
-  { id: 2, name: 'Hotels', icon: hotelIcon, color: 'bg-blue-50' },
-  { id: 3, name: 'Beauty', icon: beautyIcon, color: 'bg-pink-50' },
-  { id: 4, name: 'Home', icon: 'https://img.icons8.com/bubbles/180/home.png', color: 'bg-indigo-50' },
-  { id: 5, name: 'Wedding', icon: 'https://img.icons8.com/bubbles/180/diamond-ring.png', color: 'bg-rose-50' },
-  { id: 6, name: 'Education', icon: 'https://img.icons8.com/bubbles/180/education.png', color: 'bg-emerald-50' },
-  { id: 7, name: 'Rent', icon: 'https://img.icons8.com/bubbles/180/key.png', color: 'bg-amber-50' },
-  { id: 8, name: 'Hospitals', icon: 'https://img.icons8.com/bubbles/180/hospital.png', color: 'bg-red-50' },
-  { id: 9, name: 'Contractors', icon: 'https://img.icons8.com/bubbles/180/hammer.png', color: 'bg-slate-100' },
-  { id: 10, name: 'Pet', icon: 'https://img.icons8.com/bubbles/180/dog.png', color: 'bg-orange-100/50' },
-  { id: 11, name: 'PG/Hostels', icon: 'https://img.icons8.com/bubbles/180/bed.png', color: 'bg-cyan-50' },
-  { id: 12, name: 'Estate', icon: 'https://img.icons8.com/bubbles/180/commercial.png', color: 'bg-violet-50' },
-  { id: 13, name: 'Dentists', icon: 'https://img.icons8.com/bubbles/180/tooth.png', color: 'bg-teal-50' },
-  { id: 14, name: 'Gym', icon: 'https://img.icons8.com/bubbles/180/dumbbell.png', color: 'bg-slate-200' },
-  { id: 15, name: 'Loans', icon: 'https://img.icons8.com/bubbles/180/money-bag.png', color: 'bg-emerald-100' },
-  { id: 20, name: 'More', icon: Menu, color: 'bg-primary-50', isMenu: true },
+  { id: 1, name: 'Restaurants', icon: 'https://img.icons8.com/bubbles/180/restaurant.png', color: 'bg-primary-50/50' },
+  { id: 2, name: 'Hotels', icon: hotelIcon, color: 'bg-primary-50/50' },
+  { id: 3, name: 'Beauty', icon: beautyIcon, color: 'bg-primary-50/50' },
+  { id: 4, name: 'Home', icon: 'https://img.icons8.com/bubbles/180/home.png', color: 'bg-primary-50/50' },
+  { id: 5, name: 'Wedding', icon: 'https://img.icons8.com/bubbles/180/diamond-ring.png', color: 'bg-primary-50/50' },
+  { id: 6, name: 'Education', icon: 'https://img.icons8.com/bubbles/180/education.png', color: 'bg-primary-50/50' },
+  { id: 7, name: 'Rent', icon: 'https://img.icons8.com/bubbles/180/key.png', color: 'bg-primary-50/50' },
+  { id: 8, name: 'Hospitals', icon: 'https://img.icons8.com/bubbles/180/hospital.png', color: 'bg-primary-50/50' },
+  { id: 9, name: 'Contractors', icon: 'https://img.icons8.com/bubbles/180/hammer.png', color: 'bg-primary-50/50' },
+  { id: 10, name: 'Pet', icon: 'https://img.icons8.com/bubbles/180/dog.png', color: 'bg-primary-50/50' },
+  { id: 11, name: 'PG/Hostels', icon: 'https://img.icons8.com/bubbles/180/bed.png', color: 'bg-primary-50/50' },
+  { id: 12, name: 'Estate', icon: 'https://img.icons8.com/bubbles/180/commercial.png', color: 'bg-primary-50/50' },
+  { id: 13, name: 'Dentists', icon: 'https://img.icons8.com/bubbles/180/tooth.png', color: 'bg-primary-50/50' },
+  { id: 14, name: 'Gym', icon: 'https://img.icons8.com/bubbles/180/dumbbell.png', color: 'bg-primary-50/50' },
+  { id: 15, name: 'Loans', icon: 'https://img.icons8.com/bubbles/180/money-bag.png', color: 'bg-primary-50/50' },
+  { id: 20, name: 'More', icon: Menu, color: 'bg-primary-700', isMenu: true },
 ];
 
 const FEATURED_VENDORS = [
@@ -85,6 +86,7 @@ const Home = () => {
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [locationQuery, setLocationQuery] = useState('');
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [previewStack, setPreviewStack] = useState([0, 1, 2]);
 
   const handleSwap = (id) => {
@@ -119,7 +121,7 @@ const Home = () => {
 
   const handleCategoryClick = (cat) => {
     if (cat.isMenu) {
-      navigate('/categories');
+      setIsServicesOpen(true);
       return;
     }
     
@@ -372,7 +374,7 @@ const Home = () => {
              
              <div 
                className="flex flex-col items-center gap-0 active:scale-90 transition-transform cursor-pointer"
-               onClick={() => navigate('/categories')}
+               onClick={() => setIsServicesOpen(true)}
              >
                <div className="w-14 h-12 flex items-center justify-center">
                   <div className="w-11 h-11 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-600/20 active:rotate-180 transition-all duration-300">
@@ -537,7 +539,7 @@ const Home = () => {
       </section>
 
       {/* Featured Vendors - Compacted */}
-      <section className="bg-slate-100/50 pt-4 pb-4 md:py-24 px-4 md:px-6">
+      <section className="bg-primary-50/30 pt-4 pb-4 md:py-24 px-4 md:px-6">
         <div className="max-w-[1400px] mx-auto">
           <div className="text-left mb-4 md:mb-16">
             <h2 className="text-lg md:text-2xl font-display font-bold text-slate-900 mb-1">Handpicked Top Rated Experts</h2>
@@ -583,7 +585,7 @@ const Home = () => {
       </section>
 
       {/* Social Discovery Segment - Compacted Padding */}
-      <section className="max-w-[1400px] mx-auto px-6 pt-0 pb-12 bg-white/50">
+      <section className="max-w-[1400px] mx-auto px-6 pt-0 pb-12 bg-transparent">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-7">
             <Badge variant="primary" className="mb-2 px-3 py-1 bg-primary-50 text-primary-700 text-[10px]">Social Discovery</Badge>
@@ -688,6 +690,12 @@ const Home = () => {
         isOpen={isEnquiryOpen} 
         onClose={() => setIsEnquiryOpen(false)} 
         vendorName={selectedVendor?.name || "Expert"} 
+      />
+
+      {/* Services Full Screen Overlay */}
+      <ServicesOverlay 
+        isOpen={isServicesOpen} 
+        onClose={() => setIsServicesOpen(false)} 
       />
     </UserLayout>
   );

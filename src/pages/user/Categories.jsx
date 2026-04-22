@@ -13,10 +13,15 @@ const CategoriesPage = () => {
   const sectionRefs = React.useRef({});
   const tabContainerRef = React.useRef(null);
 
+  // Forced Scroll to top on mount
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // ScrollSpy Logic
   React.useEffect(() => {
     const options = {
-      rootMargin: '-140px 0px -40% 0px',
+      rootMargin: '-180px 0px -75% 0px',
       threshold: 0
     };
 
@@ -66,28 +71,7 @@ const CategoriesPage = () => {
   };
 
   return (
-    <motion.div 
-      initial={{ 
-        clipPath: 'circle(0% at 85% 65%)',
-        opacity: 0,
-        scale: 0.95
-      }}
-      animate={{ 
-        clipPath: 'circle(150% at 85% 65%)',
-        opacity: 1,
-        scale: 1
-      }}
-      exit={{ 
-        clipPath: 'circle(0% at 85% 65%)',
-        opacity: 0,
-        scale: 0.95
-      }}
-      transition={{ 
-        duration: 0.7,
-        ease: [0.22, 1, 0.36, 1]
-      }}
-      className="min-h-screen bg-[#F5F7F9] pb-24 origin-center"
-    >
+    <div className="min-h-screen bg-transparent pb-[60vh]">
       {/* Sticky Top Section */}
       <div className="sticky top-0 z-[100] bg-white shadow-sm overflow-x-hidden">
         {/* Header */}
@@ -185,7 +169,7 @@ const CategoriesPage = () => {
           </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
