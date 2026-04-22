@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import UserLayout from '../../layouts/UserLayout';
 import Card from '../../components/common/Card';
 import { 
@@ -8,9 +9,7 @@ import {
   MapPin, 
   Phone, 
   MessageSquare, 
-  Send, 
   Share2, 
-  Edit3, 
   Zap, 
   CheckCircle2, 
   Bookmark,
@@ -18,7 +17,9 @@ import {
   Plus,
   ChevronDown,
   X,
-  ThumbsUp
+  ThumbsUp,
+  ArrowLeft,
+  Sparkles
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import BestDealModal from '../../components/common/BestDealModal';
@@ -29,617 +30,515 @@ const HotelDetails = () => {
   const [activeTab, setActiveTab] = useState('Overview');
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isBestDealModalOpen, setIsBestDealModalOpen] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [isAboutExpanded, setIsAboutExpanded] = useState(false);
+  const [selectedPhotoCategory, setSelectedPhotoCategory] = useState('All');
+  
+  const scrollRef = useRef(null);
+  const tabsRef = useRef(null);
+  const mobileContainerRef = useRef(null);
 
-  // Hardcoded data for Vink Lodge as per screenshot
+  const tabs = ['Overview', 'Services', 'Quick Info', 'Photos', 'Explore', 'Reviews'];
+
+  // Refs for each section for the mobile continuous scroll
+  const sectionRefs = {
+    'Overview': useRef(null),
+    'Services': useRef(null),
+    'Quick Info': useRef(null),
+    'Photos': useRef(null),
+    'Explore': useRef(null),
+    'Reviews': useRef(null)
+  };
+
+  const handleTabChange = (tab) => {
+    const currentIndex = tabs.indexOf(activeTab);
+    const nextIndex = tabs.indexOf(tab);
+    setDirection(nextIndex > currentIndex ? 1 : -1);
+    setActiveTab(tab);
+    
+    if (window.innerWidth < 768) {
+      const container = mobileContainerRef.current;
+      const sectionElement = sectionRefs[tab].current;
+      if (container && sectionElement) {
+        if (tab === 'Overview') {
+          container.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+        const yOffset = sectionElement.offsetTop - 95; // 95px calculation (49 + 46)
+        container.scrollTo({ top: yOffset, behavior: 'smooth' });
+      }
+    } else {
+      if (tabsRef.current) {
+        const offset = tabsRef.current.offsetTop - 53;
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+      }
+    }
+  };
+
+  // Sync active tab with scroll position on mobile
+  useEffect(() => {
+    const container = mobileContainerRef.current;
+    if (!container || window.innerWidth >= 768) return;
+
+    const handleMobileScroll = () => {
+      const scrollPos = container.scrollTop + 100; // Activation threshold
+
+      for (const tab of tabs) {
+        const element = sectionRefs[tab].current;
+        if (element) {
+          const { offsetTop } = element;
+          if (scrollPos >= offsetTop) {
+            setActiveTab(tab);
+          }
+        }
+      }
+    };
+
+    container.addEventListener('scroll', handleMobileScroll);
+    return () => container.removeEventListener('scroll', handleMobileScroll);
+  }, []);
+
+  const variants = {
+    enter: (direction) => ({ x: direction > 0 ? 50 : -50, opacity: 0 }),
+    center: { zIndex: 1, x: 0, opacity: 1 },
+    exit: (direction) => ({ zIndex: 0, x: direction < 0 ? 50 : -50, opacity: 0 })
+  };
+
+  // Auto-scroll logic for mobile gallery
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    let intervalId;
+    const startAutoScroll = () => {
+      intervalId = setInterval(() => {
+        if (!scrollContainer) return;
+        const totalWidth = scrollContainer.scrollWidth;
+        const currentScroll = scrollContainer.scrollLeft;
+        const itemWidth = scrollContainer.offsetWidth;
+        
+        if (currentScroll + itemWidth >= totalWidth - 10) {
+          scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollContainer.scrollTo({ left: currentScroll + itemWidth, behavior: 'smooth' });
+        }
+      }, 4000);
+    };
+
+    startAutoScroll();
+    const handleTouchStart = () => clearInterval(intervalId);
+    const handleTouchEnd = () => startAutoScroll();
+
+    scrollContainer.addEventListener('touchstart', handleTouchStart);
+    scrollContainer.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      clearInterval(intervalId);
+      scrollContainer.removeEventListener('touchstart', handleTouchStart);
+      scrollContainer.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
+
+  // Slider Index Sync
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+    const handleScroll = () => {
+      const index = Math.round(scrollContainer.scrollLeft / scrollContainer.offsetWidth);
+      setActiveSlide(index);
+    };
+    scrollContainer.addEventListener('scroll', handleScroll);
+    return () => scrollContainer.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const hotel = {
     name: 'Vink Lodge',
     rating: 3.5,
-    reviews: 479,
+    reviewsCount: 479,
     location: 'Dharavi, Mumbai',
     yearsInBusiness: 33,
     verified: true,
+    phone: '09845258527',
     images: [
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1555854817-5b2260d1bd63?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1590490359683-658d3d23f972?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=800',
+      { url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1200', category: 'Exterior' },
+      { url: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=800', category: 'Room' },
+      { url: 'https://images.unsplash.com/photo-1590490359683-658d3d23f972?auto=format&fit=crop&q=80&w=800', category: 'Room' },
+      { url: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800', category: 'Exterior' },
+      { url: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=800', category: 'Interior' },
+      { url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=800', category: 'Room' },
+      { url: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&q=80&w=800', category: 'By User' },
+      { url: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=800', category: 'By User' },
     ]
   };
-
-  const tabs = ['Overview', 'Services', 'Quick Info', 'Photos', 'Explore', 'Reviews'];
 
   return (
     <UserLayout>
       {/* Photo Gallery Modal */}
-      {isGalleryOpen && (
-        <div className="fixed inset-0 z-[200] bg-white overflow-y-auto">
-          <div className="max-w-[1400px] mx-auto px-6 py-10">
-            <div className="flex items-center justify-between mb-8 sticky top-0 bg-white py-4 border-b border-slate-100 z-10">
-              <h2 className="text-2xl font-bold text-slate-900">Photos of {hotel.name}</h2>
-              <button 
-                onClick={() => setIsGalleryOpen(false)}
-                className="p-3 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"
-              >
-                <X size={24} />
-              </button>
+      <AnimatePresence>
+        {isGalleryOpen && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-white overflow-y-auto">
+            <div className="max-w-[1400px] mx-auto px-6 py-10">
+              <div className="flex items-center justify-between mb-8 sticky top-0 bg-white py-4 border-b border-slate-100 z-10">
+                <h2 className="text-2xl font-bold text-slate-900">Photos of {hotel.name}</h2>
+                <button onClick={() => setIsGalleryOpen(false)} className="p-3 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors">
+                  <X size={24} />
+                </button>
+              </div>
+              <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                {hotel.images.map((img, i) => (
+                   <div key={i} className="break-inside-avoid rounded-xl overflow-hidden shadow-md">
+                      <img src={img.url} alt={`Gallery ${i}`} className="w-full h-auto" />
+                   </div>
+                ))}
+              </div>
             </div>
-            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-              {hotel.images.map((img, i) => (
-                <div key={i} className="break-inside-avoid rounded-xl overflow-hidden shadow-md">
-                   <img src={img} alt={`Gallery ${i}`} className="w-full h-auto hover:scale-105 transition-transform duration-700" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div 
+        ref={mobileContainerRef}
+        className="h-screen md:h-auto overflow-y-auto md:overflow-visible overflow-x-hidden md:max-w-[1400px] md:mx-auto md:px-6 pt-0 md:pt-24 pb-0 md:pb-4 scroll-smooth"
+      >
+        {/* Mobile Header (Fixed) */}
+        <div className="md:hidden sticky top-0 left-0 right-0 bg-[#f0fdfa]/95 backdrop-blur-md z-[100] px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-slate-600 active:scale-95 transition-transform">
+              <ArrowLeft size={24} />
+            </button>
+            <div>
+              <h2 className="text-sm font-bold text-slate-900 leading-none mb-0.5">{hotel.name}</h2>
+              <div className="flex items-center gap-1">
+                <div className="bg-[#008a00] text-white px-1 py-0.2 rounded-[3px] text-[8px] font-bold">3.5 ★</div>
+                <span className="text-[10px] font-bold text-slate-400">479 ratings</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-1 text-slate-600">
+            <Share2 size={18} className="mx-2" />
+            <Bookmark size={18} />
+          </div>
+        </div>
+
+        <div className="px-4 md:px-0">
+          {/* Gallery Section */}
+          <div className="md:mt-0 mt-4">
+             <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-3 h-[360px] rounded-2xl overflow-hidden shadow-sm mb-8">
+               <div className="col-span-2 row-span-2 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
+                 <img src={hotel.images[0].url} alt="Main" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+               </div>
+               <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
+                 <img src={hotel.images[1].url} alt="G1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+               </div>
+               <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
+                 <img src={hotel.images[2].url} alt="G2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+               </div>
+               <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
+                  <img src={hotel.images[3].url} alt="G3" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-[2px]">
+                     <span className="text-2xl font-bold">+19</span>
+                  </div>
+               </div>
+               <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
+                  <img src={hotel.images[4].url} alt="G4" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-[2px]">
+                     <Camera size={24} />
+                  </div>
+               </div>
+             </div>
+
+             <div className="md:hidden -mx-4 mb-6 relative group">
+               <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth">
+                 {hotel.images.map((img, i) => (
+                   <div key={i} className="min-w-full snap-center relative aspect-[16/10] overflow-hidden" onClick={() => setIsGalleryOpen(true)}>
+                      <img src={img.url} alt={`G${i}`} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                   </div>
+                 ))}
+               </div>
+               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-1.5 bg-black/20 backdrop-blur-md rounded-full">
+                  {hotel.images.map((_, i) => (
+                    <div key={i} className={cn("h-1.5 rounded-full transition-all duration-500", activeSlide === i ? "w-4 bg-white" : "w-1.5 bg-white/40")} />
+                  ))}
+               </div>
+             </div>
+          </div>
+
+          {/* Hotel Header */}
+          <div className="mb-0 md:flex flex-col md:flex-row md:items-start justify-between gap-6 md:mb-8">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2 flex-wrap">
+                <div className="hidden md:flex bg-slate-900 text-white rounded-md p-1.5"><Star size={20} fill="currentColor" /></div>
+                <h1 className="text-2xl md:text-[32px] font-bold text-slate-900 leading-tight">{hotel.name}</h1>
+                
+                {/* Verified Badge next to name on Mobile */}
+                {hotel.verified && (
+                  <div className="md:hidden flex items-center gap-1 text-[#20594e] bg-[#20594e]/10 px-2 py-0.5 rounded-full font-bold text-[12px] shrink-0">
+                     <CheckCircle2 size={14} fill="currentColor" /> Verified
+                  </div>
+                )}
+                
+                <Bookmark size={20} className="hidden md:block text-slate-400 ml-2" />
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-sm mb-6">
+                <div className="hidden md:flex bg-[#008a00] text-white px-1.5 py-0.5 rounded text-[13px] font-bold items-center gap-1">3.5 ★</div>
+                <span className="hidden md:block text-slate-400 font-medium">{hotel.reviewsCount} Ratings</span>
+                {hotel.verified && (
+                  <div className="hidden md:flex items-center gap-1 text-[#20594e] bg-[#20594e]/10 px-2 py-0.5 rounded-full font-bold text-[12px]">
+                     <CheckCircle2 size={14} fill="currentColor" /> Verified
+                  </div>
+                )}
+                <div className="flex items-center gap-1 text-slate-500 font-medium"><MapPin size={14} />{hotel.location}</div>
+                <div className="text-slate-500 font-medium">• {hotel.yearsInBusiness} Years Exp</div>
+              </div>
+              {/* Desktop Action Buttons */}
+              <div className="hidden md:flex flex-wrap items-center gap-3 mb-4 md:mb-0">
+                 <button className="bg-[#008a00] text-white px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px] shadow-lg shadow-green-500/10 active:scale-95 transition-all">
+                   <Phone size={18} fill="currentColor" /> {hotel.phone}
+                 </button>
+                  <button onClick={() => setIsBestDealModalOpen(true)} className="bg-[#20594e] text-white px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px] shadow-lg shadow-[#20594e]/10 active:scale-95 transition-all">
+                    <Zap size={18} fill="currentColor" /> Enquire Now
+                  </button>
+                 <button className="bg-white border border-slate-200 text-slate-700 px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px]">
+                   <div className="text-[#25d366]"><MessageSquare size={20} fill="currentColor" /></div> WhatsApp
+                 </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="md:hidden flex items-center justify-between mb-6 px-2">
+             <div className="flex flex-col items-center gap-2">
+                <div className="w-10 h-10 bg-[#20594e] rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-[#20594e]/10 active:scale-95 transition-all"><Phone size={18} fill="currentColor" /></div>
+                <span className="text-[10px] font-bold text-slate-800 uppercase">Call</span>
+             </div>
+             <div onClick={() => setIsBestDealModalOpen(true)} className="flex flex-col items-center gap-2 cursor-pointer">
+                <div className="w-10 h-10 bg-white border border-slate-200 rounded-[1.25rem] flex items-center justify-center text-slate-800 active:scale-95 transition-all"><MessageSquare size={18} /></div>
+                <span className="text-[10px] font-bold text-slate-800 uppercase">Enquire</span>
+             </div>
+             <div className="flex flex-col items-center gap-2">
+                <div className="w-10 h-10 bg-[#25d366] rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-green-500/10 active:scale-95 transition-all">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
+                <span className="text-[10px] font-bold text-slate-800 uppercase">Whatsapp</span>
+             </div>
+          </div>
+
+          {/* Sticky Tab Bar */}
+          <div ref={tabsRef} className="sticky top-[49px] md:relative bg-[#f0fdfa]/95 md:bg-transparent z-[90] -mx-4 px-4 md:mx-0 md:px-0 border-b border-slate-100 flex gap-6 md:gap-10 mb-0 overflow-x-auto no-scrollbar">
+            {tabs.map(tab => (
+              <button key={tab} onClick={() => handleTabChange(tab)} className={cn("py-3.5 font-bold text-[14px] relative transition-colors whitespace-nowrap", activeTab === tab ? "text-[#20594e]" : "text-slate-500")}>
+                {tab}
+                {activeTab === tab && <motion.div layoutId="tab-underline-hotel" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#20594e] rounded-full" />}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:pb-20">
+            <div className="lg:col-span-2">
+              
+              {/* CONTENT SECTIONS */}
+              <div className="md:block hidden">
+                <AnimatePresence mode="wait" custom={direction}>
+                  <motion.div key={activeTab} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.2 }}>
+                    {renderSectionContent(activeTab)}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              <div className="md:hidden block">
+                {tabs.map((tab) => (
+                  <div key={tab} ref={sectionRefs[tab]} className="pt-2 mb-4 scroll-mt-[95px]">
+                    <div className="sticky top-[95px] bg-white z-[85] -mx-4 px-4 py-2.5 border-b border-slate-100 mb-4 shadow-sm">
+                       <h4 className="text-[11px] font-black uppercase tracking-widest text-[#20594e] flex items-center gap-2">
+                         <div className="w-1 h-3 bg-[#20594e] rounded-full" />
+                         {tab}
+                       </h4>
+                    </div>
+                    {renderSectionContent(tab)}
+                  </div>
+                ))}
+                {/* Scroll Spacer */}
+                <div className="h-[75vh] bg-gradient-to-b from-white to-slate-50/50" />
+              </div>
+            </div>
+
+            {/* Sidebar (Desktop) */}
+            <div className="hidden lg:block lg:col-span-1">
+              <Card className="p-8 sticky top-24 border-slate-200 shadow-xl bg-white/50 backdrop-blur-md">
+                 <h4 className="text-xl font-bold text-slate-900 mb-6 font-display">Inquiry Now</h4>
+                 <div className="space-y-6">
+                    <input type="text" placeholder="Your Name" className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:border-[#20594e]" />
+                    <input type="text" placeholder="Mobile Number" className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:border-[#20594e]" />
+                    <button className="w-full bg-[#20594e] text-white font-extrabold py-4 rounded-xl active:scale-95 transition-all text-sm uppercase">Submit Inquiry</button>
+                 </div>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+      <BestDealModal isOpen={isBestDealModalOpen} onClose={() => setIsBestDealModalOpen(false)} itemName={hotel.name} />
+    </UserLayout>
+  );
+
+  function renderSectionContent(tab) {
+    switch(tab) {
+      case 'Overview':
+        return (
+          <div className="space-y-6">
+            <Card className="p-6 bg-transparent md:bg-white border-none md:border-slate-100 shadow-none -mx-4 md:mx-0">
+               <h3 className="text-xl font-bold text-slate-900 mb-4">About the Property</h3>
+               <p className="text-slate-600 leading-relaxed font-medium text-sm md:text-base">
+                  Vink Lodge is a premier lodging destination located in Dharavi, Mumbai. Established in 1993, we provide professional hospitality services with 33 years of excellence.
+               </p>
+            </Card>
+            <Card className="p-6 bg-transparent md:bg-white border-none md:border-slate-100 shadow-none -mx-4 md:mx-0">
+               <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="text-[10px] font-bold text-slate-400 uppercase mb-3"><Sparkles size={14} className="inline mr-1" /> Check-in</h4>
+                    <p className="text-sm font-bold text-slate-900">12:00 PM</p>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold text-slate-400 uppercase mb-3"><Sparkles size={14} className="inline mr-1" /> Check-out</h4>
+                    <p className="text-sm font-bold text-slate-900">11:00 AM</p>
+                  </div>
+               </div>
+            </Card>
+          </div>
+        );
+      case 'Services':
+        return (
+          <Card className="p-6 border-none md:border-slate-100 shadow-none -mx-4 md:mx-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+               <div>
+                  <h4 className="text-[10px] font-bold text-slate-400 uppercase mb-4">Key Facilities</h4>
+                  <div className="space-y-3">
+                    {['No Smoking Zone', '24 Hour Reception', 'Elevator'].map(f => (
+                      <div key={f} className="flex items-center gap-3 text-sm font-bold text-slate-700">
+                         <div className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center"><CheckCircle2 size={12} /></div>
+                         {f}
+                      </div>
+                    ))}
+                  </div>
+               </div>
+               <div>
+                  <h4 className="text-[10px] font-bold text-slate-400 uppercase mb-4">Room Amenities</h4>
+                  <div className="space-y-3">
+                    {['Fan', 'Linens Provided', 'CCTV'].map(a => (
+                      <div key={a} className="flex items-center gap-3 text-sm font-bold text-slate-700">
+                         <div className="w-5 h-5 rounded-full bg-[#20594e]/10 text-[#20594e] flex items-center justify-center"><Zap size={12} fill="currentColor" /></div>
+                         {a}
+                      </div>
+                    ))}
+                  </div>
+               </div>
+            </div>
+          </Card>
+        );
+      case 'Quick Info':
+        return (
+          <Card className="p-6 border-none md:border-slate-100 shadow-none -mx-4 md:mx-0">
+             <div className="grid grid-cols-2 gap-y-8 gap-x-4">
+                {[
+                  { l: 'Founded', v: '1993' },
+                  { l: 'Reg No.', v: 'MH-400017-H' },
+                  { l: 'Status', v: 'Open Now', g: true },
+                  { l: 'Accepted', v: 'UPI, Cash' },
+                  { l: 'Exp.', v: '33 Years' },
+                  { l: 'Type', v: 'Budget Hotel' }
+                ].map(q => (
+                  <div key={q.l}>
+                    <p className="text-[10px] font-black uppercase text-slate-400 mb-1">{q.l}</p>
+                    <p className={cn("text-[13px] font-extrabold text-slate-900", q.g && "text-emerald-600")}>{q.v}</p>
+                  </div>
+                ))}
+             </div>
+          </Card>
+        );
+      case 'Photos':
+        const photoCats = [
+          { label: 'All', count: hotel.images.length, img: hotel.images[0].url },
+          { label: 'Room', count: hotel.images.filter(x => x.category === 'Room').length, img: hotel.images.find(x => x.category === 'Room')?.url },
+          { label: 'Exterior', count: hotel.images.filter(x => x.category === 'Exterior').length, img: hotel.images.find(x => x.category === 'Exterior')?.url },
+          { label: 'Interior', count: hotel.images.filter(x => x.category === 'Interior').length, img: hotel.images.find(x => x.category === 'Interior')?.url },
+          { label: 'By User', count: hotel.images.filter(x => x.category === 'By User').length, img: hotel.images.find(x => x.category === 'By User')?.url }
+        ];
+
+        return (
+          <div className="space-y-4">
+            {/* Photo Filter Bar */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 py-2 bg-[#f0fdfa]/50 md:bg-transparent">
+              {photoCats.filter(c => c.count > 0 || c.label === 'All').map((cat, i) => (
+                <button 
+                  key={i} 
+                  onClick={() => setSelectedPhotoCategory(cat.label)}
+                  className={cn(
+                    "flex-shrink-0 flex items-center gap-2 px-1.5 py-1 border rounded-lg bg-white shadow-sm pr-3 transition-all active:scale-95",
+                    selectedPhotoCategory === cat.label ? "border-[#20594e] ring-1 ring-[#20594e]" : "border-slate-100"
+                  )}
+                >
+                  <div className="w-8 h-8 rounded-md overflow-hidden bg-slate-100">
+                    <img src={cat.img} className="w-full h-full object-cover" alt="" />
+                  </div>
+                  <div className="text-left">
+                    <p className={cn("text-[10px] font-bold leading-none mb-0.5", selectedPhotoCategory === cat.label ? "text-[#20594e]" : "text-slate-800")}>{cat.label}</p>
+                    <p className="text-[8px] font-bold text-slate-400">{cat.count}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {hotel.images
+                .filter(img => selectedPhotoCategory === 'All' || img.category === selectedPhotoCategory)
+                .map((img, i) => (
+                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-slate-100 cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
+                  <img src={img.url} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      )}
-
-      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-24 pb-4">
-        {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-[11px] text-slate-500 mb-2 whitespace-nowrap overflow-x-auto no-scrollbar">
-          <span>Mumbai</span> <ChevronRight size={12} className="shrink-0" />
-          <span>Lodging Services In Mumbai</span> <ChevronRight size={12} className="shrink-0" />
-          <span>Lodging Services In Dharavi</span> <ChevronRight size={12} className="shrink-0" />
-          <span className="text-slate-900 font-medium">Vink Lodge</span>
-        </div>
-
-        {/* Image Gallery */}
-        <div className="mb-8">
-          {/* Desktop Grid Layout */}
-          <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-3 h-[360px] rounded-2xl overflow-hidden shadow-sm">
-            <div className="col-span-2 row-span-2 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
-              <img src={hotel.images[0]} alt="Main" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            </div>
-            <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
-              <img src={hotel.images[1]} alt="Gallery 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            </div>
-            <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
-              <img src={hotel.images[2]} alt="Gallery 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            </div>
-            <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
-               <img src={hotel.images[3]} alt="Gallery 3" className="w-full h-full object-cover" />
-               <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-[2px] group-hover:bg-black/60 transition-all">
-                  <span className="text-2xl font-bold">+19</span>
-                  <span className="text-xs font-medium">More</span>
-               </div>
-            </div>
-            <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
-               <img src={hotel.images[4]} alt="Gallery 4" className="w-full h-full object-cover" />
-               <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-[2px] group-hover:bg-black/60 transition-all">
-                  <Camera size={24} className="mb-px" />
-                  <Plus size={14} className="absolute top-1/2 left-1/2 translate-x-1 translate-y-[-10px]" />
-                  <span className="text-xs font-bold mt-2">Add More Photo</span>
-               </div>
-            </div>
+        );
+      case 'Explore':
+        return (
+          <div className="grid grid-cols-1 gap-4">
+             {[
+               { name: 'Hotel Theresa', rating: 4.1, img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=400' },
+               { name: 'Food Lees', rating: 4.3, img: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=400' }
+             ].map((sib, i) => (
+                <div key={i} className="p-3 bg-white border border-slate-50 rounded-xl flex gap-3 shadow-sm">
+                   <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0"><img src={sib.img} className="w-full h-full object-cover" alt="" /></div>
+                   <div className="flex-1">
+                      <h4 className="font-bold text-slate-900 text-xs mb-1">{sib.name}</h4>
+                      <div className="bg-[#008a00] text-white px-1.5 py-0.5 rounded text-[9px] font-bold w-fit mb-1">{sib.rating} ★</div>
+                      <span className="text-[#20594e] text-[10px] font-bold font-display">View Detail</span>
+                   </div>
+                </div>
+             ))}
           </div>
-
-          {/* Mobile Horizontal Scroll Layout (As per reference) */}
-          <div className="md:hidden flex gap-2 overflow-x-auto no-scrollbar scroll-smooth">
-            {hotel.images.slice(0, 5).map((img, i) => (
-              <div key={i} className="min-w-[140px] h-[140px] rounded-xl overflow-hidden shrink-0 shadow-sm" onClick={() => setIsGalleryOpen(true)}>
-                 <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover" />
-              </div>
-            ))}
-            
-            {/* View More Card */}
-            <div 
-              onClick={() => setIsGalleryOpen(true)}
-              className="min-w-[140px] h-[140px] rounded-xl bg-black relative shrink-0 overflow-hidden group cursor-pointer"
-            >
-               <img src={hotel.images[5]} alt="More" className="w-full h-full object-cover opacity-40" />
-               <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-                  <span className="text-2xl font-black">+51</span>
-                  <span className="text-sm font-bold mt-1">View More</span>
-               </div>
-            </div>
-
-            {/* Upload Photo Card */}
-            <div className="min-w-[140px] h-[140px] rounded-xl bg-slate-100 border-2 border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-500 shrink-0 cursor-pointer hover:bg-slate-200 transition-colors">
-               <Camera size={32} className="mb-2 opacity-50" />
-               <span className="text-[12px] font-bold text-center px-4 leading-tight">Upload Photos</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Hotel Info Header */}
-        <div className="mb-0">
-          {/* Desktop Header */}
-          <div className="hidden md:flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-[32px] font-bold text-slate-900 leading-tight flex items-center gap-3">
-                  <div className="bg-slate-900 text-white rounded-md p-1.5"><Star size={20} fill="currentColor" /></div>
-                  {hotel.name}
-                </h1>
-                <div className="flex gap-2 ml-auto md:ml-0">
-                  <span className="bg-slate-50 text-slate-500 text-[11px] px-2 py-1 rounded">Lodging Services</span>
-                  <span className="bg-slate-50 text-slate-500 text-[11px] px-2 py-1 rounded">Hotels</span>
+        );
+      case 'Reviews':
+        return (
+          <Card className="p-6 border-none md:border-slate-100 shadow-none -mx-4 md:mx-0">
+            <div className="space-y-8">
+              {[
+                { name: 'Rohan M.', rating: 5, date: 'May 2026', text: 'Peaceful stay and great staff.' },
+                { name: 'Suhani S.', rating: 4, date: 'Apr 2026', text: 'Clean rooms and easy check-in.' }
+              ].map((rev, i) => (
+                <div key={i} className="pb-8 border-b border-slate-50 last:border-0 last:pb-0">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="font-bold text-slate-900 text-sm">{rev.name}</p>
+                    <div className="bg-[#008a00] text-white px-2 py-0.5 rounded text-[10px] font-bold">{rev.rating} ★</div>
+                  </div>
+                  <p className="text-slate-600 text-[13px] leading-relaxed italic">"{rev.text}"</p>
                 </div>
-                <button className="p-2 border border-slate-200 rounded-lg text-slate-400 hover:bg-slate-50 md:ml-2">
-                  <Bookmark size={20} />
-                </button>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4 text-sm mb-6">
-                <div className="flex items-center gap-1.5">
-                  <div className="bg-[#008a00] text-white px-1.5 py-0.5 rounded text-[13px] font-bold flex items-center gap-1">
-                    3.5 <Star size={10} fill="currentColor" />
-                  </div>
-                  <span className="text-slate-400 font-medium">479 Ratings</span>
-                </div>
-                {hotel.verified && (
-                  <div className="flex items-center gap-1.5 text-primary-600 bg-primary-50 px-2.5 py-1 rounded-full font-bold text-[13px]">
-                     <CheckCircle2 size={16} fill="currentColor" />
-                     Verified
-                  </div>
-                )}
-                <div className="flex items-center gap-1 text-slate-500">
-                  <MapPin size={16} className="text-slate-400" />
-                  {hotel.location}
-                </div>
-                <div className="text-slate-500 font-medium">• 33 Years in Business</div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3">
-                 <button className="bg-[#008a00] text-white px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[15px] shadow-lg shadow-green-500/10">
-                   <Phone size={18} fill="currentColor" />
-                   09845258527
-                 </button>
-                 <button 
-                   onClick={() => setIsBestDealModalOpen(true)}
-                   className="bg-[#0076d7] text-white px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[15px] shadow-lg shadow-blue-500/10"
-                 >
-                   <Zap size={18} fill="currentColor" />
-                   Best Deal
-                 </button>
-                 <button className="bg-white border border-slate-200 text-slate-700 px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[15px] hover:bg-slate-50 transition-colors">
-                   <div className="text-[#25d366]"><MessageSquare size={20} fill="currentColor" /></div>
-                   WhatsApp
-                 </button>
-              </div>
+              ))}
             </div>
-          </div>
-
-          {/* Mobile Header (As per reference design) */}
-          <div className="md:hidden mt-2">
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-2">
-                 <div className="p-1 bg-slate-900 rounded-md text-white">
-                   <Star size={16} fill="currentColor" />
-                 </div>
-                 <div className="flex items-center gap-1.5">
-                   <h1 className="text-xl font-bold text-slate-900 tracking-tight">{hotel.name}</h1>
-                   <div className="text-primary-600 bg-primary-50 rounded-full p-0.5">
-                     <CheckCircle2 size={14} fill="currentColor" />
-                   </div>
-                 </div>
-              </div>
-              <Bookmark size={20} className="text-slate-300" />
-            </div>
-
-            <div className="flex items-center gap-2 mb-2">
-              <div className="bg-[#008a00] text-white px-1.5 py-0.5 rounded font-bold flex items-center gap-1 text-[11px]">
-                 3.5 <Star size={10} fill="currentColor" />
-              </div>
-              <span className="text-slate-500 text-[12px] font-medium">479 ratings</span>
-            </div>
-
-            <div className="flex items-center flex-wrap gap-x-2 gap-y-1 mb-3">
-               <div className="flex items-center gap-1 text-slate-500 text-[13px] font-medium">
-                  <MapPin size={14} className="text-slate-400 shrink-0" />
-                  {hotel.location}
-               </div>
-               <span className="text-slate-300 ml-0.5">•</span>
-               <div className="text-slate-900 text-[13px] font-bold tracking-tight">Hotels</div>
-            </div>
-
-            {/* Icon Buttons Row */}
-            <div className="grid grid-cols-3 gap-4 mb-3">
-               <div className="flex flex-col items-center gap-2">
-                  <div className="w-12 h-12 bg-primary-600 rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-primary-500/20 active:scale-95 transition-transform">
-                     <Phone size={22} fill="currentColor" />
-                  </div>
-                  <span className="text-[10px] font-bold text-slate-800">Call Now</span>
-               </div>
-               <div 
-                 onClick={() => setIsBestDealModalOpen(true)}
-                 className="flex flex-col items-center gap-2 cursor-pointer"
-               >
-                  <div className="w-12 h-12 bg-white border border-slate-200 rounded-[1.25rem] flex items-center justify-center text-slate-800 active:scale-95 transition-transform">
-                     <MessageSquare size={22} />
-                  </div>
-                  <span className="text-[10px] font-bold text-slate-800 text-center">Enquire Now</span>
-               </div>
-               <div className="flex flex-col items-center gap-2">
-                  <div className="w-12 h-12 bg-[#25d366] rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-green-500/20 active:scale-95 transition-transform">
-                     <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                     </svg>
-                  </div>
-                  <span className="text-[10px] font-bold text-slate-800">Whatsapp</span>
-               </div>
-            </div>
-
-
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <div className="border-b border-slate-100 flex gap-6 md:gap-10 mb-8 overflow-x-auto no-scrollbar">
-          {tabs.map(tab => (
-            <button 
-              key={tab} 
-              onClick={() => setActiveTab(tab)}
-              className={cn(
-                "py-3 font-bold text-[14px] md:text-[15px] relative transition-colors whitespace-nowrap",
-                activeTab === tab ? "text-slate-900" : "text-slate-500 hover:text-slate-700 font-medium"
-              )}
-            >
-              <div className="flex items-center gap-1.5">
-                {tab}
-                {tab === 'Book' && <div className="w-1.5 h-1.5 bg-accent-500 rounded-full" />}
-              </div>
-              {activeTab === tab && (
-                <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-slate-900 rounded-full" />
-              )}
-            </button>
-          ))}
-        </div>
-
-        {/* Content Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
-          <div className="lg:col-span-2">
-            
-            {activeTab === 'Overview' && (
-              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                <Card className="p-8 border-slate-100 shadow-sm">
-                   <h3 className="text-xl font-bold text-slate-900 mb-4">About {hotel.name}</h3>
-                   <p className="text-slate-600 leading-relaxed mb-6 font-medium">
-                      Vink Lodge is a premier lodging destination located in the heart of Dharavi, Mumbai. Established in 1993, we have been providing comfortable and affordable accommodation to travelers for over 3 decades. Our property is known for its cleanliness, professional staff, and strategic location that offers easy access to Mumbai's major landmarks.
-                   </p>
-                   <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-6 border-t border-slate-50">
-                      <div>
-                         <p className="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-1">Check-in</p>
-                         <p className="text-slate-900 font-bold">12:00 PM</p>
-                      </div>
-                      <div>
-                         <p className="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-1">Check-out</p>
-                         <p className="text-slate-900 font-bold">11:00 AM</p>
-                      </div>
-                      <div>
-                         <p className="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-1">Established</p>
-                         <p className="text-slate-900 font-bold">1993</p>
-                      </div>
-                   </div>
-                </Card>
-
-                {/* Facilities Highlights in Overview */}
-                <Card className="p-8 border-slate-100 shadow-sm relative">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                    <div>
-                      <h3 className="flex items-center gap-2 font-bold text-slate-900 mb-4 text-base">
-                        <CheckCircle2 size={16} className="text-slate-900" />
-                        Facilities Highlights
-                      </h3>
-                      <div className="pl-6 text-sm text-slate-600 font-medium underline underline-offset-4 cursor-pointer hover:text-[#0076d7]">No Smoking Zone</div>
-                    </div>
-                    <div>
-                      <h3 className="flex items-center gap-2 font-bold text-slate-900 mb-4 text-base">
-                        <CheckCircle2 size={16} className="text-slate-900" />
-                        Top Amenities
-                      </h3>
-                      <div className="pl-6 text-sm text-slate-600 font-medium leading-relaxed">
-                        Fan , Linens Provided
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            )}
-
-            {activeTab === 'Services' && (
-              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                <Card className="p-8 border-slate-100 shadow-sm">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-8 font-display">Facilities & Services</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
-                    <div>
-                       <h4 className="flex items-center gap-2 font-bold text-slate-900 mb-6 uppercase tracking-wider text-xs">Facilities</h4>
-                       <div className="space-y-4">
-                          {['No Smoking Zone', '24 Hour Reception', 'Elevator', 'Free Parking'].map(f => (
-                            <div key={f} className="flex items-center gap-3 text-slate-600 font-medium text-sm">
-                               <CheckCircle2 size={14} className="text-primary-600" /> {f}
-                            </div>
-                          ))}
-                       </div>
-                    </div>
-                    <div>
-                       <h4 className="flex items-center gap-2 font-bold text-slate-900 mb-6 uppercase tracking-wider text-xs">Amenities</h4>
-                       <div className="space-y-4">
-                          {['Fan', 'Linens Provided', 'CCTV', 'Power Backup', 'Wi-Fi'].map(a => (
-                            <div key={a} className="flex items-center gap-3 text-slate-600 font-medium text-sm">
-                               <CheckCircle2 size={14} className="text-primary-600" /> {a}
-                            </div>
-                          ))}
-                       </div>
-                    </div>
-                    <div>
-                       <h4 className="flex items-center gap-2 font-bold text-slate-900 mb-6 uppercase tracking-wider text-xs">Services</h4>
-                       <div className="space-y-4">
-                          {['Room Service', 'Laundry Service', 'Concierge', 'Doctor on Call'].map(s => (
-                            <div key={s} className="flex items-center gap-3 text-slate-600 font-medium text-sm">
-                               <CheckCircle2 size={14} className="text-primary-600" /> {s}
-                            </div>
-                          ))}
-                       </div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            )}
-
-            {activeTab === 'Quick Info' && (
-              <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                <Card className="p-8 border-slate-100 shadow-sm">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-8 font-display">Quick Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                      <p className="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-2">Year of Establishment</p>
-                      <p className="text-slate-700 font-extrabold text-lg">1993</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-2">Registration No.</p>
-                      <p className="text-slate-700 font-extrabold text-lg">MH-400017-H</p>
-                    </div>
-                  </div>
-                </Card>
-
-                <div>
-                   <h3 className="text-2xl font-bold text-slate-900 mb-8 font-display">Hotel Location Score</h3>
-                   <div className="mb-10 flex items-start gap-4">
-                      <div className="bg-[#008a00] text-white p-3 rounded-lg text-2xl font-bold">3.6</div>
-                      <div>
-                        <h4 className="text-lg font-bold text-slate-900">Best Location overall</h4>
-                        <p className="text-slate-400 text-sm">for sightseeing recreation, & getting around</p>
-                      </div>
-                   </div>
-
-                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {[
-                        { score: '3.4', label: 'GOOD', desc: 'for proximity to things to do', icon: <Camera size={24} /> },
-                        { score: '3.8', label: 'BEST', desc: 'for proximity to transit', icon: <ChevronRight size={24} className="rotate-[-45deg]" /> },
-                        { score: '3.2', label: 'GOOD', desc: 'for airport access', icon: <Zap size={24} /> }
-                      ].map((card, i) => (
-                        <div key={i} className="p-6 border border-slate-100 rounded-xl bg-white shadow-sm">
-                           <div className="flex items-center gap-6 mb-3">
-                              <div className="text-slate-900">{card.icon}</div>
-                              <div className="flex items-center gap-2">
-                                 <span className="text-xl font-bold text-slate-900">{card.score}</span>
-                                 <span className="text-xs font-bold text-[#008a00] px-1.5 py-0.5 bg-green-50 rounded italic">{card.label}</span>
-                              </div>
-                           </div>
-                           <p className="text-slate-400 text-xs leading-relaxed font-medium">{card.desc}</p>
-                        </div>
-                      ))}
-                   </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'Photos' && (
-              <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {hotel.images.map((img, i) => (
-                    <div key={i} className={cn(
-                      "rounded-xl overflow-hidden shadow-sm aspect-square cursor-pointer active:scale-95 transition-transform",
-                      i === 0 && "col-span-2 row-span-2 aspect-auto h-full"
-                    )} onClick={() => setIsGalleryOpen(true)}>
-                       <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                  <div className="bg-slate-100 rounded-xl flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-300">
-                     <Camera size={28} className="text-slate-400 mb-2" />
-                     <p className="text-xs font-bold text-slate-500 text-center">Upload Photo</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'Explore' && (
-               <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-                  <div className="flex items-center justify-between mb-8">
-                     <h3 className="text-2xl font-bold text-slate-900 font-display">Nearby Exploration</h3>
-                     <button className="text-[#0076d7] text-sm font-bold hover:underline">View all</button>
-                  </div>
-
-                  <div className="flex gap-3 mb-8 overflow-x-auto no-scrollbar pb-2">
-                     {['Food & drinks', 'Attractions', 'Entertainment', 'Transportation'].map((tab, i) => (
-                       <button key={tab} className={cn(
-                         "px-6 py-2.5 rounded-lg text-sm font-bold transition-all whitespace-nowrap",
-                         i === 0 ? "bg-primary-600 text-white shadow-lg shadow-primary-500/20" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
-                       )}>{tab}</button>
-                     ))}
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     {[
-                       { 
-                         name: 'Hotel Theresa Veg And Non Veg', 
-                         rating: 4.1, 
-                         img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=400'
-                       },
-                       { 
-                         name: "Food Lee's Family Restaurant", 
-                         rating: 4.3, 
-                         img: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=400'
-                       }
-                     ].map((item, i) => (
-                       <div key={i} className="flex gap-4 p-4 border border-slate-100 rounded-xl hover:shadow-lg transition-all bg-white group">
-                          <div className="w-24 h-24 rounded-lg overflow-hidden shrink-0">
-                             <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                          </div>
-                          <div className="flex-1">
-                             <h5 className="font-bold text-slate-900 mb-1 leading-snug text-sm">{item.name}</h5>
-                             <div className="flex items-center gap-2 mb-3">
-                                <div className="bg-[#008a00] text-white px-1.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-1">{item.rating} <Star size={8} fill="currentColor" /></div>
-                             </div>
-                             <button className="w-full border border-primary-600 text-primary-600 py-1.5 rounded-lg text-[11px] font-bold hover:bg-primary-50 transition-colors">View Details</button>
-                          </div>
-                       </div>
-                     ))}
-                  </div>
-               </div>
-            )}
-
-            {activeTab === 'Reviews' && (
-              <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-                 <div className="flex items-center gap-6 mb-12">
-                    <div className="bg-[#008a00] text-white w-20 h-20 rounded-2xl flex items-center justify-center text-4xl font-bold">3.5</div>
-                    <div>
-                      <h4 className="text-2xl font-bold text-slate-900 leading-tight">479 Ratings</h4>
-                      <p className="text-slate-400 text-[13px] font-medium italic mt-1">Based on 479 ratings across the web</p>
-                    </div>
-                 </div>
-
-                 <div className="mb-12">
-                    <p className="text-base font-bold text-slate-900 mb-4 tracking-tight">Tap to Rate</p>
-                    <div className="flex items-center gap-3">
-                      {[...Array(5)].map((_, i) => (
-                        <div key={i} className="w-12 h-12 border border-slate-200 rounded-[1rem] flex items-center justify-center text-slate-300 hover:text-orange-400 hover:border-orange-400 cursor-pointer active:scale-90 transition-all bg-white shadow-sm">
-                          <Star size={24} />
-                        </div>
-                      ))}
-                    </div>
-                 </div>
-
-                 <div className="space-y-10">
-                    {[
-                      {
-                        name: 'ASHISH',
-                        date: '23 Feb',
-                        rating: 5,
-                        text: '"I had a great stay at Vink Lodge! The rooms were very clean and tidy. I felt comfortable and relaxed. The staff was nice and helpful too."',
-                        img: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=150'
-                      },
-                      {
-                        name: 'Sukananda S Salunke',
-                        date: '24 Apr 2024',
-                        rating: 5,
-                        text: 'Excellent service and very polite staff. The rooms are well maintained and the location is perfect for travelers.',
-                        img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150'
-                      }
-                    ].map((review, i) => (
-                      <div key={i} className="pb-8 border-b border-slate-50 last:border-0">
-                         <div className="flex items-center gap-4 mb-4">
-                            <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0 border border-slate-100">
-                               <img src={review.img} alt={review.name} className="w-full h-full object-cover" />
-                            </div>
-                            <div>
-                               <h5 className="font-bold text-slate-900 text-sm">{review.name}</h5>
-                               <p className="text-slate-400 text-[10px] font-bold">{review.date}</p>
-                            </div>
-                            <div className="ml-auto flex items-center gap-1">
-                               {[...Array(5)].map((_, si) => (
-                                 <Star key={si} size={14} fill={si < review.rating ? "currentColor" : "none"} className={si < review.rating ? "text-orange-500" : "text-slate-200"} />
-                               ))}
-                            </div>
-                         </div>
-                         <p className="text-slate-600 text-[14px] leading-relaxed font-medium">
-                            {review.text}
-                         </p>
-                      </div>
-                    ))}
-                 </div>
-              </div>
-            )}
-
-          </div>
-
-          {/* Sidebar */}
-          <div className="hidden lg:block lg:col-span-1 space-y-8">
-             <Card className="p-8 border-slate-100 shadow-xl shadow-slate-100/50">
-                <h3 className="text-lg font-bold text-slate-900 mb-8 border-b border-slate-50 pb-4">Check Availability</h3>
-                <div className="grid grid-cols-2 gap-6 mb-8">
-                   <div>
-                     <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Check in</label>
-                     <div className="text-[17px] font-black text-slate-900">22 Apr</div>
-                   </div>
-                   <div>
-                     <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Check Out</label>
-                     <div className="text-[17px] font-black text-slate-900">23 Apr</div>
-                   </div>
-                </div>
-                <button className="w-full bg-primary-600 text-white py-4 rounded-2xl font-bold text-[15px] shadow-lg shadow-primary-500/20 hover:bg-primary-700 transition-all active:scale-[0.98]">
-                   Check Availability
-                </button>
-             </Card>
-
-             <Card className="p-8 border-slate-100 shadow-xl shadow-slate-100/50">
-                <h4 className="text-lg font-bold text-slate-900 mb-6">Contact Details</h4>
-                <div className="space-y-6">
-                   <div className="flex items-start gap-4">
-                      <div className="p-2 bg-blue-50 rounded-lg text-primary-600"><Phone size={18} fill="currentColor" /></div>
-                      <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Phone</p>
-                        <p className="text-[15px] font-black text-slate-900">09845258527</p>
-                      </div>
-                   </div>
-                   <div className="flex items-start gap-4">
-                      <div className="p-2 bg-blue-50 rounded-lg text-primary-600"><MapPin size={18} /></div>
-                      <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Address</p>
-                        <p className="text-[13px] font-bold text-slate-600 leading-relaxed">
-                          1st & 2nd Floor Plot No 50, Dharavi, Mumbai-400017
-                        </p>
-                      </div>
-                   </div>
-                </div>
-             </Card>
-          </div>
-        </div>
-      </div>
-
-      {/* Sticky Bottom Bar (Desktop Only) */}
-      <div className="hidden md:block fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-[150] shadow-[0_-4px_20px_rgba(0,0,0,0.05)] py-3 px-6 transform translate-y-0 transition-transform">
-        <div className="max-w-[1400px] mx-auto flex items-center justify-between gap-4">
-           <div className="flex items-center gap-4 border-r border-slate-100 pr-8">
-              <div className="flex items-center gap-2">
-                <div className="bg-slate-900 text-white rounded p-0.5"><Star size={12} fill="currentColor" /></div>
-                <span className="font-bold text-slate-900 text-base">Vink Lodge</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-400">
-                 <div className="bg-[#008a00] text-white px-1.5 py-0.5 rounded flex items-center gap-1">3.5 <Star size={8} fill="currentColor" /></div>
-                 <span>479 Ratings</span>
-              </div>
-           </div>
-
-           <div className="flex-1 flex items-center justify-end gap-3">
-              <button className="bg-[#008a00] text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-lg shadow-green-500/10">
-                <Phone size={16} fill="currentColor" /> 09845258527
-              </button>
-              <button 
-                 onClick={() => setIsBestDealModalOpen(true)}
-                 className="bg-[#0076d7] text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-500/10"
-               >
-                 <Zap size={16} fill="currentColor" /> Best Deal
-              </button>
-              <div className="flex items-center gap-2 ml-2 pl-4 border-l border-slate-100">
-                 <button className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg"><Share2 size={18} /></button>
-                 <button className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg"><Bookmark size={18} /></button>
-              </div>
-           </div>
-        </div>
-      </div>
-      <BestDealModal 
-        isOpen={isBestDealModalOpen} 
-        onClose={() => setIsBestDealModalOpen(false)} 
-        categoryName="Hotels" 
-      />
-    </UserLayout>
-  );
+          </Card>
+        );
+      default: return null;
+    }
+  }
 };
 
 export default HotelDetails;

@@ -8,23 +8,26 @@ import Button from '../../components/common/Button';
 import Card from '../../components/common/Card';
 import Badge from '../../components/common/Badge';
 import heroBg from '../../assets/homepage.jpg';
+import hotelIcon from '../../assets/icons/hotel.png';
+import beautyIcon from '../../assets/icons/beauty.png';
+import LeadFormModal from '../../components/common/LeadFormModal';
 
 const CATEGORIES = [
-  { id: 1, name: 'Restaurants', icon: 'https://img.icons8.com/3d-fluency/180/restaurant.png', color: 'bg-orange-50' },
-  { id: 2, name: 'Hotels', icon: 'https://img.icons8.com/3d-fluency/180/office.png', color: 'bg-blue-50' },
-  { id: 3, name: 'Beauty', icon: 'https://img.icons8.com/3d-fluency/180/cosmetic-brush.png', color: 'bg-pink-50' },
-  { id: 4, name: 'Home', icon: 'https://img.icons8.com/3d-fluency/180/home.png', color: 'bg-indigo-50' },
-  { id: 5, name: 'Wedding', icon: 'https://img.icons8.com/3d-fluency/180/diamond-ring.png', color: 'bg-rose-50' },
-  { id: 6, name: 'Education', icon: 'https://img.icons8.com/3d-fluency/180/graduation-cap.png', color: 'bg-emerald-50' },
-  { id: 7, name: 'Rent', icon: 'https://img.icons8.com/3d-fluency/180/key.png', color: 'bg-amber-50' },
-  { id: 8, name: 'Hospitals', icon: 'https://img.icons8.com/3d-fluency/180/hospital.png', color: 'bg-red-50' },
-  { id: 9, name: 'Contractors', icon: 'https://img.icons8.com/3d-fluency/180/hammer.png', color: 'bg-slate-100' },
-  { id: 10, name: 'Pet', icon: 'https://img.icons8.com/3d-fluency/180/dog.png', color: 'bg-orange-100/50' },
-  { id: 11, name: 'PG/Hostels', icon: 'https://img.icons8.com/3d-fluency/180/bed.png', color: 'bg-cyan-50' },
-  { id: 12, name: 'Estate', icon: 'https://img.icons8.com/3d-fluency/180/commercial.png', color: 'bg-violet-50' },
-  { id: 13, name: 'Dentists', icon: 'https://img.icons8.com/3d-fluency/180/tooth.png', color: 'bg-teal-50' },
-  { id: 14, name: 'Gym', icon: 'https://img.icons8.com/3d-fluency/180/dumbbell.png', color: 'bg-slate-200' },
-  { id: 15, name: 'Loans', icon: 'https://img.icons8.com/3d-fluency/180/money-bag.png', color: 'bg-emerald-100' },
+  { id: 1, name: 'Restaurants', icon: 'https://img.icons8.com/bubbles/180/restaurant.png', color: 'bg-orange-50' },
+  { id: 2, name: 'Hotels', icon: hotelIcon, color: 'bg-blue-50' },
+  { id: 3, name: 'Beauty', icon: beautyIcon, color: 'bg-pink-50' },
+  { id: 4, name: 'Home', icon: 'https://img.icons8.com/bubbles/180/home.png', color: 'bg-indigo-50' },
+  { id: 5, name: 'Wedding', icon: 'https://img.icons8.com/bubbles/180/diamond-ring.png', color: 'bg-rose-50' },
+  { id: 6, name: 'Education', icon: 'https://img.icons8.com/bubbles/180/education.png', color: 'bg-emerald-50' },
+  { id: 7, name: 'Rent', icon: 'https://img.icons8.com/bubbles/180/key.png', color: 'bg-amber-50' },
+  { id: 8, name: 'Hospitals', icon: 'https://img.icons8.com/bubbles/180/hospital.png', color: 'bg-red-50' },
+  { id: 9, name: 'Contractors', icon: 'https://img.icons8.com/bubbles/180/hammer.png', color: 'bg-slate-100' },
+  { id: 10, name: 'Pet', icon: 'https://img.icons8.com/bubbles/180/dog.png', color: 'bg-orange-100/50' },
+  { id: 11, name: 'PG/Hostels', icon: 'https://img.icons8.com/bubbles/180/bed.png', color: 'bg-cyan-50' },
+  { id: 12, name: 'Estate', icon: 'https://img.icons8.com/bubbles/180/commercial.png', color: 'bg-violet-50' },
+  { id: 13, name: 'Dentists', icon: 'https://img.icons8.com/bubbles/180/tooth.png', color: 'bg-teal-50' },
+  { id: 14, name: 'Gym', icon: 'https://img.icons8.com/bubbles/180/dumbbell.png', color: 'bg-slate-200' },
+  { id: 15, name: 'Loans', icon: 'https://img.icons8.com/bubbles/180/money-bag.png', color: 'bg-emerald-100' },
   { id: 20, name: 'More', icon: Menu, color: 'bg-primary-50', isMenu: true },
 ];
 
@@ -36,10 +39,10 @@ const FEATURED_VENDORS = [
 ];
 
 const HOME_SERVICES = [
-  { id: 1, name: 'AC REPAIR & SERVICE', image: 'https://images.pexels.com/photos/5463575/pexels-photo-5463575.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 2, name: 'PAINTERS', image: 'https://images.pexels.com/photos/6474471/pexels-photo-6474471.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 3, name: 'PEST CONTROL', image: 'https://images.pexels.com/photos/4064560/pexels-photo-4064560.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 4, name: 'PLUMBERS', image: 'https://images.pexels.com/photos/5691653/pexels-photo-5691653.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 1, name: 'AC REPAIR & SERVICE', image: 'https://images.pexels.com/photos/5463575/pexels-photo-5463575.jpeg?auto=compress&cs=tinysrgb&w=400', color: 'from-[#1A2B4B]' },
+  { id: 2, name: 'PAINTERS', image: 'https://images.pexels.com/photos/6474471/pexels-photo-6474471.jpeg?auto=compress&cs=tinysrgb&w=400', color: 'from-[#9D446E]' },
+  { id: 3, name: 'PEST CONTROL', image: 'https://images.pexels.com/photos/4064560/pexels-photo-4064560.jpeg?auto=compress&cs=tinysrgb&w=400', color: 'from-[#C59D3F]' },
+  { id: 4, name: 'PLUMBERS', image: 'https://images.pexels.com/photos/5691653/pexels-photo-5691653.jpeg?auto=compress&cs=tinysrgb&w=400', color: 'from-[#E68D40]' },
 ];
 
 const PREVIEW_CARDS = [
@@ -78,6 +81,8 @@ const Home = () => {
   const [isSearchFixed, setIsSearchFixed] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+  const [selectedVendor, setSelectedVendor] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [locationQuery, setLocationQuery] = useState('');
   const [previewStack, setPreviewStack] = useState([0, 1, 2]);
@@ -133,7 +138,12 @@ const Home = () => {
   return (
     <UserLayout>
       {/* Mobile-Only Home View (Sleek Modern) */}
-      <div className="md:hidden">
+      <motion.div 
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 1 }}
+        className="md:hidden"
+      >
         <div className="px-4 pt-6 pb-2 bg-gradient-to-b from-[#D4F4FA] to-[#F2FBFD]">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3" onClick={() => setIsLocationOpen(true)}>
@@ -154,9 +164,9 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Sticky Mobile Search Bar Container */}
+        {/* Sticky Mobile Search Bar Container - INCREASED pt-4 for top space */}
         <div className={cn(
-          "z-[100] bg-[#F2FBFD]/95 backdrop-blur-md px-4 pt-0 pb-3 transition-all duration-300",
+          "z-[100] bg-[#F2FBFD]/95 backdrop-blur-md px-4 pt-4 pb-3 transition-all duration-300",
           isSearchFixed ? "fixed top-0 left-0 right-0 shadow-lg" : "sticky top-0"
         )} onClick={() => setIsSearchOpen(true)}>
           <div className="bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-1 flex items-center">
@@ -249,7 +259,7 @@ const Home = () => {
                   </div>
                 )}
 
-                {/* Live Filtering (when typing) */}
+                {/* Live Filtering (typing) */}
                 {searchQuery && (
                   <div className="space-y-2">
                     {CATEGORIES.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase())).map((cat, idx) => (
@@ -308,7 +318,6 @@ const Home = () => {
 
               {/* Location Content */}
               <div className="p-4 space-y-6">
-                {/* Detect Location */}
                 <button className="flex items-center gap-3 text-primary-600 font-bold active:scale-95 transition-transform">
                   <div className="w-5 h-5 flex items-center justify-center border-2 border-primary-600 rounded-full">
                     <div className="w-2 h-2 bg-primary-600 rounded-full"></div>
@@ -316,13 +325,11 @@ const Home = () => {
                   <span>Detect my location</span>
                 </button>
 
-                {/* Anywhere option */}
                 <div className="flex items-center gap-4 py-2 border-b border-gray-50 pb-4">
                   <MapPin size={20} className="text-slate-400" />
                   <span className="text-base font-bold text-slate-800">Anywhere in Indore</span>
                 </div>
 
-                {/* Trending Areas */}
                 <div className="space-y-4">
                   <h4 className="text-sm font-bold text-slate-400 tracking-tight">Trending Areas</h4>
                   <div className="space-y-1">
@@ -339,50 +346,53 @@ const Home = () => {
           )}
         </AnimatePresence>
 
-        {/* Mobile Categories (Premium Grid) */}
-        <div className="px-6 relative z-10 pt-4 pb-8">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg font-extrabold text-slate-800 tracking-tight">Service categories</h2>
-            <button 
-              onClick={() => navigate('/categories')}
-              className="text-xs font-bold text-cyan-600 flex items-center gap-1 group"
-            >
-              View all <ChevronDown size={14} className="-rotate-90 group-hover:translate-x-0.5 transition-transform" />
-            </button>
-          </div>
-          
-          <div className="overflow-x-auto no-scrollbar -mx-4 px-4 snap-x snap-mandatory">
-            <div className="grid grid-rows-2 grid-flow-col gap-x-3 gap-y-3 min-w-max pb-4">
-               {CATEGORIES.slice(0, 20).map((cat) => (
-                 <div 
-                   key={cat.id} 
-                   className="bg-white rounded-xl p-2.5 flex items-center gap-3 shadow-[0_10px_25px_rgba(0,0,0,0.02)] border border-white active:scale-95 transition-all w-[180px] snap-start"
-                   onClick={() => handleCategoryClick(cat)}
-                 >
-                   <div className="w-10 h-10 rounded-xl bg-[#F0F9FB] flex items-center justify-center shrink-0">
-                      {typeof cat.icon === 'string' ? (
-                         <img src={cat.icon} alt={cat.name} className="w-7 h-7 object-contain" />
-                      ) : (
-                         <cat.icon size={20} className="text-cyan-600" />
-                      )}
-                   </div>
-                   <div className="flex items-center justify-between flex-1 min-w-0 pr-1">
-                     <span className="text-[13px] font-bold text-slate-700 truncate">{cat.name}</span>
-                     <ChevronDown size={14} className="-rotate-90 text-cyan-600/30 stroke-[3px]" />
-                   </div>
+        {/* Mobile Categories (JustDial Style Grid) */}
+        <div className="bg-white px-3 pt-6 pb-4">
+          <div className="grid grid-cols-4 gap-y-4 gap-x-1">
+             {CATEGORIES.slice(0, 15).map((cat) => (
+               <div 
+                 key={cat.id} 
+                 className="flex flex-col items-center gap-0 active:scale-90 transition-transform"
+                 onClick={() => handleCategoryClick(cat)}
+               >
+                 <div className="w-14 h-12 bg-white flex items-center justify-center">
+                    {typeof cat.icon === 'string' ? (
+                       <img src={cat.icon} alt={cat.name} className="w-12 h-12 object-contain" />
+                    ) : (
+                       <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600">
+                          <cat.icon size={22} />
+                       </div>
+                    )}
                  </div>
-               ))}
-            </div>
+                 <span className="text-[11px] font-bold text-slate-800 text-center leading-tight h-5 flex items-center justify-center px-1">
+                   {cat.name}
+                 </span>
+               </div>
+             ))}
+             
+             <div 
+               className="flex flex-col items-center gap-0 active:scale-90 transition-transform cursor-pointer"
+               onClick={() => navigate('/categories')}
+             >
+               <div className="w-14 h-12 flex items-center justify-center">
+                  <div className="w-11 h-11 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-600/20 active:rotate-180 transition-all duration-300">
+                    <ChevronDown size={24} className="stroke-[3px]" />
+                  </div>
+               </div>
+               <span className="text-[11px] font-bold text-slate-800 text-center leading-tight h-5 flex items-center justify-center">
+                 More
+               </span>
+             </div>
           </div>
         </div>
 
-        {/* Mobile Promotional Banner - Now consistent with reference */}
-        <div className="px-4 mb-4">
-          <div className="bg-[#0D4D47] rounded-[24px] p-6 text-white relative overflow-hidden shadow-xl shadow-emerald-900/10">
+        {/* Mobile Promotional Banner - Compacted */}
+        <div className="px-4 mb-3">
+          <div className="bg-[#0D4D47] rounded-xl py-4 px-5 text-white relative overflow-hidden shadow-xl shadow-emerald-900/10">
             <div className="relative z-10 w-2/3">
-              <h3 className="text-xl font-display font-bold mb-1 leading-tight uppercase tracking-tight">Your Solution, <br /> One Tap Away!</h3>
-              <p className="text-white/70 text-[10px] font-medium mb-5 leading-tight">Seamless, Fast & Reliable <br /> Services at Your Fingertips</p>
-              <button className="bg-white text-[#0D4D47] text-xs font-bold px-6 py-2.5 rounded-xl shadow-lg active:scale-95 transition-transform">Explore</button>
+              <h3 className="text-lg font-display font-bold mb-1 leading-tight uppercase tracking-tight">Your Solution, <br /> One Tap Away!</h3>
+              <p className="text-white/70 text-[10px] font-medium mb-3 leading-tight">Seamless, Fast & Reliable <br /> Services at Your Fingertips</p>
+              <button className="bg-white text-[#0D4D47] text-[10px] font-bold px-5 py-2 rounded-lg shadow-lg active:scale-95 transition-transform">Explore</button>
             </div>
             <div className="absolute right-[-10px] bottom-0 top-0 w-2/5 flex items-center justify-center">
               <img
@@ -391,12 +401,14 @@ const Home = () => {
                 className="w-full h-full object-contain mix-blend-overlay opacity-80"
                 onError={(e) => { e.target.style.display = 'none'; }}
               />
-              {/* Fallback pattern if image fails */}
               <div className="absolute inset-0 bg-gradient-to-l from-white/10 to-transparent pointer-events-none"></div>
             </div>
           </div>
         </div>
-      </div>
+        
+        {/* Bottom Nav Spacer - REDUCED h-1 */}
+        <div className="h-1 md:h-20" />
+      </motion.div>
 
       {/* Hero Section (Desktop Only) */}
       <section
@@ -426,7 +438,6 @@ const Home = () => {
             Instantly discover verified vendors, compare prices, and book the most trusted experts for your needs with AI-powered search.
           </p>
 
-          {/* AI Search Box - Classic Style */}
           <div className="w-full max-w-2xl bg-white p-1.5 rounded-2xl shadow-2xl border border-white/20 flex flex-row items-center gap-1">
             <div className="flex-1 flex items-center gap-2 px-3 w-full">
               <Search className="text-primary-500 flex-shrink-0" size={20} />
@@ -436,9 +447,7 @@ const Home = () => {
                 className="w-full py-2.5 text-sm border-none focus:ring-0 focus:outline-none placeholder:text-slate-400 font-medium"
               />
             </div>
-
             <div className="w-px h-8 bg-slate-100 mx-1"></div>
-
             <div className="flex-shrink-0 flex items-center gap-2 px-3 w-64">
               <MapPin className="text-primary-500 flex-shrink-0" size={18} />
               <input
@@ -447,25 +456,9 @@ const Home = () => {
                 className="w-full py-2.5 border-none focus:ring-0 focus:outline-none text-slate-600 font-semibold text-sm placeholder:text-slate-400"
               />
             </div>
-
             <Button size="sm" className="w-auto rounded-xl px-10 py-3 shadow-lg shadow-primary-500/20">
               Discover
             </Button>
-          </div>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-white font-bold drop-shadow">
-            <div className="flex items-center gap-2">
-              <ShieldCheck size={18} className="text-emerald-400" />
-              Verified Experts
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap size={18} className="text-amber-400" />
-              Instant Booking
-            </div>
-            <div className="flex items-center gap-2">
-              <Star size={18} className="text-primary-300" />
-              4.8/5 Avg Rating
-            </div>
           </div>
         </div>
       </section>
@@ -494,11 +487,7 @@ const Home = () => {
                 cat.isMenu && "bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-500/20"
               )}>
                 {typeof cat.icon === 'string' ? (
-                   <img 
-                     src={cat.icon} 
-                     alt={cat.name} 
-                     className="w-12 h-12 object-contain drop-shadow-md" 
-                   />
+                   <img src={cat.icon} alt={cat.name} className="w-12 h-12 object-contain drop-shadow-md" />
                 ) : (
                    <cat.icon size={cat.isMenu ? 28 : 24} className={!cat.isMenu ? "text-primary-600" : ""} />
                 )}
@@ -512,62 +501,77 @@ const Home = () => {
       </section>
       
       {/* Home Services Quick Links */}
-      <section className="max-w-[1400px] mx-auto px-4 md:px-6 mb-12 mt-8 md:mt-10 md:mb-20">
+      <section className="max-w-[1400px] mx-auto px-4 md:px-6 mb-4 mt-4 md:mt-10 md:mb-20">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Home services</h2>
           <ChevronDown size={24} className="-rotate-90 text-slate-400" />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-2">
           {HOME_SERVICES.map((s) => (
             <div 
               key={s.id} 
-              className="relative aspect-square md:aspect-square rounded-2xl overflow-hidden group cursor-pointer active:scale-95 transition-all shadow-md"
+              className="relative aspect-[0.7/1] rounded-lg overflow-hidden group cursor-pointer active:scale-95 transition-all shadow-sm"
               onClick={() => navigate('/categories')}
             >
               <img src={s.image} alt={s.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent flex items-end p-4 md:p-6">
-                <span className="text-white text-[13px] md:text-xl font-extrabold uppercase leading-tight drop-shadow-md">{s.name}</span>
+              
+              {/* Dynamic Bottom Gradient Overlay */}
+              <div className={cn(
+                "absolute inset-x-0 bottom-0 h-3/5 flex flex-col justify-end",
+                "bg-gradient-to-t via-black/40 to-transparent",
+                s.color
+              )}></div>
+              
+              <div className="absolute inset-x-0 bottom-0 p-1.5 z-10">
+                <span className="text-white text-[9px] md:text-[14px] font-black uppercase leading-[1.1] tracking-tighter block">
+                  {s.name.split(' ').map((word, i) => (
+                    <React.Fragment key={i}>
+                      {word} {i === 1 && <br />}
+                    </React.Fragment>
+                  ))}
+                </span>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Featured Vendors */}
-      <section className="bg-slate-100/50 pt-2 pb-4 md:py-24 px-4 md:px-6">
+      {/* Featured Vendors - Compacted */}
+      <section className="bg-slate-100/50 pt-4 pb-4 md:py-24 px-4 md:px-6">
         <div className="max-w-[1400px] mx-auto">
-          <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-2xl md:text-4xl font-display font-bold text-slate-900 mb-4">Handpicked Top Rated Experts</h2>
-            <p className="text-slate-500 text-sm md:text-lg">We only feature vendors with proven track records and high customer satisfaction.</p>
+          <div className="text-left mb-4 md:mb-16">
+            <h2 className="text-lg md:text-2xl font-display font-bold text-slate-900 mb-1">Handpicked Top Rated Experts</h2>
+            <p className="text-slate-500 text-xs md:text-lg leading-tight">Proven track records and high customer satisfaction.</p>
           </div>
 
-          <div className="flex md:grid overflow-x-auto md:overflow-visible no-scrollbar -mx-4 md:mx-0 px-4 md:px-0 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 pb-4">
+          <div className="flex md:grid overflow-x-auto md:overflow-visible no-scrollbar -mx-4 md:mx-0 px-4 md:px-0 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 pb-4">
             {FEATURED_VENDORS.map((vendor) => (
-              <Card key={vendor.id} className="overflow-hidden group flex flex-col shrink-0 w-[280px] md:w-auto border-slate-100 shadow-sm md:shadow-md">
-                <div className="relative h-40 md:h-48 overflow-hidden">
+              <Card key={vendor.id} className="overflow-hidden group flex flex-col shrink-0 w-[240px] md:w-auto border-slate-100 shadow-sm md:shadow-md">
+                <div className="relative h-34 md:h-48 overflow-hidden">
                   <img src={vendor.image} alt={vendor.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute top-4 left-4">
-                    <Badge variant={vendor.type === 'Premium' ? 'primary' : 'neutral'} className="shadow-lg backdrop-blur-md">
+                  <div className="absolute top-3 left-3">
+                    <Badge variant={vendor.type === 'Premium' ? 'primary' : 'neutral'} className="shadow-lg backdrop-blur-md text-[9px] px-1.5 py-0.5">
                       {vendor.type}
                     </Badge>
                   </div>
                   {vendor.verified && (
-                    <div className="absolute bottom-4 right-4 bg-white p-1 rounded-full shadow-lg">
-                      <ShieldCheck size={20} className="text-primary-600" />
+                    <div className="absolute bottom-3 right-3 bg-white p-1 rounded-full shadow-lg border border-primary-50">
+                      <ShieldCheck size={16} className="text-primary-600" />
                     </div>
                   )}
                 </div>
-                <div className="p-4 md:p-6 flex-1 flex flex-col">
-                  <div className="flex items-center gap-1 text-amber-500 mb-2">
-                    <Star size={16} fill="currentColor" />
-                    <span className="text-sm font-bold text-slate-900">{vendor.rating}</span>
-                    <span className="text-xs text-slate-400 font-medium ml-1">({vendor.reviews} reviews)</span>
+                <div className="p-3 md:p-6 flex-1 flex flex-col">
+                  <div className="flex items-center gap-1 text-amber-500 mb-1">
+                    <Star size={12} fill="currentColor" />
+                    <span className="text-xs font-bold text-slate-900">{vendor.rating}</span>
+                    <span className="text-[10px] text-slate-400 font-medium ml-1">({vendor.reviews})</span>
                   </div>
-                  <h4 className="text-lg md:text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-600 transition-colors cursor-pointer">{vendor.name}</h4>
-                  <p className="text-xs md:text-sm text-slate-400 font-medium mb-4 md:mb-6">Professional service provider in your local area.</p>
+                  <h4 className="text-base md:text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-600 transition-colors cursor-pointer line-clamp-1">{vendor.name}</h4>
+                  <p className="text-[10px] md:text-sm text-slate-400 font-medium mb-4 leading-tight line-clamp-1">Expert professional service in Indore.</p>
                   <Button
                     variant="outline"
-                    className="w-full mt-auto border-primary-100 text-primary-600 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all duration-300 font-bold py-2.5 md:py-3 rounded-xl text-sm"
+                    onClick={() => { setSelectedVendor(vendor); setIsEnquiryOpen(true); }}
+                    className="w-full mt-auto border-primary-100 text-primary-600 transition-all duration-300 font-bold py-2 rounded-xl text-xs"
                   >
                     Get Quote
                   </Button>
@@ -575,61 +579,56 @@ const Home = () => {
               </Card>
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* Social Feed Preview Segment */}
-      <section className="max-w-[1400px] mx-auto px-6 pt-10 pb-2 md:py-24 bg-white/50">
+      {/* Social Discovery Segment - Compacted Padding */}
+      <section className="max-w-[1400px] mx-auto px-6 pt-0 pb-12 bg-white/50">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-7">
-            <Badge variant="primary" className="mb-4 px-4 py-1.5 bg-primary-50 text-primary-700">Social Discovery</Badge>
-            <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-8 leading-tight">
+            <Badge variant="primary" className="mb-2 px-3 py-1 bg-primary-50 text-primary-700 text-[10px]">Social Discovery</Badge>
+            <h2 className="text-2xl md:text-6xl font-display font-bold text-slate-900 mb-4 leading-tight">
               See What's Trending <br />
               in <span className="text-primary-600">Your Community</span>
             </h2>
-            <p className="text-slate-500 text-xl mb-10 leading-relaxed max-w-2xl">
-              Stay updated with the latest service works, tips, and transformations posted by vendors near you. Like, comment, and save your favorites!
+            <p className="text-slate-500 text-sm md:text-xl mb-6 leading-relaxed max-w-2xl">
+              Stay updated with the latest service works, tips, and transformations posted by vendors near you.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="flex items-center gap-5 p-5 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600 flex-shrink-0">
-                  <Sparkles size={28} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="flex items-center gap-4 p-3 rounded-2xl bg-white shadow-sm border border-slate-100">
+                <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600 flex-shrink-0">
+                  <Sparkles size={20} />
                 </div>
                 <div>
-                  <h5 className="font-bold text-lg text-slate-900">Real Work Samples</h5>
-                  <p className="text-sm text-slate-500">Unfiltered photos and videos from actual service jobs.</p>
+                  <h5 className="font-bold text-sm text-slate-900">Real Work Samples</h5>
+                  <p className="text-[12px] text-slate-500 leading-tight">Unfiltered photos and videos from jobs.</p>
                 </div>
               </div>
-              <div className="flex items-center gap-5 p-5 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 flex-shrink-0">
-                  <Star size={28} />
+              <div className="flex items-center gap-4 p-3 rounded-2xl bg-white shadow-sm border border-slate-100">
+                <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 flex-shrink-0">
+                  <Star size={20} />
                 </div>
                 <div>
-                  <h5 className="font-bold text-lg text-slate-900">Community Reviews</h5>
-                  <p className="text-sm text-slate-500">Read what your neighbors are saying about local vendors.</p>
+                  <h5 className="font-bold text-sm text-slate-900">Community Reviews</h5>
+                  <p className="text-[12px] text-slate-500 leading-tight">Read what your neighbors say.</p>
                 </div>
               </div>
             </div>
             <Button 
-              size="lg" 
-              className="mt-12 rounded-2xl w-full sm:w-auto px-12 py-4 text-lg shadow-lg shadow-primary-500/20"
+              size="sm" 
+              className="mt-6 rounded-xl w-full sm:w-auto px-8 py-3 text-sm shadow-lg shadow-primary-500/20"
               onClick={() => navigate('/social')}
             >
               Open Social Feed
             </Button>
           </div>
 
-          <div className="lg:col-span-5 relative h-[380px] md:h-[650px] flex items-center justify-center group mt-4 lg:mt-0">
-            {/* Background Decorative Element */}
+          <div className="lg:col-span-5 relative h-[380px] md:h-[650px] flex items-center justify-center group">
             <div className="absolute inset-0 bg-primary-50 rounded-3xl blur-3xl opacity-30 transform scale-90 group-hover:scale-100 transition-transform duration-700"></div>
 
             <div className="relative w-full h-full flex items-center justify-center">
               {previewStack.slice().reverse().map((cardId, index) => {
                 const card = PREVIEW_CARDS.find(c => c.id === cardId);
-                const isFront = index === 2; // In reverse map, last item [0] is actually at index 2
-                
-                // Stack positioning logic based on position in previewStack (0 is front)
                 const stackPos = previewStack.indexOf(cardId);
                 
                 return (
@@ -645,7 +644,6 @@ const Home = () => {
                       zIndex: 30 - stackPos * 10,
                       opacity: 1
                     }}
-                    whileHover={stackPos === 0 ? { scale: 1.02 } : {}}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     onClick={() => stackPos !== 0 && handleSwap(cardId)}
                     className={cn(
@@ -655,8 +653,6 @@ const Home = () => {
                     style={{ backgroundImage: `url("${card.image}")` }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-                    
-                    {/* Content only visible on top card */}
                     <AnimatePresence>
                       {stackPos === 0 && (
                         <motion.div 
@@ -666,21 +662,17 @@ const Home = () => {
                           className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8"
                         >
                           <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-full border-2 border-primary-400 bg-white shadow-lg flex items-center justify-center overflow-hidden shrink-0">
-                              <img src={card.avatar || "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100"} alt="avatar" className="w-full h-full object-cover" />
+                            <div className="w-12 h-12 rounded-2xl border-2 border-white/20 bg-white/10 backdrop-blur-md flex items-center justify-center overflow-hidden shrink-0">
+                              <img src={card.avatar} alt="avatar" className="w-full h-full object-cover" />
                             </div>
                             <div>
-                              <span className="text-white text-base font-bold block leading-none mb-1">{card.user}</span>
-                              <span className="text-primary-300 text-[10px] font-bold uppercase tracking-wider">Verified Artist</span>
+                              <span className="text-white text-lg font-bold block leading-none mb-1">{card.user}</span>
+                              <span className="text-primary-300 text-[11px] font-bold uppercase tracking-wider">Verified Artist</span>
                             </div>
                           </div>
-                          <p className="text-white text-sm md:text-base font-medium line-clamp-2 leading-relaxed">
-                            {card.text} <span className="text-primary-400 font-bold">#expert #service</span>
+                          <p className="text-white text-sm md:text-lg font-medium line-clamp-3 leading-relaxed">
+                            {card.text}
                           </p>
-                          <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-white/60 text-xs">
-                            <span>{card.likes} Likes</span>
-                            <span>{card.comments} Comments</span>
-                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -691,6 +683,12 @@ const Home = () => {
           </div>
         </div>
       </section>
+      {/* Enquiry Form Modal */}
+      <LeadFormModal 
+        isOpen={isEnquiryOpen} 
+        onClose={() => setIsEnquiryOpen(false)} 
+        vendorName={selectedVendor?.name || "Expert"} 
+      />
     </UserLayout>
   );
 };

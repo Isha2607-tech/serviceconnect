@@ -27,7 +27,7 @@ import { cn } from '../../utils/cn';
 
 const HOTEL_DATA = [
   {
-    id: 1,
+    id: 'v1',
     name: 'Vink Lodge',
     rating: 3.5,
     reviews: 479,
@@ -40,7 +40,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 2,
+    id: 'v2',
     name: 'Astha Home',
     rating: 4.5,
     reviews: 189,
@@ -54,7 +54,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 3,
+    id: 'v3',
     name: 'Marine Bay Resort',
     rating: 4.2,
     reviews: 1205,
@@ -67,7 +67,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 4,
+    id: 'v4',
     name: 'Sunshine Inn',
     rating: 3.8,
     reviews: 312,
@@ -80,7 +80,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 5,
+    id: 'v5',
     name: 'The Grand Palace',
     rating: 4.9,
     reviews: 2500,
@@ -93,7 +93,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 6,
+    id: 'v6',
     name: 'Green View Residency',
     rating: 4.0,
     reviews: 560,
@@ -106,7 +106,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 7,
+    id: 'v7',
     name: 'Blue Lagoon Resort',
     rating: 4.4,
     reviews: 890,
@@ -119,7 +119,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 8,
+    id: 'v8',
     name: 'Skyline Suites',
     rating: 4.1,
     reviews: 420,
@@ -132,7 +132,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 9,
+    id: 'v9',
     name: 'Royal Heritage Hotel',
     rating: 4.7,
     reviews: 1560,
@@ -145,7 +145,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 10,
+    id: 'v10',
     name: 'Harbor View Stay',
     rating: 3.9,
     reviews: 280,
@@ -158,7 +158,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 11,
+    id: 'v11',
     name: 'Palm Grove Residency',
     rating: 4.3,
     reviews: 730,
@@ -171,7 +171,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 12,
+    id: 'v12',
     name: 'City Light Inn',
     rating: 3.6,
     reviews: 150,
@@ -184,7 +184,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 13,
+    id: 'v13',
     name: 'The Orchid Boutique',
     rating: 4.6,
     reviews: 1120,
@@ -197,7 +197,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 14,
+    id: 'v14',
     name: 'Majestic Towers',
     rating: 4.8,
     reviews: 2100,
@@ -210,7 +210,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 15,
+    id: 'v15',
     name: 'Coastal Breeze Inn',
     rating: 4.2,
     reviews: 640,
@@ -223,7 +223,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 16,
+    id: 'v16',
     name: 'Corporate Hub Hotel',
     rating: 4.0,
     reviews: 820,
@@ -236,7 +236,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 17,
+    id: 'v17',
     name: 'Mountain Peak Hotel',
     rating: 4.4,
     reviews: 340,
@@ -249,7 +249,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 18,
+    id: 'v18',
     name: 'The Pearl Residency',
     rating: 3.7,
     reviews: 210,
@@ -262,7 +262,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 19,
+    id: 'v19',
     name: 'Azure Bay Hotel',
     rating: 4.5,
     reviews: 1280,
@@ -275,7 +275,7 @@ const HOTEL_DATA = [
     phone: '09845258527'
   },
   {
-    id: 20,
+    id: 'v20',
     name: 'Urban Oasis Inn',
     rating: 4.1,
     reviews: 590,
@@ -359,7 +359,7 @@ const HotelResults = () => {
                                     "text-center p-3 text-xs font-bold cursor-pointer transition-all border-r border-b border-slate-100 aspect-square flex items-center justify-center",
                                     day > 0 && day < 22 && "text-slate-300",
                                     day >= 23 && "text-slate-800",
-                                    isSelected ? "bg-[#0076d7] text-white border-[#0076d7]" : "hover:bg-slate-50"
+                                    isSelected ? "bg-primary-600 text-white border-primary-600" : "hover:bg-slate-50"
                                   )}
                                 >
                                   {day}
@@ -405,22 +405,22 @@ const HotelResults = () => {
                 </button>
 
                 <h2 className="text-xl font-bold text-slate-900 mb-6">
-                  Get the List of Top <span className="text-[#0076d7]">Hotels</span>
+                  Get the List of Top <span className="text-[#7c3aed]">Hotels</span>
                 </h2>
 
                 <div className="space-y-5 mb-5 max-w-lg">
                    <div className="relative group">
-                      <label className="absolute -top-2 left-3 bg-white px-1 text-[10px] font-medium text-slate-400 group-focus-within:text-[#0076d7] transition-colors">Name*</label>
+                      <label className="absolute -top-2 left-3 bg-white px-1 text-[10px] font-medium text-slate-400 group-focus-within:text-[#7c3aed] transition-colors">Name*</label>
                       <input 
                         type="text" 
-                        className="w-full border border-slate-200 rounded-lg px-4 py-3 text-[14px] focus:border-[#0076d7] focus:ring-1 focus:ring-[#0076d7] outline-none transition-all"
+                        className="w-full border border-slate-200 rounded-lg px-4 py-3 text-[14px] focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed] outline-none transition-all"
                       />
                    </div>
                    <div className="relative group">
-                      <label className="absolute -top-2 left-3 bg-white px-1 text-[10px] font-medium text-slate-400 group-focus-within:text-[#0076d7] transition-colors">Mobile Number*</label>
+                      <label className="absolute -top-2 left-3 bg-white px-1 text-[10px] font-medium text-slate-400 group-focus-within:text-[#7c3aed] transition-colors">Mobile Number*</label>
                       <input 
                         type="text" 
-                        className="w-full border border-slate-200 rounded-lg px-4 py-3 text-[14px] focus:border-[#0076d7] focus:ring-1 focus:ring-[#0076d7] outline-none transition-all"
+                        className="w-full border border-slate-200 rounded-lg px-4 py-3 text-[14px] focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed] outline-none transition-all"
                       />
                    </div>
                 </div>
@@ -431,30 +431,30 @@ const HotelResults = () => {
                    <p className="text-[14px] font-bold text-slate-900 mb-3">What type of Hotel are you looking for?</p>
                    <div className="flex items-center gap-8">
                       <label className="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="modalHotelType" className="w-5 h-5 text-[#0076d7] focus:ring-[#0076d7]" defaultChecked />
+                        <input type="radio" name="modalHotelType" className="w-5 h-5 text-[#7c3aed] focus:ring-[#7c3aed]" defaultChecked />
                         <span className="text-[14px] font-medium text-slate-700">Budget</span>
                       </label>
                       <label className="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="modalHotelType" className="w-5 h-5 text-[#0076d7] focus:ring-[#0076d7]" />
+                        <input type="radio" name="modalHotelType" className="w-5 h-5 text-[#7c3aed] focus:ring-[#7c3aed]" />
                         <span className="text-[14px] font-medium text-slate-700">Luxury</span>
                       </label>
                       <label className="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="modalHotelType" className="w-5 h-5 text-[#0076d7] focus:ring-[#0076d7]" />
+                        <input type="radio" name="modalHotelType" className="w-5 h-5 text-[#7c3aed] focus:ring-[#7c3aed]" />
                         <span className="text-[14px] font-medium text-slate-700">Others</span>
                       </label>
                    </div>
                 </div>
 
                 <button 
-                  className="w-full max-w-md bg-[#0076d7] text-white font-extrabold py-3.5 rounded-xl text-[18px] hover:bg-blue-700 transition shadow-xl shadow-blue-500/20 mb-6 uppercase tracking-widest"
+                  className="w-full max-w-md bg-primary-600 text-white font-extrabold py-3.5 rounded-xl text-[18px] hover:bg-primary-700 transition shadow-xl shadow-primary-500/20 mb-6 uppercase tracking-widest"
                 >
                   GET BEST DEAL
                 </button>
 
                 <div className="flex items-center gap-2 mb-6">
-                   <input type="checkbox" className="w-4 h-4 text-[#0076d7] rounded focus:ring-[#0076d7]" defaultChecked />
+                   <input type="checkbox" className="w-4 h-4 text-[#7c3aed] rounded focus:ring-[#7c3aed]" defaultChecked />
                    <p className="text-[13px] text-slate-600 font-medium">
-                     I Agree to <span className="text-slate-900 border-b border-slate-900">Terms and Conditions</span> <span className="text-slate-400 ml-1 underline transition-colors cursor-pointer hover:text-[#0076d7]">T&C's Privacy Policy</span>
+                     I Agree to <span className="text-slate-900 border-b border-slate-900">Terms and Conditions</span> <span className="text-slate-400 ml-1 underline transition-colors cursor-pointer hover:text-[#7c3aed]">T&C's Privacy Policy</span>
                    </p>
                 </div>
 
@@ -543,7 +543,7 @@ const HotelResults = () => {
               <div className="p-6 border-t border-slate-100 bg-slate-50/50">
                 <button 
                   onClick={() => setIsFilterModalOpen(false)}
-                  className="w-full bg-[#0076d7] text-white font-bold py-4 rounded-xl shadow-xl shadow-blue-500/20 active:scale-[0.98] transition-all"
+                  className="w-full bg-primary-600 text-white font-bold py-4 rounded-xl shadow-xl shadow-primary-500/20 active:scale-[0.98] transition-all"
                 >
                   Show Results
                 </button>
@@ -601,7 +601,7 @@ const HotelResults = () => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-24 pb-4">
+      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-24 pb-32 md:pb-4">
         {/* Breadcrumbs */}
         <div className="flex items-center gap-2 text-[11px] text-slate-500 mb-0">
           <span className="hover:text-primary-600 cursor-pointer">Mumbai</span>
@@ -613,154 +613,144 @@ const HotelResults = () => {
 
         <h1 className="text-2xl font-bold text-slate-900 mb-1 font-display">Popular Hotels in Mumbai</h1>
 
-        {/* Filters Bar */}
-        <div className="flex flex-col md:flex-row md:items-center gap-2 mb-1">
-          {/* Row 1: Dates + All Filters (Mobile) / Complete Bar (Desktop) */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
-            <div 
-              onClick={() => setIsDatePickerOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 border border-slate-200 rounded-lg text-[12px] md:text-sm bg-white cursor-pointer hover:border-primary-500 transition-colors shadow-sm shrink-0"
-            >
-              <span className="font-bold text-slate-800">{checkIn}</span>
-              <Calendar size={14} className="text-slate-400" />
-            </div>
-            <div 
-              onClick={() => setIsDatePickerOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 border border-slate-200 rounded-lg text-[12px] md:text-sm bg-white cursor-pointer hover:border-primary-500 transition-colors shadow-sm shrink-0"
-            >
-              <span className="font-bold text-slate-800">{checkOut}</span>
-              <Calendar size={14} className="text-slate-400" />
-            </div>
-
-            {/* All Filters Button - Always visible next to dates on mobile */}
-            <button 
-              onClick={() => setIsFilterModalOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 border border-slate-900 rounded-lg text-[12px] md:text-sm bg-white font-bold hover:bg-slate-50 transition-all shrink-0"
-            >
-               <div className="flex flex-col gap-0.5 items-end">
-                  <div className="w-3.5 h-0.5 bg-slate-900"></div>
-                  <div className="w-2.5 h-0.5 bg-slate-900"></div>
-                  <div className="w-3.5 h-0.5 bg-slate-900"></div>
-               </div>
-               All Filters
-            </button>
+        {/* Filters Bar - Fixed in one scrollable line */}
+        <div className="sticky top-[53px] md:relative bg-[#f0fdfa]/95 backdrop-blur-md z-40 -mx-6 px-6 py-3 border-b border-slate-100 md:border-none flex items-center gap-2 overflow-x-auto no-scrollbar mb-1">
+          {/* Check-in */}
+          <div 
+            onClick={() => setIsDatePickerOpen(true)}
+            className="flex items-center gap-2 px-3 py-2 border border-slate-200 rounded-lg text-[12px] md:text-sm bg-white cursor-pointer hover:border-primary-500 transition-colors shadow-sm shrink-0"
+          >
+            <span className="font-bold text-slate-800">{checkIn}</span>
+            <Calendar size={14} className="text-slate-400" />
           </div>
 
-          {/* Row 2: Secondary Filters */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-            {/* Sort By Dropdown */}
-            <div className="relative shrink-0">
-              <div 
-                onClick={() => {
-                  if (window.innerWidth < 768) setActiveQuickFilter('sort');
-                  else setActiveDropdown(activeDropdown === 'sort' ? null : 'sort');
-                }}
-                className={cn(
-                  "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
-                  activeDropdown === 'sort' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
-                )}
-              >
-                Sort by
-                <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'sort' && "rotate-180")} />
-              </div>
-              
-              <AnimatePresence>
-                {activeDropdown === 'sort' && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-50 origin-top"
-                  >
-                    {/* Popover Arrow */}
-                    <div className="absolute -top-1.5 left-6 w-3 h-3 bg-white border-l border-t border-slate-100 rotate-45" />
-                    
-                    <div className="relative space-y-1">
-                      {SORT_OPTIONS.map(opt => (
-                        <button 
-                          key={opt}
-                          onClick={() => setActiveDropdown(null)}
-                          className="w-full text-left px-4 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors border-b border-slate-50 last:border-0"
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+          {/* Check-out */}
+          <div 
+            onClick={() => setIsDatePickerOpen(true)}
+            className="flex items-center gap-2 px-3 py-2 border border-slate-200 rounded-lg text-[12px] md:text-sm bg-white cursor-pointer hover:border-primary-500 transition-colors shadow-sm shrink-0"
+          >
+            <span className="font-bold text-slate-800">{checkOut}</span>
+            <Calendar size={14} className="text-slate-400" />
+          </div>
+
+          {/* All Filters Button */}
+          <button 
+            onClick={() => setIsFilterModalOpen(true)}
+            className="flex items-center gap-2 px-3 py-2 border border-slate-900 rounded-lg text-[12px] md:text-sm bg-white font-bold hover:bg-slate-50 transition-all shrink-0"
+          >
+             <div className="flex flex-col gap-0.5 items-end">
+                <div className="w-3.5 h-0.5 bg-slate-900"></div>
+                <div className="w-2.5 h-0.5 bg-slate-900"></div>
+                <div className="w-3.5 h-0.5 bg-slate-900"></div>
+             </div>
+             All Filters
+          </button>
+
+          {/* Sort By Dropdown */}
+          <div className="relative shrink-0">
+            <div 
+              onClick={() => {
+                if (window.innerWidth < 768) setActiveQuickFilter('sort');
+                else setActiveDropdown(activeDropdown === 'sort' ? null : 'sort');
+              }}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
+                activeDropdown === 'sort' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
+              )}
+            >
+              Sort by
+              <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'sort' && "rotate-180")} />
             </div>
-
-            {/* Star Rating Dropdown */}
-            <div className="relative shrink-0">
-              <div 
-                onClick={() => {
-                  if (window.innerWidth < 768) setActiveQuickFilter('star');
-                  else setActiveDropdown(activeDropdown === 'star' ? null : 'star');
-                }}
-                className={cn(
-                  "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
-                  activeDropdown === 'star' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
-                )}
-              >
-                Star Rating
-                <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'star' && "rotate-180")} />
-              </div>
-              
-              <AnimatePresence>
-                {activeDropdown === 'star' && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-50 origin-top"
-                  >
-                    {/* Popover Arrow */}
-                    <div className="absolute -top-1.5 left-6 w-3 h-3 bg-white border-l border-t border-slate-100 rotate-45" />
-
-                    <div className="relative space-y-1">
-                      {STAR_OPTIONS.map(opt => (
-                        <button 
-                          key={opt}
-                          onClick={() => setActiveDropdown(null)}
-                          className="w-full text-left px-4 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors border-b border-slate-50 last:border-0"
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Secondary filters hidden on mobile, shown on desktop or in 'All Filters' */}
-            <div className="hidden lg:flex items-center gap-2">
-              {/* Hotel View Dropdown */}
-              <div className="relative shrink-0">
-                <div 
-                  onClick={() => setActiveDropdown(activeDropdown === 'view' ? null : 'view')}
-                  className={cn(
-                    "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
-                    activeDropdown === 'view' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
-                  )}
+            
+            <AnimatePresence>
+              {activeDropdown === 'sort' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-50 origin-top"
                 >
-                  Hotel View
-                  <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'view' && "rotate-180")} />
-                </div>
-              </div>
-              
-              {['Pets Essential', 'User Ratings', 'Amenities'].map(filter => (
-                <div key={filter} className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm bg-slate-100/50 cursor-pointer hover:bg-white hover:border-primary-500 transition-all font-bold text-slate-700 shrink-0">
-                  {filter}
-                  <ChevronDown size={14} className="text-slate-400" />
-                </div>
-              ))}
+                  <div className="absolute -top-1.5 left-6 w-3 h-3 bg-white border-l border-t border-slate-100 rotate-45" />
+                  <div className="relative space-y-1">
+                    {SORT_OPTIONS.map(opt => (
+                      <button 
+                        key={opt}
+                        onClick={() => setActiveDropdown(null)}
+                        className="w-full text-left px-4 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors border-b border-slate-50 last:border-0"
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Star Rating Dropdown */}
+          <div className="relative shrink-0">
+            <div 
+              onClick={() => {
+                if (window.innerWidth < 768) setActiveQuickFilter('star');
+                else setActiveDropdown(activeDropdown === 'star' ? null : 'star');
+              }}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
+                activeDropdown === 'star' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
+              )}
+            >
+              Star Rating
+              <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'star' && "rotate-180")} />
             </div>
+            
+            <AnimatePresence>
+              {activeDropdown === 'star' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-50 origin-top"
+                >
+                  <div className="absolute -top-1.5 left-6 w-3 h-3 bg-white border-l border-t border-slate-100 rotate-45" />
+                  <div className="relative space-y-1">
+                    {STAR_OPTIONS.map(opt => (
+                      <button 
+                        key={opt}
+                        onClick={() => setActiveDropdown(null)}
+                        className="w-full text-left px-4 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors border-b border-slate-50 last:border-0"
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Desktop Only Extensions */}
+          <div className="hidden lg:flex items-center gap-2">
+            <div 
+              onClick={() => setActiveDropdown(activeDropdown === 'view' ? null : 'view')}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer shrink-0",
+                activeDropdown === 'view' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
+              )}
+            >
+              Hotel View
+              <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'view' && "rotate-180")} />
+            </div>
+            
+            {['Pets Essential', 'User Ratings', 'Amenities'].map(filter => (
+              <div key={filter} className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm bg-slate-100/50 cursor-pointer hover:bg-white hover:border-primary-500 transition-all font-bold text-slate-700 shrink-0">
+                {filter}
+                <ChevronDown size={14} className="text-slate-400" />
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 pb-32 md:pb-0">
           {/* Main Listings */}
           <div className="lg:col-span-3">
             {/* Desktop View: Vertical Feed */}
@@ -768,7 +758,7 @@ const HotelResults = () => {
               {HOTEL_DATA.map(hotel => (
                 <Card key={hotel.id} className="p-4 md:p-6 flex flex-col md:flex-row gap-6 hover:shadow-xl transition-all duration-300 group border-slate-100">
                   <div 
-                    onClick={() => navigate(`/hotels/${hotel.id}`)}
+                    onClick={() => navigate(`/hotel/${hotel.id}`)}
                     className="w-full md:w-72 h-44 md:h-56 relative rounded-xl overflow-hidden flex-shrink-0 cursor-pointer"
                   >
                     <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -785,10 +775,10 @@ const HotelResults = () => {
                       <div className="space-y-1">
                         <div 
                           className="flex items-center gap-2 cursor-pointer group/title"
-                          onClick={() => navigate(`/hotels/${hotel.id}`)}
+                          onClick={() => navigate(`/hotel/${hotel.id}`)}
                         >
                           <div className="bg-slate-900 text-white p-1 rounded-full"><Star size={10} fill="white" /></div>
-                          <h3 className="text-xl font-bold text-slate-900 group-hover/title:text-[#0076d7] transition-colors">{hotel.name}</h3>
+                          <h3 className="text-xl font-bold text-slate-900 group-hover/title:text-[#7c3aed] transition-colors">{hotel.name}</h3>
                         </div>
                         <div className="flex items-center gap-3">
                           <div className="bg-green-600 text-white px-2 py-0.5 rounded-md text-sm font-bold flex items-center gap-1">
@@ -823,7 +813,7 @@ const HotelResults = () => {
                       </button>
                       <button 
                         onClick={() => setIsLeadModalOpen(true)}
-                        className="bg-[#0076d7] hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-lg flex items-center gap-2 transition-all active:scale-95 text-sm shadow-md"
+                        className="bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-2 rounded-lg flex items-center gap-2 transition-all active:scale-95 text-sm shadow-md"
                       >
                         <Zap size={16} fill="currentColor" />
                         Get Best Deal
@@ -842,7 +832,7 @@ const HotelResults = () => {
                     {HOTEL_DATA.slice(i * 10, (i + 1) * 10).map(hotel => (
                       <Card key={hotel.id} className="min-w-[85vw] snap-start p-3 flex flex-col gap-4 border-slate-100 shadow-sm">
                         <div 
-                          onClick={() => navigate(`/hotels/${hotel.id}`)}
+                          onClick={() => navigate(`/hotel/${hotel.id}`)}
                           className="w-full h-40 relative rounded-xl overflow-hidden flex-shrink-0 bg-slate-100"
                         >
                           <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover" />
@@ -867,7 +857,7 @@ const HotelResults = () => {
                             </button>
                             <button 
                               onClick={() => setIsLeadModalOpen(true)}
-                              className="col-span-2 bg-[#0076d7] text-white rounded-lg font-bold py-2 text-[11px] mt-1 shadow-md"
+                              className="col-span-2 bg-primary-600 text-white rounded-lg font-bold py-2 text-[11px] mt-1 shadow-md"
                             >
                               Get Best Deal
                             </button>
@@ -939,7 +929,7 @@ const HotelResults = () => {
                     </span>
                   </div>
 
-                  <button className="w-full bg-[#0076d7] hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg flex items-center justify-center gap-2 group shadow-xl shadow-blue-500/10 transition-all active:scale-[0.98] text-[15px]">
+                  <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3.5 rounded-lg flex items-center justify-center gap-2 group shadow-xl shadow-primary-500/10 transition-all active:scale-[0.98] text-[15px]">
                     Get Best Deal
                     <div className="flex -space-x-1 ml-1 overflow-hidden">
                       <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />

@@ -18,16 +18,22 @@ const UserLayout = ({ children }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-transparent">
-      <Navbar />
+    <div className="min-h-screen bg-transparent overflow-x-hidden">
+      {/* Hide standard Navbar on mobile for detail pages where we have custom headers */}
+      <div className={cn(
+        (!pathname.includes('/hotel/') && !pathname.match(/\/category\/[^/]+\/[^/]+/)) ? "block" : "hidden md:block"
+      )}>
+        <Navbar />
+      </div>
       <main className={cn(
-        "pb-20 md:pb-0"
+        (!pathname.includes('/hotel/') && !pathname.match(/\/category\/[^/]+\/[^/]+/)) ? "pb-20 md:pb-0" : "pb-0"
       )}>
         {children}
       </main>
 
       {/* Mobile Bottom Navigation */}
-      {!pathname.includes('/hotels/') && !pathname.match(/\/category\/[^/]+\/[^/]+/) && (
+      {/* Mobile Bottom Navigation - Hidden on Detail Pages */}
+      {!pathname.includes('/hotel/') && !pathname.match(/\/category\/[^/]+\/[^/]+/) && (
         <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-2 py-2 flex items-center justify-around z-[100] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
           {bottomNavItems.map((item, idx) => (
             <button 
@@ -59,7 +65,7 @@ const UserLayout = ({ children }) => {
       
       {/* Premium Footer - Only on Home Page */}
       {isHomePage && (
-        <footer className="bg-slate-900 text-white pt-12 md:pt-20 pb-10 mt-6 md:mt-20">
+        <footer className="bg-slate-900 text-white pt-10 md:pt-20 pb-10 mt-0 md:mt-20">
         <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-6">

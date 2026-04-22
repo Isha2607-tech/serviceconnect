@@ -60,6 +60,15 @@ export default {
         '2xl': '1.5rem',
         '3xl': '2rem',
       },
+      keyframes: {
+        shine: {
+          '0%': { left: '-100%' },
+          '100%': { left: '200%' },
+        },
+      },
+      animation: {
+        shine: 'shine 3s infinite linear',
+      },
     },
   },
   plugins: [],

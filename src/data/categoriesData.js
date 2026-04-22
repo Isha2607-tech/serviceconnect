@@ -1,7 +1,7 @@
 export const CATEGORIES_DATA = {
   gym: [
     {
-      id: 1,
+      id: 'v1',
       name: 'PowerHouse Fitness',
       rating: 4.8,
       reviewsCount: 1250,
@@ -15,21 +15,22 @@ export const CATEGORIES_DATA = {
       address: 'Plot No 50, Sunder Compound, Andheri West, Mumbai-400053',
       yearsInBusiness: 12,
       images: [
-        'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1200',
-        'https://images.unsplash.com/photo-1571902953202-b5e1b2f7f917?auto=format&fit=crop&q=80&w=800',
-        'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=800',
+        { url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1200', category: 'Interior' },
+        { url: 'https://images.unsplash.com/photo-1571902953202-b5e1b2f7f917?auto=format&fit=crop&q=80&w=800', category: 'Exterior' },
+        { url: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=800', category: 'By User' },
       ],
-      facilities: ['AC', 'Locker Room', 'Steam Bath'],
-      amenities: ['Parking', 'Water Dispenser', 'WiFi'],
-      services: ['Weight Gain', 'Weight Loss', 'Yoga'],
+      facilities: ['AC', 'Locker Room', 'Steam Bath', 'Showers', 'Changing Rooms'],
+      amenities: ['Parking', 'Water Dispenser', 'WiFi', 'Music System'],
+      services: ['Weight Gain', 'Weight Loss', 'Yoga', 'Zumba', 'Personal Training'],
       userReviews: [
-        { name: 'John Doe', rating: 5, date: '12-04-2026', text: 'Best gym in the area! The equipment is top notch.' }
+        { name: 'John Doe', rating: 5, date: '12-04-2026', text: 'Best gym in the area! The equipment is top notch.' },
+        { name: 'Sameer Khan', rating: 4, date: '10-04-2026', text: 'Great trainers and very hygienic place.' }
       ]
     }
   ],
   restaurants: [
     {
-      id: 1,
+      id: 'v1',
       name: 'The Golden Spoon',
       rating: 4.7,
       reviewsCount: 3500,
@@ -42,52 +43,49 @@ export const CATEGORIES_DATA = {
       phone: '022-22851234',
       address: 'Apollo Bandar, Colaba, Mumbai, Maharashtra 400001',
       yearsInBusiness: 25,
-      images: ['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200'],
-      facilities: ['Valet Parking', 'Wheelchair Accessible'],
-      amenities: ['Air Conditioned', 'Live Music', 'Bar'],
-      services: ['Home Delivery', 'Takeaway', 'Dine-in'],
-      userReviews: [{ name: 'Alice', rating: 5, date: '15-04-2026', text: 'Amazing food!' }]
+      images: [
+        { url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200', category: 'Interior' },
+        { url: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=800', category: 'Exterior' },
+        { url: 'https://images.unsplash.com/photo-1550966841-3ee7adac1ad0?auto=format&fit=crop&q=80&w=800', category: 'By User' }
+      ],
+      facilities: ['Valet Parking', 'Wheelchair Accessible', 'Smoking Area', 'Elevator', 'WiFi'],
+      amenities: ['Air Conditioned', 'Live Music', 'Bar', 'Private Dining'],
+      services: ['Home Delivery', 'Takeaway', 'Dine-in', 'Buffet', 'Outdoor Seating'],
+      userReviews: [
+        { name: 'Alice', rating: 5, date: '15-04-2026', text: 'Amazing food!' },
+        { name: 'Rohit Sharma', rating: 4, date: '18-04-2026', text: 'Great ambiance and the Italian food is authentic.' }
+      ]
     },
-    { id: 2, name: 'Bandra Blue', rating: 4.9, reviewsCount: 1200, location: 'Bandra, Mumbai', tags: ['Seafood', 'Coastal'], image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Bestseller' },
-    { id: 3, name: 'Spice Route', rating: 4.5, reviewsCount: 890, location: 'Juhu, Mumbai', tags: ['Indian', 'Spicy'], image: 'https://images.unsplash.com/photo-1550966841-3ee7adac1ad0?auto=format&fit=crop&q=80&w=800', verified: false, highlight: 'Locals Love It' },
-    { id: 4, name: 'Oceanic Delight', rating: 4.3, reviewsCount: 650, location: 'Worli, Mumbai', tags: ['Continental'], image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Sea View' },
-    { id: 5, name: 'The Gardenia', rating: 4.7, reviewsCount: 1100, location: 'Andheri, Mumbai', tags: ['Organic', 'Vegan'], image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Nature Vibe' },
-    { id: 6, name: 'Urban Grill', rating: 4.2, reviewsCount: 450, location: 'Powai, Mumbai', tags: ['BBQ', 'Steak'], image: 'https://images.unsplash.com/photo-1585007600263-ad26f9712132?auto=format&fit=crop&q=80&w=800', verified: false, highlight: 'Weekend Spot' },
-    { id: 7, name: 'Midnight Fusion', rating: 4.6, reviewsCount: 1300, location: 'Bandra, Mumbai', tags: ['Late Night', 'Club'], image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Party Hub' },
-    { id: 8, name: 'Sushi Zen', rating: 4.8, reviewsCount: 780, location: 'Juhu, Mumbai', tags: ['Japanese', 'Sushi'], image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Authentic' },
-    { id: 9, name: 'Taco Haven', rating: 4.4, reviewsCount: 920, location: 'Worli, Mumbai', tags: ['Mexican', 'Street Food'], image: 'https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&q=80&w=800', verified: false, highlight: 'Trendy' },
-    { id: 10, name: 'Pasta Palace', rating: 4.1, reviewsCount: 560, location: 'Andheri, Mumbai', tags: ['Italian', 'Pasta'], image: 'https://images.unsplash.com/photo-1560624052-449f5ddf0c31?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Family Choice' },
-    { id: 11, name: 'Royal Tandoor', rating: 4.6, reviewsCount: 1450, location: 'Powai, Mumbai', tags: ['North Indian'], image: 'https://images.unsplash.com/photo-1554679665-f5537f187268?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Rich Taste' },
-    { id: 12, name: 'Bistro 24', rating: 4.3, reviewsCount: 380, location: 'Bandra, Mumbai', tags: ['Cafe', 'Breakfast'], image: 'https://images.unsplash.com/photo-1424847651672-2297474298ce?auto=format&fit=crop&q=80&w=800', verified: false, highlight: 'Always Open' },
-    { id: 13, name: 'Steak House', rating: 4.7, reviewsCount: 880, location: 'Juhu, Mumbai', tags: ['Meat', 'Grill'], image: 'https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Top Steak' },
-    { id: 14, name: 'Dim Sum Garden', rating: 4.5, reviewsCount: 1050, location: 'Worli, Mumbai', tags: ['Chinese', 'Dim Sum'], image: 'https://images.unsplash.com/photo-1526234362653-3b74a0bc2741?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Freshly Steamed' },
-    { id: 15, name: 'The Burger Joint', rating: 4.2, reviewsCount: 1220, location: 'Andheri, Mumbai', tags: ['Fast Food', 'burgers'], image: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&q=80&w=800', verified: false, highlight: 'Juicy Burgers' },
-    { id: 16, name: 'Pizza Piazza', rating: 4.6, reviewsCount: 940, location: 'Powai, Mumbai', tags: ['Pizza', 'Wood Fired'], image: 'https://images.unsplash.com/photo-1511690656052-7e13ce48a834?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Authentic Italian' },
-    { id: 17, name: 'Waffle World', rating: 4.8, reviewsCount: 670, location: 'Bandra, Mumbai', tags: ['Dessert', 'Waffles'], image: 'https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Sweet Tooth' },
-    { id: 18, name: 'Curry Leaf', rating: 4.4, reviewsCount: 520, location: 'Juhu, Mumbai', tags: ['South Indian'], image: 'https://images.unsplash.com/photo-1521017432531-fbd92d744264?auto=format&fit=crop&q=80&w=800', verified: false, highlight: 'Traditional' },
-    { id: 19, name: 'Sky Lounge', rating: 4.7, reviewsCount: 1800, location: 'Worli, Mumbai', tags: ['Rooftop', 'Cocktails'], image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Best View' },
-    { id: 20, name: 'Rustic Kitchen', rating: 4.5, reviewsCount: 1100, location: 'Andheri, Mumbai', tags: ['Farm to Table'], image: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Healthy' }
+    { id: 'v2', name: 'Bandra Blue', rating: 4.9, reviewsCount: 1200, location: 'Bandra, Mumbai', tags: ['Seafood', 'Coastal'], image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Bestseller' },
+    { id: 'v3', name: 'Spice Route', rating: 4.5, reviewsCount: 890, location: 'Juhu, Mumbai', tags: ['Indian', 'Spicy'], image: 'https://images.unsplash.com/photo-1550966841-3ee7adac1ad0?auto=format&fit=crop&q=80&w=800', verified: false, highlight: 'Locals Love It' },
+    { id: 'v20', name: 'Rustic Kitchen', rating: 4.5, reviewsCount: 1100, location: 'Andheri, Mumbai', tags: ['Farm to Table'], image: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Healthy' }
+  ],
+  beauty: [
+    {
+      id: 'v1',
+      name: 'Glow Up Salon',
+      rating: 4.9,
+      reviewsCount: 850,
+      location: 'Juhu, Mumbai',
+      tags: ['Luxury Spa', 'Bridal Makeup', 'Hair Care'],
+      image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800',
+      verified: true,
+      highlight: 'Best Bridal Studio 2026',
+      yearsInBusiness: 8,
+      phone: '09845258527',
+      images: [
+        { url: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200', category: 'Interior' },
+        { url: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800', category: 'By User' }
+      ],
+      facilities: ['Private Rooms', 'Steam Cabin', 'Valet Parking', 'WiFi'],
+      amenities: ['Coffee Bar', 'Music', 'Air Conditioned'],
+      services: ['Bridal Package', 'Hair Spa', 'Facials', 'Nail Art', 'Massage'],
+      userReviews: [
+        { name: 'Priya Iyer', rating: 5, date: '20-04-2026', text: 'The bridal makeup was perfect! Highly recommended.' }
+      ]
+    }
   ],
   default: [
-    { id: 1, name: 'Elite Service Provider', rating: 4.6, reviewsCount: 500, location: 'Mumbai Central', tags: ['Expert', 'Reliable'], image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Verified Professional' },
-    { id: 2, name: 'Master Plumbing', rating: 4.8, reviewsCount: 320, location: 'Dadar, Mumbai', tags: ['Plumbing', 'Verified'], image: 'https://images.unsplash.com/photo-1454165833767-124b868e8203?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Quick Response' },
-    { id: 3, name: 'Sparkle Electricals', rating: 4.5, reviewsCount: 280, location: 'Sion, Mumbai', tags: ['Electrical', 'Expert'], image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Safety First' },
-    { id: 4, name: 'Urban Cleaners', rating: 4.7, reviewsCount: 950, location: 'Chembur, Mumbai', tags: ['Cleaning', 'Professional'], image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Top Rated' },
-    { id: 5, name: 'Home Repair Pros', rating: 4.4, reviewsCount: 410, location: 'Vile Parle, Mumbai', tags: ['Repair', 'Quick'], image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Trusted' },
-    { id: 6, name: 'Cool Tech AC', rating: 4.9, reviewsCount: 1500, location: 'Borivali, Mumbai', tags: ['AC Repair', 'Verified'], image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Best in Borivali' },
-    { id: 7, name: 'Paint Masters', rating: 4.6, reviewsCount: 720, location: 'Dadar, Mumbai', tags: ['Painting', 'Service'], image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Expert Finish' },
-    { id: 8, name: 'Safe Guard Security', rating: 4.5, reviewsCount: 540, location: 'Sion, Mumbai', tags: ['Security', 'Expert'], image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Always Protected' },
-    { id: 9, name: 'Fix It Fast', rating: 4.3, reviewsCount: 330, location: 'Chembur, Mumbai', tags: ['General Fix', 'Quick'], image: 'https://images.unsplash.com/photo-1568992687947-868a62ad924b?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'In 30 Mins' },
-    { id: 10, name: 'Carpentry Kings', rating: 4.8, reviewsCount: 880, location: 'Vile Parle, Mumbai', tags: ['Woodwork', 'Verified'], image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Craftsmanship' },
-    { id: 11, name: 'Green Gardeners', rating: 4.5, reviewsCount: 120, location: 'Borivali, Mumbai', tags: ['Gardening', 'Service'], image: 'https://images.unsplash.com/photo-1521791136364-798a7bc0d261?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Eco Friendly' },
-    { id: 12, name: 'Digital Fixers', rating: 4.7, reviewsCount: 960, location: 'Dadar, Mumbai', tags: ['IT Support', 'Expert'], image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Tech Experts' },
-    { id: 13, name: 'Movers & Packers', rating: 4.4, reviewsCount: 1560, location: 'Sion, Mumbai', tags: ['Moving', 'Verified'], image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Safe Transit' },
-    { id: 14, name: 'Appliances Hub', rating: 4.2, reviewsCount: 440, location: 'Chembur, Mumbai', tags: ['Installation'], image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Quick Install' },
-    { id: 15, name: 'Smart Home Tech', rating: 4.9, reviewsCount: 2200, location: 'Vile Parle, Mumbai', tags: ['Automation'], image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Modern Living' },
-    { id: 16, name: 'Interior Masters', rating: 4.7, reviewsCount: 1280, location: 'Borivali, Mumbai', tags: ['Design', 'Expert'], image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Luxury Style' },
-    { id: 17, name: 'Pest Control Pro', rating: 4.5, reviewsCount: 670, location: 'Dadar, Mumbai', tags: ['Cleaning', 'Safe'], image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Safe Environment' },
-    { id: 18, name: 'Glass Works', rating: 4.3, reviewsCount: 290, location: 'Sion, Mumbai', tags: ['Glass', 'Repair'], image: 'https://images.unsplash.com/photo-1567515004624-219c11d31f2e?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Crystal Clear' },
-    { id: 19, name: 'Legal Consult', rating: 4.8, reviewsCount: 1100, location: 'Chembur, Mumbai', tags: ['Legal', 'Expert'], image: 'https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Trusted Advice' },
-    { id: 20, name: 'Event Planners', rating: 4.7, reviewsCount: 2100, location: 'Vile Parle, Mumbai', tags: ['Events', 'Professional'], image: 'https://images.unsplash.com/photo-1522071901870-44405b90813d?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Grand Success' }
+    { id: 'v1', name: 'Elite Service Provider', rating: 4.6, reviewsCount: 500, location: 'Mumbai Central', tags: ['Expert', 'Reliable'], image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Verified Professional' }
   ]
 };

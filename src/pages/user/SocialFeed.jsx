@@ -3,13 +3,20 @@ import UserLayout from '../../layouts/UserLayout';
 import Card from '../../components/common/Card';
 import Badge from '../../components/common/Badge';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, ShieldCheck, Zap, Sparkles } from 'lucide-react';
+import indianWedding from '../../assets/indian_wedding.png';
+import moversImg from '../../assets/services/movers.png';
+import cleaningImg from '../../assets/services/cleaning.png';
+import carDetailingImg from '../../assets/services/car_detailing.png';
+import gymImg from '../../assets/services/gym.png';
+import dentalImg from '../../assets/services/dental.png';
+import interiorImg from '../../assets/services/interiors.png';
 
 const FEED_ITEMS = [
   {
     id: 1,
     vendor: 'Elegant Interiors',
     avatar: 'EI',
-    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=600',
+    image: interiorImg,
     caption: 'Modern luxury living room transformation in Bandra. We used warm tones and minimal furniture to create space. ✨ #interiordesign #mumbaihomes',
     likes: '1.2k',
     comments: '88',
@@ -20,7 +27,7 @@ const FEED_ITEMS = [
     id: 2,
     vendor: 'Pro Auto Detailing',
     avatar: 'PA',
-    image: 'https://images.unsplash.com/photo-1601362840469-51e4d8d59085?auto=format&fit=crop&q=80&w=600',
+    image: carDetailingImg,
     caption: 'Ceramic coating session for this beauty! Total protection from dust and UV. Book your slot today for 20% off. #carcare #detailing #mumbai',
     likes: '850',
     comments: '42',
@@ -31,22 +38,264 @@ const FEED_ITEMS = [
     id: 3,
     vendor: 'Green Roots Landscaping',
     avatar: 'GR',
-    image: 'https://images.unsplash.com/photo-1558905612-1d54020a101b?auto=format&fit=crop&q=80&w=600',
+    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&q=80&w=800',
     caption: 'Vertical garden installation for a compact balcony in Powai. Nature meets city living. 🌿 #verticalgarden #powai #greenliving',
     likes: '420',
     comments: '15',
     time: '1 day ago',
     verified: false
+  },
+  {
+    id: 4,
+    vendor: 'Spark Cleaners',
+    avatar: 'SC',
+    image: cleaningImg,
+    caption: 'A deep cleaning session can breathe new life into your home. Say goodbye to dust and allergens! 🧼 #deepcleaning #mumbai #homecare',
+    likes: '640',
+    comments: '24',
+    time: '6 hours ago',
+    verified: true
+  },
+  {
+    id: 5,
+    vendor: 'Luxe Salon',
+    avatar: 'LS',
+    image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800',
+    caption: 'Ready for the wedding season? Our bridal package includes everything from hair to makeup. Book now! 💄 #bridalmakeup #mumbaiweddings #salon',
+    likes: '1.5k',
+    comments: '112',
+    time: '8 hours ago',
+    verified: true
+  },
+  {
+    id: 6,
+    vendor: 'Pet Paradise',
+    avatar: 'PP',
+    image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=800',
+    caption: 'Meet Bruno! He just had his summer grooming session and looks absolutely adorable. 🐾 #petgrooming #dogs #mumbaipets',
+    likes: '980',
+    comments: '56',
+    time: '12 hours ago',
+    verified: false
+  },
+  {
+    id: 7,
+    vendor: 'Inner Peace Yoga',
+    avatar: 'IY',
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800',
+    caption: 'Morning sun salutations to start your day with energy and calm. Join our weekend batches! 🧘‍♀️ #yoga #wellness #mumbailife',
+    likes: '310',
+    comments: '12',
+    time: '1 day ago',
+    verified: true
+  },
+  {
+    id: 8,
+    vendor: 'Gourmet Kitchen',
+    avatar: 'GK',
+    image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800',
+    caption: 'Behind the scenes at Gourmet Kitchen. Our chefs are crafting magic for tonight\'s special event! 🥘 #catering #foodies #mumbaifood',
+    likes: '2.1k',
+    comments: '156',
+    time: '3 hours ago',
+    verified: true
+  },
+  {
+    id: 9,
+    vendor: 'Apex Car Detailing',
+    avatar: 'AD',
+    image: carDetailingImg,
+    caption: 'Water beads like magic with our premium wax coating. Protect your investment from the monsoon! 🚗 #carwax #mumbaimonsoon',
+    likes: '720',
+    comments: '34',
+    time: '5 hours ago',
+    verified: false
+  },
+  {
+    id: 10,
+    vendor: 'Modern Interiors',
+    avatar: 'MI',
+    image: interiorImg,
+    caption: 'Redefining modular kitchens with sleek finishes and smart storage. Efficiency meets style. 🍳 #modularkitchen #homedecor',
+    likes: '1.8k',
+    comments: '92',
+    time: '7 hours ago',
+    verified: true
+  },
+  {
+    id: 11,
+    vendor: 'FitForge Gym',
+    avatar: 'FG',
+    image: gymImg,
+    caption: 'Never miss a Monday! Our community is crushing their fitness goals today. Join the movement. 💪 #gymlife #fitnessmotivation #indore',
+    likes: '540',
+    comments: '28',
+    time: '9 hours ago',
+    verified: true
+  },
+  {
+    id: 12,
+    vendor: 'Sunny Smiles Dental',
+    avatar: 'SD',
+    image: dentalImg,
+    caption: 'A bright smile is your best accessory. Teeth whitening sessions now available at special rates. 😁 #dentalcare #whiteteeth',
+    likes: '230',
+    comments: '9',
+    time: '15 hours ago',
+    verified: false
+  },
+  {
+    id: 13,
+    vendor: 'Royal Weddings',
+    avatar: 'RW',
+    image: indianWedding,
+    caption: 'Floral decor that feels like a fairytale. Let us plan your big day with perfection. 🌸 #weddingplanner #floraldecor #mumbai',
+    likes: '3.4k',
+    comments: '210',
+    time: '1 day ago',
+    verified: true
+  },
+  {
+    id: 14,
+    vendor: 'SafeHands Hospitals',
+    avatar: 'SH',
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
+    caption: 'Health is wealth. Regular checkups are the first step to preventive care. Book your health package today. 🏥 #healthcare #hospital',
+    likes: '450',
+    comments: '12',
+    time: '1 day ago',
+    verified: true
+  },
+  {
+    id: 15,
+    vendor: 'Green Acres PG',
+    avatar: 'GA',
+    image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80&w=800',
+    caption: 'Fully furnished rooms with all amenities for students and professionals. Your home away from home. 🏠 #PG #hostellife #mumbai',
+    likes: '180',
+    comments: '25',
+    time: '2 days ago',
+    verified: false
+  },
+  {
+    id: 16,
+    vendor: 'Swift Movers',
+    avatar: 'SM',
+    image: moversImg,
+    caption: 'Moving can be stress-free! Our team handles everything from packing to unloading with care. 📦 #packersandmovers #movingday',
+    likes: '320',
+    comments: '18',
+    time: '2 days ago',
+    verified: true
+  },
+  {
+    id: 17,
+    vendor: 'TechFix Solutions',
+    avatar: 'TF',
+    image: 'https://images.unsplash.com/photo-1597733336794-12d05021d510?auto=format&fit=crop&q=80&w=800',
+    caption: 'Cracked screen? Slow laptop? Our experts are here to fix all your tech troubles. 💻 #laptoprepair #techsupport',
+    likes: '290',
+    comments: '14',
+    time: '3 days ago',
+    verified: true
+  },
+  {
+    id: 18,
+    vendor: 'Artisan Bakes',
+    avatar: 'AB',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800',
+    caption: 'Freshly baked sourdough straight from the oven. The smell is absolutely heavenly! 🥖 #bakery #freshbread #artisan',
+    likes: '1.1k',
+    comments: '45',
+    time: '3 days ago',
+    verified: false
+  },
+  {
+    id: 19,
+    vendor: 'City Pest Control',
+    avatar: 'CP',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800',
+    caption: 'Don\'t let pests ruin your peace. Secure your home with our eco-friendly pest control treatments. 🐜 #pestcontrol #hygiene',
+    likes: '150',
+    comments: '7',
+    time: '4 days ago',
+    verified: true
+  },
+  {
+    id: 20,
+    vendor: 'Skyline Real Estate',
+    avatar: 'SR',
+    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800',
+    caption: 'Finding your dream home just got easier. Browse our latest listings of premium apartments. 🏢 #realestate #dreamhome',
+    likes: '890',
+    comments: '56',
+    time: '4 days ago',
+    verified: true
+  },
+  {
+    id: 21,
+    vendor: 'Pulse Pharmacy',
+    avatar: 'PP',
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800',
+    caption: 'Essential medicines and wellness products delivered to your doorstep. Stay safe, stay healthy. 💊 #pharmacy #delivery',
+    likes: '210',
+    comments: '5',
+    time: '5 days ago',
+    verified: false
+  },
+  {
+    id: 22,
+    vendor: 'Bright Horizon Tutorials',
+    avatar: 'BH',
+    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800',
+    caption: 'Quality education for a brighter future. Enrollment open for our upcoming summer crash courses. 📚 #education #tutoring',
+    likes: '430',
+    comments: '32',
+    time: '5 days ago',
+    verified: true
+  },
+  {
+    id: 23,
+    vendor: 'Velvet Threads',
+    avatar: 'VT',
+    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800',
+    caption: 'Bespoke tailoring that fits your style. Experience the luxury of custom-made clothing. 👔 #tailoring #fashion #suits',
+    likes: '760',
+    comments: '24',
+    time: '6 days ago',
+    verified: true
+  },
+  {
+    id: 24,
+    vendor: 'AquaLife Aquariums',
+    avatar: 'AA',
+    image: 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&q=80&w=800',
+    caption: 'Bring the ocean home with our custom aquarium setups and exotic fish collection. 🐠 #aquarium #pets #interiordetails',
+    likes: '510',
+    comments: '38',
+    time: '6 days ago',
+    verified: false
+  },
+  {
+    id: 25,
+    vendor: 'Silver Line Motors',
+    avatar: 'SL',
+    image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800',
+    caption: 'Quality pre-owned luxury cars at unbeatable prices. Drive home your dream car today! 🏎️ #usedcars #luxurycars #mumbai',
+    likes: '1.3k',
+    comments: '72',
+    time: '1 week ago',
+    verified: true
   }
 ];
 
 const VENDOR_STORIES = [
   { name: 'Luxe Salon', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=150' },
-  { name: 'Apex Car Detailing', image: 'https://images.unsplash.com/photo-1507133366044-c99f27311516?auto=format&fit=crop&q=80&w=150' },
+  { name: 'Apex Car Detailing', image: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&q=80&w=150' },
   { name: 'Pet Paradise', image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=150' },
   { name: 'Gourmet Kitchen', image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=150' },
   { name: 'Inner Peace Yoga', image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=150' },
-  { name: 'Spark Cleaners', image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=150' },
+  { name: 'Spark Cleaners', image: 'https://images.unsplash.com/photo-1581578731518-da989149ce00?auto=format&fit=crop&q=80&w=150' },
   { name: 'Modern Interiors', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=150' }
 ];
 
@@ -66,18 +315,28 @@ const SocialFeed = () => {
             {/* Stories/Vendor Shorts Row */}
             <div className="mb-10 -mx-4 md:mx-0 overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-5 px-4 md:px-0">
                {VENDOR_STORIES.map((v, i) => (
-                  <div key={i} className="flex flex-col items-center gap-2 group cursor-pointer shrink-0">
-                     <div className="w-20 h-20 rounded-3xl p-1 border-2 border-primary-500 bg-white shadow-lg active:scale-95 transition-transform">
-                        <div className="w-full h-full rounded-2xl bg-slate-100 overflow-hidden relative">
-                           <img 
-                              src={v.image} 
-                              alt={v.name} 
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                           />
-                           <div className="absolute inset-0 bg-primary-600/10 mix-blend-overlay"></div>
+                  <div key={i} className="flex flex-col items-center gap-3 group cursor-pointer shrink-0 w-24">
+                     <div className="w-20 h-20 rounded-[2.5rem] p-[3px] bg-gradient-to-tr from-primary-600 via-primary-400 to-indigo-400 shadow-xl active:scale-95 transition-all duration-300 relative group-hover:shadow-primary-500/20 group-hover:-translate-y-1">
+                        <div className="w-full h-full rounded-[2.2rem] bg-white p-1">
+                           <div className="w-full h-full rounded-[2rem] bg-slate-100 overflow-hidden relative">
+                              <img 
+                                 src={v.name === 'Apex Car Detailing' ? carDetailingImg : v.name === 'Spark Cleaners' ? cleaningImg : v.name === 'Modern Interiors' ? interiorImg : v.image} 
+                                 alt={v.name} 
+                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              />
+                              {/* Glossy/Shine Overlay */}
+                              <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-50"></div>
+                              <div className="absolute top-[-100%] left-[-100%] w-[50%] h-[300%] bg-white/30 skew-x-[-25deg] animate-shine pointer-events-none"></div>
+                           </div>
                         </div>
+                        {/* Status ring */}
+                        <div className="absolute -inset-[2px] rounded-[2.6rem] border-[3px] border-primary-500/20 group-hover:border-primary-500/50 transition-colors"></div>
                      </div>
-                     <span className="text-[10px] font-bold text-slate-700 max-w-[80px] break-words text-center leading-tight">{v.name}</span>
+                     <div className="h-8 flex items-center justify-center">
+                        <span className="text-[10px] font-bold text-slate-800 break-words text-center leading-[1.1] group-hover:text-primary-600 transition-colors line-clamp-2 px-1">
+                          {v.name}
+                        </span>
+                     </div>
                   </div>
                ))}
             </div>
@@ -87,8 +346,10 @@ const SocialFeed = () => {
                    {/* Post Header */}
                    <div className="p-3 md:p-4 flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                         <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-xs md:text-sm border-2 border-primary-50">
+                         <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center text-white font-bold text-xs md:text-sm border-2 border-white shadow-lg relative overflow-hidden group/avatar">
                             {post.avatar}
+                            {/* Glossy Overlay for Avatar */}
+                            <div className="absolute top-[-100%] left-[-100%] w-[50%] h-[300%] bg-white/20 skew-x-[-25deg] animate-shine pointer-events-none"></div>
                          </div>
                          <div>
                             <div className="flex items-center gap-1.5">
@@ -105,7 +366,11 @@ const SocialFeed = () => {
 
                    {/* Post Image */}
                    <div className="aspect-square bg-slate-50 overflow-hidden relative group">
-                      <img src={post.image} className="w-full h-full object-cover" />
+                      <img 
+                        src={post.image} 
+                        alt={`${post.vendor} post - ${post.caption.substring(0, 30)}...`}
+                        className="w-full h-full object-cover" 
+                      />
                    </div>
 
                    {/* Post Actions */}
@@ -151,22 +416,26 @@ const SocialFeed = () => {
                    <Sparkles size={18} className="text-primary-600" />
                    Featured Offers
                 </h4>
-                <div className="space-y-4">
-                   {[1, 2].map((i) => (
-                      <div key={i} className="group cursor-pointer">
-                         <div className="h-32 bg-slate-100 rounded-2xl mb-3 overflow-hidden relative">
-                            <img src={i === 1 ? 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=300' : 'https://images.unsplash.com/photo-1517646287270-a5a5cc916910?auto=format&fit=crop&q=80&w=300'} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
-                            <div className="absolute top-2 right-2 bg-accent-600 text-white text-[10px] font-bold px-2 py-1 rounded-lg">
-                               30% OFF
-                            </div>
-                         </div>
-                         <h5 className="font-bold text-sm text-slate-900 leading-tight mb-1 group-hover:text-primary-600 transition-colors">
-                            {i === 1 ? 'Summer AC Servicing Pack' : 'Festive Home Deep Cleaning'}
-                         </h5>
-                         <p className="text-[10px] font-bold text-slate-400 uppercase">Valid for 2 days</p>
-                      </div>
-                   ))}
-                </div>
+                 <div className="space-y-4">
+                    {[1, 2].map((i) => (
+                       <div key={i} className="group cursor-pointer">
+                          <div className="h-32 bg-slate-100 rounded-2xl mb-3 overflow-hidden relative">
+                             <img 
+                                src={i === 1 ? 'https://images.unsplash.com/photo-1581578731518-da989149ce00?auto=format&fit=crop&q=80&w=300' : 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=300'} 
+                                alt={i === 1 ? 'AC Servicing Offer' : 'Deep Cleaning Offer'}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform" 
+                             />
+                             <div className="absolute top-2 right-2 bg-accent-600 text-white text-[10px] font-bold px-2 py-1 rounded-lg">
+                                30% OFF
+                             </div>
+                          </div>
+                          <h5 className="font-bold text-sm text-slate-900 leading-tight mb-1 group-hover:text-primary-600 transition-colors">
+                             {i === 1 ? 'Summer AC Servicing Pack' : 'Festive Home Deep Cleaning'}
+                          </h5>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase">Valid for 2 days</p>
+                       </div>
+                    ))}
+                 </div>
              </Card>
 
              <Card className="p-6 bg-primary-600 text-white overflow-hidden relative">

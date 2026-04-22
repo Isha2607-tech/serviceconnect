@@ -4,79 +4,188 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ChevronDown, Search, Mic, MapPin, Bell } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
-const CATEGORIES = [
-  { id: 1, name: 'Restaurants', icon: 'https://img.icons8.com/3d-fluency/180/restaurant.png', color: 'bg-orange-50' },
-  { id: 2, name: 'Hotels', icon: 'https://img.icons8.com/3d-fluency/180/office.png', color: 'bg-blue-50' },
-  { id: 3, name: 'Beauty', icon: 'https://img.icons8.com/3d-fluency/180/cosmetic-brush.png', color: 'bg-pink-50' },
-  { id: 4, name: 'Home', icon: 'https://img.icons8.com/3d-fluency/180/home.png', color: 'bg-indigo-50' },
-  { id: 5, name: 'Wedding', icon: 'https://img.icons8.com/3d-fluency/180/diamond-ring.png', color: 'bg-rose-50' },
-  { id: 6, name: 'Education', icon: 'https://img.icons8.com/3d-fluency/180/graduation-cap.png', color: 'bg-emerald-50' },
-  { id: 7, name: 'Rent', icon: 'https://img.icons8.com/3d-fluency/180/key.png', color: 'bg-amber-50' },
-  { id: 8, name: 'Hospitals', icon: 'https://img.icons8.com/3d-fluency/180/hospital.png', color: 'bg-red-50' },
-  { id: 9, name: 'Contractors', icon: 'https://img.icons8.com/3d-fluency/180/hammer.png', color: 'bg-slate-100' },
-  { id: 10, name: 'Pet', icon: 'https://img.icons8.com/3d-fluency/180/dog.png', color: 'bg-orange-100/50' },
-  { id: 11, name: 'PG/Hostels', icon: 'https://img.icons8.com/3d-fluency/180/bed.png', color: 'bg-cyan-50' },
-  { id: 12, name: 'Estate', icon: 'https://img.icons8.com/3d-fluency/180/commercial.png', color: 'bg-violet-50' },
-  { id: 13, name: 'Dentists', icon: 'https://img.icons8.com/3d-fluency/180/tooth.png', color: 'bg-teal-50' },
-  { id: 14, name: 'Gym', icon: 'https://img.icons8.com/3d-fluency/180/dumbbell.png', color: 'bg-slate-200' },
-  { id: 15, name: 'Loans', icon: 'https://img.icons8.com/3d-fluency/180/money-bag.png', color: 'bg-emerald-100' },
-];
+import { GROUPED_CATEGORIES } from '../../data/groupedCategories';
+
 
 const CategoriesPage = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = React.useState('daily');
+  const sectionRefs = React.useRef({});
+  const tabContainerRef = React.useRef(null);
+
+  // ScrollSpy Logic
+  React.useEffect(() => {
+    const options = {
+      rootMargin: '-140px 0px -40% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveTab(entry.target.id);
+        }
+      });
+    }, options);
+
+    Object.values(sectionRefs.current).forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Sync tab scroll
+  React.useEffect(() => {
+    if (tabContainerRef.current) {
+      const activeEl = tabContainerRef.current.querySelector('[data-active="true"]');
+      if (activeEl) {
+        activeEl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    }
+  }, [activeTab]);
+
+  const scrollToSection = (id) => {
+    const element = sectionRefs.current[id];
+    if (element) {
+      const offset = 135;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-transparent pb-10">
-      {/* Header */}
-      <div className="px-4 pt-6 pb-4 bg-white sticky top-0 z-50 shadow-sm border-b border-cyan-50">
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-xl hover:bg-slate-50 transition-colors">
-            <ArrowLeft size={24} className="text-slate-800" />
-          </button>
-          <h1 className="text-xl font-bold text-slate-800">All Categories</h1>
+    <motion.div 
+      initial={{ 
+        clipPath: 'circle(0% at 85% 65%)',
+        opacity: 0,
+        scale: 0.95
+      }}
+      animate={{ 
+        clipPath: 'circle(150% at 85% 65%)',
+        opacity: 1,
+        scale: 1
+      }}
+      exit={{ 
+        clipPath: 'circle(0% at 85% 65%)',
+        opacity: 0,
+        scale: 0.95
+      }}
+      transition={{ 
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1]
+      }}
+      className="min-h-screen bg-[#F5F7F9] pb-24 origin-center"
+    >
+      {/* Sticky Top Section */}
+      <div className="sticky top-0 z-[100] bg-white shadow-sm overflow-x-hidden">
+        {/* Header */}
+        <div className="px-4 pt-3 pb-1 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+             <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-xl hover:bg-slate-50 transition-colors">
+               <ArrowLeft size={20} className="text-slate-800" />
+             </button>
+             <span className="text-lg font-display font-bold tracking-tight text-primary-600">
+                Service<span className="text-slate-900">Connect</span>
+             </span>
+          </div>
+          <Bell size={20} className="text-slate-400" />
         </div>
-      </div>
 
-      {/* Search Bar */}
-      <div className="px-4 mt-6">
-        <div className="bg-white border border-slate-200 rounded-2xl p-1.5 flex items-center gap-3 shadow-sm">
-          <Search className="text-slate-400 ml-2" size={20} />
-          <input
-            type="text"
-            placeholder="Search categories..."
-            className="w-full py-2 focus:outline-none text-slate-800 font-medium placeholder:text-slate-400"
-          />
-          <Mic size={20} className="text-blue-500 mr-2" />
+        {/* Search Bar */}
+        <div className="px-4 pb-2">
+          <div className="bg-[#F0F5F6] border border-transparent rounded-2xl p-1 flex items-center gap-2 focus-within:bg-white focus-within:border-primary-500/30 transition-all">
+            <Search className="text-slate-400 ml-2" size={16} />
+            <input
+              type="text"
+              placeholder="What are you looking for?"
+              className="w-full py-1.5 bg-transparent focus:outline-none text-slate-800 font-semibold placeholder:text-slate-500 text-xs"
+            />
+            <Mic size={16} className="text-[#FF5722] mr-2" />
+          </div>
         </div>
-      </div>
 
-      {/* Categories Grid */}
-      <div className="px-4 mt-8">
-        <div className="grid grid-cols-2 gap-4">
-          {CATEGORIES.map((cat, idx) => (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.05 }}
-              key={cat.id}
-              className="bg-white rounded-xl p-3 flex items-center gap-3 shadow-[0_10px_25px_rgba(0,0,0,0.02)] border border-white active:scale-95 transition-all"
-              onClick={() => {
-                const route = cat.name.toLowerCase() === 'hotels' ? '/hotels' : `/category/${cat.name.toLowerCase()}`;
-                navigate(route);
-              }}
+        {/* Horizontal Navigation Tabs */}
+        <div ref={tabContainerRef} className="flex overflow-x-auto gap-0.5 px-4 pb-1 no-scrollbar scroll-smooth">
+          {GROUPED_CATEGORIES.map((group) => (
+            <button
+              key={group.id}
+              onClick={() => scrollToSection(group.id)}
+              data-active={activeTab === group.id}
+              className={cn(
+                "whitespace-nowrap px-3 py-1.5 text-[13px] font-bold transition-all duration-300 relative shrink-0",
+                activeTab === group.id 
+                  ? "text-primary-600" 
+                  : "text-slate-500"
+              )}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#F0F9FB] flex items-center justify-center shrink-0">
-                <img src={cat.icon} alt={cat.name} className="w-8 h-8 object-contain" />
-              </div>
-              <div className="flex items-center justify-between flex-1 min-w-0 pr-1">
-                <span className="text-[14px] font-bold text-slate-700 truncate">{cat.name}</span>
-                <ChevronDown size={14} className="-rotate-90 text-cyan-600/30 stroke-[3px]" />
-              </div>
-            </motion.div>
+              {group.title}
+              {activeTab === group.id && (
+                <motion.div 
+                  layoutId="activeTabUnderline"
+                  className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary-600 rounded-full"
+                />
+              )}
+            </button>
           ))}
         </div>
       </div>
-    </div>
+
+      {/* Main Content Sections */}
+      <div className="px-4 mt-6 space-y-8">
+        {GROUPED_CATEGORIES.map((group) => (
+          <div 
+            key={group.id} 
+            id={group.id}
+            ref={el => sectionRefs.current[group.id] = el}
+            className="scroll-mt-32"
+          >
+            <h2 className="text-base font-bold text-slate-900 mb-3">{group.title}</h2>
+            <div className="flex flex-wrap gap-3">
+              {group.items.map((item) => (
+                <motion.div
+                  whileTap={{ scale: 0.95 }}
+                  key={item.id}
+                  className="bg-transparent rounded-full pl-1.5 pr-3 py-1 flex items-center gap-1.5 border border-slate-300 active:bg-slate-100 transition-colors cursor-pointer min-w-max"
+                  onClick={() => {
+                    const name = item.name.toLowerCase();
+                    const route = name.includes('hotels') ? '/hotels' : `/category/${name.replace(/ /g, '-')}`;
+                    navigate(route);
+                  }}
+                >
+                  <div className="w-7 h-7 flex items-center justify-center overflow-hidden">
+                    <img src={item.icon} alt={item.name} className="w-7 h-7 object-contain" />
+                  </div>
+                  <span className="text-[12px] font-bold text-slate-800 whitespace-nowrap">
+                    {item.name}
+                  </span>
+                </motion.div>
+              ))}
+              
+              {/* Ellipsis button for extra feeling */}
+              <div className="bg-transparent rounded-full px-5 py-1 flex items-center justify-center border border-slate-300 min-w-[60px] h-9">
+                <div className="flex gap-1">
+                  <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                  <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                  <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
   );
 };
 

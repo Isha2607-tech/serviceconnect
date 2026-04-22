@@ -224,7 +224,7 @@ const CategoryResults = () => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-24 pb-4">
+      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-24 pb-32 md:pb-4">
         {/* Breadcrumbs */}
         <div className="flex items-center gap-2 text-[11px] text-slate-500 mb-0">
           <span className="hover:text-primary-600 cursor-pointer" onClick={() => navigate('/')}>Home</span>
@@ -236,25 +236,23 @@ const CategoryResults = () => {
 
         <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-1 font-display">Popular {displayTitle} in Mumbai</h1>
 
-        {/* Filters Bar (Simpler version for generic categories) */}
-        <div className="flex flex-col md:flex-row md:items-center gap-2 mb-1">
-          {/* Row 1: All Filters Trigger */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
-             <button 
-               onClick={() => setIsFilterModalOpen(true)}
-               className="flex items-center gap-2 px-3 py-2 border border-slate-900 rounded-lg text-sm bg-white font-bold hover:bg-slate-50 transition-all shrink-0"
-             >
-               <div className="flex flex-col gap-0.5 items-end">
-                  <div className="w-3.5 h-0.5 bg-slate-900"></div>
-                  <div className="w-2.5 h-0.5 bg-slate-900"></div>
-                  <div className="w-3.5 h-0.5 bg-slate-900"></div>
-               </div>
-               All Filters
+        {/* Filters Bar - Unified horizontal scroll for all filters */}
+        <div className="sticky top-[53px] md:relative bg-[#f0fdfa]/95 backdrop-blur-md z-40 -mx-6 px-6 py-3 border-b border-slate-100 md:border-none mb-1">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0 scroll-smooth">
+            {/* All Filters Trigger */}
+            <button 
+              onClick={() => setIsFilterModalOpen(true)}
+              className="flex items-center gap-2 px-3 py-2 border border-slate-900 rounded-lg text-sm bg-white font-bold hover:bg-slate-50 transition-all shrink-0 h-[38px]"
+            >
+              <div className="flex flex-col gap-0.5 items-end">
+                <div className="w-3.5 h-0.5 bg-slate-900"></div>
+                <div className="w-2.5 h-0.5 bg-slate-900"></div>
+                <div className="w-3.5 h-0.5 bg-slate-900"></div>
+              </div>
+              All Filters
             </button>
-          </div>
 
-          {/* Row 2: Main Chips */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            {/* Main Quick Filter Chips */}
             <div className="relative shrink-0">
               <div 
                 onClick={() => {
@@ -262,29 +260,28 @@ const CategoryResults = () => {
                   else setActiveDropdown(activeDropdown === 'sort' ? null : 'sort');
                 }}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer",
-                  activeDropdown === 'sort' ? "border-primary-500 bg-white" : "border-slate-200 bg-slate-100/50 hover:bg-white hover:border-primary-500 text-slate-700"
+                  "flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-all font-bold cursor-pointer h-[38px] whitespace-nowrap",
+                  activeDropdown === 'sort' || activeQuickFilter === 'sort' ? "border-[#0076d7] bg-white text-[#0076d7]" : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700"
                 )}
               >
                 Sort by
                 <ChevronDown size={14} className={cn("text-slate-400 transition-transform", activeDropdown === 'sort' && "rotate-180")} />
               </div>
               
+              {/* Desktop Dropdown */}
               <AnimatePresence>
                 {activeDropdown === 'sort' && (
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-50 origin-top"
+                    className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-50 origin-top hidden md:block"
                   >
-                    {/* Popover Arrow */}
                     <div className="absolute -top-1.5 left-6 w-3 h-3 bg-white border-l border-t border-slate-100 rotate-45" />
-
                     <div className="relative space-y-1">
                       {SORT_OPTIONS.map(opt => (
                         <button 
                           key={opt} 
                           onClick={() => setActiveDropdown(null)} 
-                          className="w-full text-left px-4 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-primary-600 rounded-lg transition-colors border-b border-slate-50 last:border-0"
+                          className="w-full text-left px-4 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#0076d7] rounded-lg transition-colors"
                         >
                           {opt}
                         </button>
@@ -295,7 +292,7 @@ const CategoryResults = () => {
               </AnimatePresence>
             </div>
 
-            {['Ratings', 'Verified', 'Open Now'].map((filter, i) => (
+            {['Ratings', 'Verified', 'Open Now', 'Near Me'].map((filter) => (
               <div 
                 key={filter} 
                 onClick={() => { 
@@ -304,8 +301,8 @@ const CategoryResults = () => {
                   }
                 }}
                 className={cn(
-                  "items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm bg-slate-100/50 cursor-pointer hover:bg-white transition-all font-bold text-slate-700 shrink-0",
-                  i >= 2 ? "hidden md:flex" : "flex"
+                  "flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm bg-white cursor-pointer hover:bg-slate-50 transition-all font-bold text-slate-700 shrink-0 h-[38px] whitespace-nowrap",
+                  activeQuickFilter === filter.toLowerCase().replace(' ', '') ? "border-[#0076d7] text-[#0076d7]" : ""
                 )}
               >
                 {filter}
