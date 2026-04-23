@@ -544,8 +544,7 @@ const Home = () => {
       </section>
 
       {/* Featured Vendors - Compacted */}
-      <section className="bg-primary-50/30 pt-4 pb-4 md:py-24 px-4 md:px-6">
-        <div className="max-w-[1400px] mx-auto">
+      <section className="md:max-w-[1400px] md:mx-auto bg-primary-50/30 pt-4 pb-4 md:pt-16 md:pb-4 px-4 md:px-6">
           <div className="text-left mb-4 md:mb-16">
             <h2 className="text-lg md:text-2xl font-display font-bold text-slate-900 mb-1">Handpicked Top Rated Experts</h2>
             <p className="text-slate-500 text-xs md:text-lg leading-tight">Proven track records and high customer satisfaction.</p>
@@ -586,7 +585,6 @@ const Home = () => {
               </Card>
             ))}
           </div>
-        </div>
       </section>
 
       {/* Social Discovery Segment - Compacted Padding */}

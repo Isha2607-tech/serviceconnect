@@ -224,7 +224,7 @@ const CategoryResults = () => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-24 pb-32 md:pb-4">
+      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-20 pb-32 md:pb-4">
         {/* Breadcrumbs */}
         <div className="flex items-center gap-2 text-[11px] text-slate-500 mb-0">
           <span className="hover:text-primary-600 cursor-pointer" onClick={() => navigate('/')}>Home</span>
@@ -234,10 +234,10 @@ const CategoryResults = () => {
           <span className="text-slate-400 truncate">{displayTitle} in Mumbai</span>
         </div>
 
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-1 font-display">Popular {displayTitle} in Mumbai</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 md:mb-0 mb-1 font-display">Popular {displayTitle} in Mumbai</h1>
 
         {/* Filters Bar - Unified horizontal scroll for all filters */}
-        <div className="sticky top-[53px] md:relative bg-[#f0fdfa]/95 backdrop-blur-md z-40 -mx-6 px-6 py-3 border-b border-slate-100 md:border-none mb-1">
+        <div className="sticky top-[53px] md:relative bg-[#f0fdfa]/95 backdrop-blur-md z-40 -mx-6 px-6 py-3 md:pt-0 md:pb-2 border-b border-slate-100 md:border-none md:mb-14 mb-1">
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0 scroll-smooth">
             {/* All Filters Trigger */}
             <button 
@@ -312,7 +312,7 @@ const CategoryResults = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 md:mt-10">
           {/* Main Listings */}
           <div className="lg:col-span-3">
             {/* Desktop View: Vertical List */}
@@ -323,7 +323,7 @@ const CategoryResults = () => {
                   className="p-4 flex flex-row gap-6 hover:shadow-xl transition-all duration-300 group border-slate-100 cursor-pointer"
                   onClick={() => navigate(`/category/${normalizedCategory}/${item.id}`)}
                 >
-                  <div className="w-full md:w-72 h-44 md:h-56 relative rounded-xl overflow-hidden flex-shrink-0">
+                  <div className="w-full md:w-80 h-44 md:h-64 relative rounded-xl overflow-hidden flex-shrink-0">
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute top-3 left-3">
                       <Badge variant="primary" className="shadow-lg backdrop-blur-md bg-white/20 border-white/20 text-white">{item.rating} ★</Badge>

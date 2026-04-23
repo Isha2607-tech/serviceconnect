@@ -325,7 +325,7 @@ const HotelDetails = () => {
           </div>
 
           {/* Sticky Tab Bar */}
-          <div ref={tabsRef} className="sticky top-[49px] md:relative bg-[#f0fdfa]/95 md:bg-transparent z-[90] -mx-4 px-4 md:mx-0 md:px-0 border-b border-slate-100 flex gap-6 md:gap-10 mb-0 overflow-x-auto no-scrollbar">
+          <div ref={tabsRef} className="sticky top-[49px] md:relative bg-[#f0fdfa]/95 md:bg-transparent z-[90] -mx-4 px-4 md:mx-0 md:px-0 border-b border-slate-100 flex gap-6 md:gap-10 md:mb-12 mb-0 overflow-x-auto no-scrollbar">
             {tabs.map(tab => (
               <button key={tab} onClick={() => handleTabChange(tab)} className={cn("py-3.5 font-bold text-[14px] relative transition-colors whitespace-nowrap", activeTab === tab ? "text-[#20594e]" : "text-slate-500")}>
                 {tab}
@@ -334,13 +334,13 @@ const HotelDetails = () => {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:pb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:mt-10 md:pb-20">
             <div className="lg:col-span-2">
               
               {/* CONTENT SECTIONS */}
               <div className="md:block hidden">
                 <AnimatePresence mode="wait" custom={direction}>
-                  <motion.div key={activeTab} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.2 }}>
+                  <motion.div key={activeTab} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.2 }} className="relative">
                     {renderSectionContent(activeTab)}
                   </motion.div>
                 </AnimatePresence>

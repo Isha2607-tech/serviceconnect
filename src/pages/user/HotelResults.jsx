@@ -601,7 +601,7 @@ const HotelResults = () => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-24 pb-32 md:pb-4">
+      <div className="max-w-[1400px] mx-auto px-6 pt-[4.4rem] md:pt-20 pb-32 md:pb-4">
         {/* Breadcrumbs */}
         <div className="flex items-center gap-2 text-[11px] text-slate-500 mb-0">
           <span className="hover:text-primary-600 cursor-pointer">Mumbai</span>
@@ -611,10 +611,10 @@ const HotelResults = () => {
           <span className="text-slate-400">14443+ Listings</span>
         </div>
 
-        <h1 className="text-2xl font-bold text-slate-900 mb-1 font-display">Popular Hotels in Mumbai</h1>
+        <h1 className="text-2xl font-bold text-slate-900 md:mb-0 mb-1 font-display">Popular Hotels in Mumbai</h1>
 
         {/* Filters Bar - Fixed in one scrollable line */}
-        <div className="sticky top-[53px] md:relative bg-[#f0fdfa]/95 backdrop-blur-md z-40 -mx-6 px-6 py-3 border-b border-slate-100 md:border-none flex items-center gap-2 overflow-x-auto no-scrollbar mb-1">
+        <div className="sticky top-[53px] md:relative bg-[#f0fdfa]/95 backdrop-blur-md z-40 -mx-6 px-6 py-3 md:pt-0 md:pb-2 border-b border-slate-100 md:border-none flex items-center gap-2 overflow-x-auto no-scrollbar md:mb-14 mb-1">
           {/* Check-in */}
           <div 
             onClick={() => setIsDatePickerOpen(true)}
@@ -750,7 +750,7 @@ const HotelResults = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 pb-32 md:pb-0">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 md:mt-10 pb-32 md:pb-0">
           {/* Main Listings */}
           <div className="lg:col-span-3">
             {/* Desktop View: Vertical Feed */}
@@ -759,7 +759,7 @@ const HotelResults = () => {
                 <Card key={hotel.id} className="p-4 md:p-6 flex flex-col md:flex-row gap-6 hover:shadow-xl transition-all duration-300 group border-slate-100">
                   <div 
                     onClick={() => navigate(`/hotel/${hotel.id}`)}
-                    className="w-full md:w-72 h-44 md:h-56 relative rounded-xl overflow-hidden flex-shrink-0 cursor-pointer"
+                    className="w-full md:w-80 h-44 md:h-64 relative rounded-xl overflow-hidden flex-shrink-0 cursor-pointer"
                   >
                     <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-y-0 left-0 flex items-center px-2 opacity-0 group-hover:opacity-100 transition-opacity">
