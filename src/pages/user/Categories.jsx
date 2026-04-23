@@ -1,44 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronDown, Search, Mic, MapPin, Bell } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
 import { GROUPED_CATEGORIES } from '../../data/groupedCategories';
 
 
-const CategoriesPage = () => {
+const CategoriesPage = ({ isOverlay, onOverlayClose, initialTab = 'daily' }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = React.useState('daily');
-  const sectionRefs = React.useRef({});
+  
+  const handleBack = () => {
+    if (isOverlay && onOverlayClose) {
+      onOverlayClose();
+    } else {
+      navigate(-1);
+    }
+  };
+  const [activeTab, setActiveTab] = React.useState(initialTab);
+  const [expandedGroups, setExpandedGroups] = React.useState({});
   const tabContainerRef = React.useRef(null);
 
-  // Forced Scroll to top on mount
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  // ScrollSpy Logic
-  React.useEffect(() => {
-    const options = {
-      rootMargin: '-180px 0px -75% 0px',
-      threshold: 0
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveTab(entry.target.id);
-        }
-      });
-    }, options);
-
-    Object.values(sectionRefs.current).forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   // Sync tab scroll
   React.useEffect(() => {
@@ -54,30 +36,19 @@ const CategoriesPage = () => {
     }
   }, [activeTab]);
 
-  const scrollToSection = (id) => {
-    const element = sectionRefs.current[id];
-    if (element) {
-      const offset = 135;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+  const handleTabClick = (id) => {
+    setActiveTab(id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen bg-transparent pb-[60vh]">
+    <div className="min-h-screen bg-transparent pb-24">
       {/* Sticky Top Section */}
-      <div className="sticky top-0 z-[100] bg-white shadow-sm overflow-x-hidden">
+      <div className="sticky top-0 z-[100] bg-gradient-to-b from-[#D4F4FA] to-[#F2FBFD] shadow-sm overflow-x-hidden">
         {/* Header */}
         <div className="px-4 pt-3 pb-1 flex items-center justify-between">
           <div className="flex items-center gap-3">
-             <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-xl hover:bg-slate-50 transition-colors">
+             <button onClick={handleBack} className="p-2 -ml-2 rounded-xl hover:bg-slate-50 transition-colors">
                <ArrowLeft size={20} className="text-slate-800" />
              </button>
              <span className="text-lg font-display font-bold tracking-tight text-primary-600">
@@ -89,7 +60,7 @@ const CategoriesPage = () => {
 
         {/* Search Bar */}
         <div className="px-4 pb-2">
-          <div className="bg-[#F0F5F6] border border-transparent rounded-2xl p-1 flex items-center gap-2 focus-within:bg-white focus-within:border-primary-500/30 transition-all">
+          <div className="bg-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-white/50 rounded-2xl p-1 flex items-center gap-2 focus-within:border-primary-500/30 transition-all">
             <Search className="text-slate-400 ml-2" size={16} />
             <input
               type="text"
@@ -105,7 +76,7 @@ const CategoriesPage = () => {
           {GROUPED_CATEGORIES.map((group) => (
             <button
               key={group.id}
-              onClick={() => scrollToSection(group.id)}
+              onClick={() => handleTabClick(group.id)}
               data-active={activeTab === group.id}
               className={cn(
                 "whitespace-nowrap px-3 py-1.5 text-[13px] font-bold transition-all duration-300 relative shrink-0",
@@ -127,47 +98,105 @@ const CategoriesPage = () => {
       </div>
 
       {/* Main Content Sections */}
-      <div className="px-4 mt-6 space-y-8">
-        {GROUPED_CATEGORIES.map((group) => (
-          <div 
-            key={group.id} 
-            id={group.id}
-            ref={el => sectionRefs.current[group.id] = el}
-            className="scroll-mt-32"
-          >
-            <h2 className="text-base font-bold text-slate-900 mb-3">{group.title}</h2>
-            <div className="flex flex-wrap gap-3">
-              {group.items.map((item) => (
-                <motion.div
-                  whileTap={{ scale: 0.95 }}
-                  key={item.id}
-                  className="bg-transparent rounded-full pl-1.5 pr-3 py-1 flex items-center gap-1.5 border border-slate-300 active:bg-slate-100 transition-colors cursor-pointer min-w-max"
-                  onClick={() => {
-                    const name = item.name.toLowerCase();
-                    const route = name.includes('hotels') ? '/hotels' : `/category/${name.replace(/ /g, '-')}`;
-                    navigate(route);
-                  }}
-                >
-                  <div className="w-7 h-7 flex items-center justify-center overflow-hidden">
-                    <img src={item.icon} alt={item.name} className="w-7 h-7 object-contain" />
-                  </div>
-                  <span className="text-[12px] font-bold text-slate-800 whitespace-nowrap">
-                    {item.name}
-                  </span>
-                </motion.div>
-              ))}
-              
-              {/* Ellipsis button for extra feeling */}
-              <div className="bg-transparent rounded-full px-5 py-1 flex items-center justify-center border border-slate-300 min-w-[60px] h-9">
-                <div className="flex gap-1">
-                  <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                  <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                  <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                </div>
+      <div className="px-4 mt-6">
+        <AnimatePresence mode="wait">
+          {GROUPED_CATEGORIES.filter(group => group.id === activeTab).map((group) => (
+            <motion.div 
+              key={group.id} 
+              id={group.id}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-6"
+            >
+              <h2 className="text-base font-bold text-slate-900 mb-5 px-1">{group.title}</h2>
+              <div className="grid grid-cols-4 gap-y-6 gap-x-2">
+                {(() => {
+                  const isExpanded = expandedGroups[group.id];
+                  const itemsToShow = isExpanded || group.items.length <= 16 
+                    ? group.items 
+                    : group.items.slice(0, 15);
+                  const showMore = !isExpanded && group.items.length > 16;
+                  const showLess = isExpanded && group.items.length > 16;
+
+                  return (
+                    <>
+                      {itemsToShow.map((item) => (
+                        <motion.div
+                          whileTap={{ scale: 0.9 }}
+                          key={item.id}
+                          className="flex flex-col items-center gap-1 active:scale-90 transition-transform cursor-pointer"
+                          onClick={() => {
+                            const name = item.name.toLowerCase();
+                            const route = name.includes('hotels') ? '/hotels' : `/category/${name.replace(/ /g, '-')}`;
+                            navigate(route);
+                          }}
+                        >
+                          <div className="w-16 h-14 flex items-center justify-center">
+                            <img src={item.icon} alt={item.name} className="w-13 h-13 object-contain" />
+                          </div>
+                          <span 
+                            className="text-[12px] font-bold text-slate-800 text-center leading-tight h-8 flex items-start justify-center px-0.5"
+                            style={{ fontFamily: "'URW Chancery L', cursive" }}
+                          >
+                            {item.name}
+                          </span>
+                        </motion.div>
+                      ))}
+                      
+                      {showMore && (
+                        <motion.div 
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="flex flex-col items-center gap-1 active:scale-90 transition-transform cursor-pointer"
+                          onClick={() => setExpandedGroups(prev => ({ ...prev, [group.id]: true }))}
+                        >
+                          <div className="w-16 h-14 flex items-center justify-center">
+                            <div className="w-11 h-11 bg-slate-100 rounded-full flex items-center justify-center text-slate-500">
+                              <div className="flex gap-1">
+                                <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <span 
+                            className="text-[12px] font-bold text-slate-800 text-center leading-tight h-8 flex items-start justify-center"
+                            style={{ fontFamily: "'URW Chancery L', cursive" }}
+                          >
+                            More
+                          </span>
+                        </motion.div>
+                      )}
+
+                      {showLess && (
+                        <motion.div 
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="flex flex-col items-center gap-1 active:scale-90 transition-transform cursor-pointer"
+                          onClick={() => setExpandedGroups(prev => ({ ...prev, [group.id]: false }))}
+                        >
+                          <div className="w-16 h-14 flex items-center justify-center">
+                            <div className="w-11 h-11 bg-slate-100 rounded-full flex items-center justify-center text-slate-500">
+                               <ChevronDown size={20} className="rotate-180" />
+                            </div>
+                          </div>
+                          <span 
+                            className="text-[12px] font-bold text-slate-800 text-center leading-tight h-8 flex items-start justify-center"
+                            style={{ fontFamily: "'URW Chancery L', cursive" }}
+                          >
+                            Less
+                          </span>
+                        </motion.div>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
-            </div>
-          </div>
-        ))}
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );

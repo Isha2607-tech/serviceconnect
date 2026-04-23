@@ -12,6 +12,7 @@ import hotelIcon from '../../assets/icons/hotel.png';
 import beautyIcon from '../../assets/icons/beauty.png';
 import LeadFormModal from '../../components/common/LeadFormModal';
 import ServicesOverlay from '../../components/user/ServicesOverlay';
+import AnimatedCategoriesOverlay from '../../components/user/AnimatedCategoriesOverlay';
 
 const CATEGORIES = [
   { id: 1, name: 'Restaurants', icon: 'https://img.icons8.com/bubbles/180/restaurant.png', color: 'bg-primary-50/50' },
@@ -87,6 +88,9 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [locationQuery, setLocationQuery] = useState('');
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isPreviewStackOpen, setIsPreviewStackOpen] = useState(false); // Existing state check
+  const [isCategoriesOverlayOpen, setIsCategoriesOverlayOpen] = useState(false);
+  const moreButtonRef = useRef(null);
   const [previewStack, setPreviewStack] = useState([0, 1, 2]);
 
   const handleSwap = (id) => {
@@ -121,7 +125,7 @@ const Home = () => {
 
   const handleCategoryClick = (cat) => {
     if (cat.isMenu) {
-      setIsServicesOpen(true);
+      setIsCategoriesOverlayOpen(true);
       return;
     }
     
@@ -373,8 +377,9 @@ const Home = () => {
              ))}
              
              <div 
+               ref={moreButtonRef}
                className="flex flex-col items-center gap-0 active:scale-90 transition-transform cursor-pointer"
-               onClick={() => setIsServicesOpen(true)}
+               onClick={() => setIsCategoriesOverlayOpen(true)}
              >
                <div className="w-14 h-12 flex items-center justify-center">
                   <div className="w-11 h-11 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-600/20 active:rotate-180 transition-all duration-300">
@@ -692,10 +697,17 @@ const Home = () => {
         vendorName={selectedVendor?.name || "Expert"} 
       />
 
-      {/* Services Full Screen Overlay */}
+      {/* Services Full Screen Overlay (Original if needed) */}
       <ServicesOverlay 
         isOpen={isServicesOpen} 
         onClose={() => setIsServicesOpen(false)} 
+      />
+
+      {/* Premium Animated Categories Overlay */}
+      <AnimatedCategoriesOverlay 
+        isOpen={isCategoriesOverlayOpen}
+        onClose={() => setIsCategoriesOverlayOpen(false)}
+        triggerRef={moreButtonRef}
       />
     </UserLayout>
   );

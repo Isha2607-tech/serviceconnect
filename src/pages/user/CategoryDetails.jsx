@@ -283,7 +283,7 @@ const CategoryDetails = () => {
             </div>
           </div>
 
-          <div className="md:hidden flex items-center justify-between mb-6 px-2">
+          <div className="md:hidden flex items-center justify-around mb-6 px-2">
              <div className="flex flex-col items-center gap-2">
                 <div className="w-10 h-10 bg-[#20594e] rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-[#20594e]/10 active:scale-95 transition-all"><Phone size={18} fill="currentColor" /></div>
                 <span className="text-[10px] font-bold text-slate-800 uppercase">Call Now</span>

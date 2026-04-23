@@ -15,6 +15,17 @@ export const GROUPED_CATEGORIES = [
       { id: 'medicines', name: 'Medicines', icon: 'https://img.icons8.com/bubbles/180/pill.png' },
       { id: 'electricians', name: 'Electricians', icon: electricianIcon },
       { id: 'plumber', name: 'Plumber', icon: plumberIcon },
+      { id: 'bakery', name: 'Bakery', icon: 'https://img.icons8.com/bubbles/180/bread.png' },
+      { id: 'vegetables', name: 'Vegetables', icon: 'https://img.icons8.com/bubbles/180/broccoli.png' },
+      { id: 'meat', name: 'Meat & Fish', icon: 'https://img.icons8.com/bubbles/180/steak.png' },
+      { id: 'pet_food', name: 'Pet Food', icon: 'https://img.icons8.com/bubbles/180/dog.png' },
+      { id: 'cleaning', name: 'Cleaning Supplies', icon: 'https://img.icons8.com/bubbles/180/broom.png' },
+      { id: 'stationary', name: 'Stationary', icon: 'https://img.icons8.com/bubbles/180/edit.png' },
+      { id: 'fruits', name: 'Fresh Fruits', icon: 'https://img.icons8.com/bubbles/180/apple.png' },
+      { id: 'beverages', name: 'Beverages', icon: 'https://img.icons8.com/bubbles/180/cocktail.png' },
+      { id: 'snacks', name: 'Snacks', icon: 'https://img.icons8.com/bubbles/180/cookies.png' },
+      { id: 'newspaper', name: 'Newspaper', icon: 'https://img.icons8.com/bubbles/180/news.png' },
+      { id: 'water', name: 'Water Delivery', icon: 'https://img.icons8.com/bubbles/180/water.png' },
     ]
   },
   {

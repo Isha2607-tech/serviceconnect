@@ -28,7 +28,7 @@ const AppContent = () => {
         </div>
       </div>
     }>
-      <AnimatePresence mode="popLayout" initial={false}>
+      <AnimatePresence mode="wait" initial={false}>
         <Routes location={location} key={location.pathname}>
           {/* User Routes */}
           <Route path="/" element={<Home />} />
