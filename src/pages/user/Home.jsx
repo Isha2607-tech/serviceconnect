@@ -622,7 +622,7 @@ const Home = () => {
             <Button 
               size="sm" 
               className="mt-6 rounded-xl w-full sm:w-auto px-8 py-3 text-sm shadow-lg shadow-primary-500/20"
-              onClick={() => navigate('/social')}
+              onClick={() => navigate('/')}
             >
               Open Social Feed
             </Button>

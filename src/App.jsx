@@ -31,14 +31,14 @@ const AppContent = () => {
       <AnimatePresence mode="wait" initial={false}>
         <Routes location={location} key={location.pathname}>
           {/* User Routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<SocialFeed />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryName" element={<CategoryResults />} />
           <Route path="/category/:categoryName/:id" element={<CategoryDetails />} />
           <Route path="/hotels" element={<HotelResults />} />
           <Route path="/hotel/:id" element={<HotelDetails />} />
           <Route path="/vendor/:id" element={<div className="p-20 text-center">Vendor Details Page Coming Soon</div>} />
-          <Route path="/social" element={<SocialFeed />} />
+          <Route path="/services" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/my-requests" element={<div className="p-20 text-center">My Requests Page Coming Soon</div>} />
 

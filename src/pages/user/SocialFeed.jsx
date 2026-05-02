@@ -302,23 +302,44 @@ const VENDOR_STORIES = [
 const SocialFeed = () => {
   return (
     <UserLayout>
-       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-24 md:pt-12 pb-12 flex flex-col lg:flex-row gap-12">
+       {/* Mobile-Only Location Header */}
+       <div className="md:hidden px-4 pt-6 pb-0 bg-gradient-to-b from-[#D4F4FA] to-[#F2FBFD]">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-cyan-500 shadow-sm border border-cyan-50">
+                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Your location</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-base font-bold text-slate-800">San Antione, Tx</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down text-gray-400"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+              </div>
+            </div>
+            <div className="w-11 h-11 rounded-full bg-white flex items-center justify-center text-slate-700 shadow-sm border border-gray-100">
+               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            </div>
+          </div>
+       </div>
+
+       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-2 pb-12 flex flex-col lg:flex-row gap-8">
           {/* Main Feed */}
-          <div className="flex-1 max-w-2xl mx-auto w-full space-y-8">
-            <div className="flex items-center justify-between mb-6 px-1">
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-slate-900 tracking-tight">Social Discovery</h2>
+          <div className="flex-1 max-w-2xl mx-auto w-full space-y-4">
+            <div className="flex items-center justify-between mb-4 px-1">
+              <h2 className="text-xl md:text-2xl font-display font-bold text-slate-900 tracking-tight">Social Discovery</h2>
               <div className="flex gap-2">
-                <Badge variant="primary">Trending</Badge>
+                <Badge variant="primary" className="text-[10px] px-2 py-0.5">Trending</Badge>
               </div>
             </div>
 
             {/* Stories/Vendor Shorts Row */}
-            <div className="mb-10 -mx-4 md:mx-0 overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-5 px-4 md:px-0">
+            <div className="mb-6 -mx-4 md:mx-0 overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-4 px-4 md:px-0">
                {VENDOR_STORIES.map((v, i) => (
-                  <div key={i} className="flex flex-col items-center gap-3 group cursor-pointer shrink-0 w-24">
-                     <div className="w-20 h-20 rounded-[2.5rem] p-[3px] bg-gradient-to-tr from-primary-600 via-primary-400 to-indigo-400 shadow-xl active:scale-95 transition-all duration-300 relative group-hover:shadow-primary-500/20 group-hover:-translate-y-1">
-                        <div className="w-full h-full rounded-[2.2rem] bg-white p-1">
-                           <div className="w-full h-full rounded-[2rem] bg-slate-100 overflow-hidden relative">
+                  <div key={i} className="flex flex-col items-center gap-2 group cursor-pointer shrink-0 w-20">
+                     <div className="w-16 h-16 rounded-[2rem] p-[2px] bg-gradient-to-tr from-primary-600 via-primary-400 to-indigo-400 shadow-xl active:scale-95 transition-all duration-300 relative group-hover:shadow-primary-500/20 group-hover:-translate-y-1">
+                        <div className="w-full h-full rounded-[1.8rem] bg-white p-0.5">
+                           <div className="w-full h-full rounded-[1.6rem] bg-slate-100 overflow-hidden relative">
                               <img 
                                  src={v.name === 'Apex Car Detailing' ? carDetailingImg : v.name === 'Spark Cleaners' ? cleaningImg : v.name === 'Modern Interiors' ? interiorImg : v.image} 
                                  alt={v.name} 
@@ -330,10 +351,10 @@ const SocialFeed = () => {
                            </div>
                         </div>
                         {/* Status ring */}
-                        <div className="absolute -inset-[2px] rounded-[2.6rem] border-[3px] border-primary-500/20 group-hover:border-primary-500/50 transition-colors"></div>
+                        <div className="absolute -inset-[2px] rounded-[2.1rem] border-[2px] border-primary-500/20 group-hover:border-primary-500/50 transition-colors"></div>
                      </div>
-                     <div className="h-8 flex items-center justify-center">
-                        <span className="text-[10px] font-bold text-slate-800 break-words text-center leading-[1.1] group-hover:text-primary-600 transition-colors line-clamp-2 px-1">
+                     <div className="h-6 flex items-center justify-center">
+                        <span className="text-[9px] font-bold text-slate-800 break-words text-center leading-none group-hover:text-primary-600 transition-colors line-clamp-1 px-1">
                           {v.name}
                         </span>
                      </div>
@@ -342,21 +363,21 @@ const SocialFeed = () => {
             </div>
 
              {FEED_ITEMS.map((post) => (
-                <Card key={post.id} className="overflow-hidden border-slate-100 shadow-sm md:shadow-md -mx-4 md:mx-0 rounded-none md:rounded-3xl mb-8 md:mb-12">
+                <Card key={post.id} className="overflow-hidden border-slate-100 shadow-sm md:shadow-md -mx-4 md:mx-0 rounded-none md:rounded-2xl mb-3 md:mb-4">
                    {/* Post Header */}
-                   <div className="p-3 md:p-4 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center text-white font-bold text-xs md:text-sm border-2 border-white shadow-lg relative overflow-hidden group/avatar">
+                   <div className="p-2 md:p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                         <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center text-white font-bold text-[10px] md:text-xs border-2 border-white shadow-lg relative overflow-hidden group/avatar">
                             {post.avatar}
                             {/* Glossy Overlay for Avatar */}
                             <div className="absolute top-[-100%] left-[-100%] w-[50%] h-[300%] bg-white/20 skew-x-[-25deg] animate-shine pointer-events-none"></div>
                          </div>
                          <div>
-                            <div className="flex items-center gap-1.5">
-                               <span className="font-bold text-sm md:text-base text-slate-900 leading-none">{post.vendor}</span>
-                               {post.verified && <ShieldCheck size={14} className="text-primary-600" />}
+                            <div className="flex items-center gap-1">
+                               <span className="font-bold text-xs md:text-sm text-slate-900 leading-none">{post.vendor}</span>
+                               {post.verified && <ShieldCheck size={12} className="text-primary-600" />}
                             </div>
-                            <span className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{post.time}</span>
+                            <span className="text-[8px] md:text-[9px] font-bold text-slate-400 uppercase tracking-tighter">{post.time}</span>
                          </div>
                       </div>
                       <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg">
@@ -374,23 +395,23 @@ const SocialFeed = () => {
                    </div>
 
                    {/* Post Actions */}
-                   <div className="p-4">
-                      <div className="flex items-center justify-between mb-3 md:mb-4">
-                         <div className="flex items-center gap-5">
-                            <button className="flex items-center gap-1.5 text-slate-700">
-                               <Heart size={26} strokeWidth={2} />
-                               <span className="text-xs font-bold">{post.likes}</span>
+                   <div className="px-4 py-2">
+                      <div className="flex items-center justify-between mb-2">
+                         <div className="flex items-center gap-4">
+                            <button className="flex items-center gap-1 text-slate-700">
+                               <Heart size={20} strokeWidth={2} />
+                               <span className="text-[10px] font-bold">{post.likes}</span>
                             </button>
-                            <button className="flex items-center gap-1.5 text-slate-700">
-                               <MessageCircle size={26} strokeWidth={2} />
-                               <span className="text-xs font-bold">{post.comments}</span>
+                            <button className="flex items-center gap-1 text-slate-700">
+                               <MessageCircle size={20} strokeWidth={2} />
+                               <span className="text-[10px] font-bold">{post.comments}</span>
                             </button>
                             <button className="text-slate-700">
-                               <Send size={26} strokeWidth={2} />
+                               <Send size={20} strokeWidth={2} />
                             </button>
                          </div>
                          <button className="text-slate-700">
-                            <Bookmark size={26} strokeWidth={2} />
+                            <Bookmark size={20} strokeWidth={2} />
                          </button>
                       </div>
                       
@@ -401,7 +422,7 @@ const SocialFeed = () => {
                          </p>
                       </div>
                       
-                      <button className="mt-5 w-full py-4 bg-slate-50 border border-slate-100 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 active:bg-primary-50 active:text-primary-600 transition-all font-display">
+                      <button className="mt-3 w-full py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[9px] font-bold uppercase tracking-widest text-slate-500 active:bg-primary-50 active:text-primary-600 transition-all font-display">
                          Visit Business Profile
                       </button>
                    </div>

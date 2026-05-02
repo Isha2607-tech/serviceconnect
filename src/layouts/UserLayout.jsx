@@ -13,7 +13,7 @@ const UserLayout = ({ children }) => {
   const bottomNavItems = [
     { icon: Home, label: 'Home', path: '/', active: pathname === '/' },
     { icon: LayoutGrid, label: 'Categories', path: '/categories', active: pathname === '/categories' },
-    { icon: Camera, label: 'Social', path: '/social', active: pathname === '/social', badge: 'New' },
+    { icon: Camera, label: 'Services', path: '/services', active: pathname === '/services', badge: 'New' },
     { icon: UserCircle, label: 'Profile', path: '/profile', active: pathname === '/profile' },
   ];
 
@@ -64,7 +64,7 @@ const UserLayout = ({ children }) => {
       )}
       
       {/* Premium Footer - Only on Home Page */}
-      {isHomePage && (
+      {pathname === '/services' && (
         <footer className="bg-slate-900 text-white pt-10 md:pt-20 pb-10 mt-0 md:mt-20">
         <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="col-span-1 md:col-span-1">

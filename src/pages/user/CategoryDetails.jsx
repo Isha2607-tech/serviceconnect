@@ -22,8 +22,11 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../utils/cn';
+import { storage } from '../../utils/storage';
+import BookingModal from '../../components/user/BookingModal';
 import { CATEGORIES_DATA } from '../../data/categoriesData';
 import BestDealModal from '../../components/common/BestDealModal';
+import hotelVideo from '../../assets/hotel.mp4';
 
 const CategoryDetails = () => {
   const { categoryName, id } = useParams();
@@ -31,9 +34,13 @@ const CategoryDetails = () => {
   const [activeTab, setActiveTab] = useState('Overview');
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isBestDealModalOpen, setIsBestDealModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [bookingType, setBookingType] = useState('booking'); // 'booking' or 'shopping'
   const [direction, setDirection] = useState(0);
   const [isAboutExpanded, setIsAboutExpanded] = useState(false);
   const [selectedPhotoCategory, setSelectedPhotoCategory] = useState('All');
+  
+  const [isScrolled, setIsScrolled] = useState(false);
   
   const tabsRef = useRef(null);
   const scrollRef = useRef(null);
@@ -79,13 +86,15 @@ const CategoryDetails = () => {
     if (!container || window.innerWidth >= 768) return;
 
     const handleMobileScroll = () => {
-      const scrollPos = container.scrollTop + 100; // Offset for detection
+      const scrollPos = container.scrollTop;
+      setIsScrolled(scrollPos > 150);
 
+      const detectionPos = scrollPos + 100; // Offset for detection
       for (const tab of tabs) {
         const element = sectionRefs[tab].current;
         if (element) {
           const { offsetTop } = element;
-          if (scrollPos >= offsetTop) {
+          if (detectionPos >= offsetTop) {
             setActiveTab(tab);
           }
         }
@@ -124,6 +133,17 @@ const CategoryDetails = () => {
     }
   };
 
+  const scrollToImage = (index) => {
+    if (scrollRef.current) {
+      const container = scrollRef.current;
+      const scrollAmount = container.clientWidth * index;
+      container.scrollTo({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const variants = {
     enter: (direction) => ({
       x: direction > 0 ? '5%' : '-5%',
@@ -152,11 +172,36 @@ const CategoryDetails = () => {
                 </button>
               </div>
               <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                {item.images?.map((img, i) => (
-                   <div key={i} className="break-inside-avoid rounded-xl overflow-hidden shadow-md">
-                      <img src={img.url} alt={`Gallery ${i}`} className="w-full h-auto hover:scale-105 transition-transform duration-700" />
-                   </div>
-                ))}
+                 {item.images?.map((img, i) => (
+                    <div key={i} className="break-inside-avoid rounded-xl overflow-hidden shadow-md">
+                       {i === 0 ? (
+                         <video 
+                           src={hotelVideo} 
+                           autoPlay 
+                           muted 
+                           loop 
+                           playsInline
+                           poster={img.url}
+                           className="w-full h-auto hover:scale-105 transition-transform duration-700" 
+                         />
+                       ) : (
+                         <img 
+                           src={img.url} 
+                           alt={`Gallery ${i}`} 
+                           className="w-full h-auto hover:scale-105 transition-transform duration-700" 
+                           onError={(e) => {
+                             const fallbacks = [
+                               'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
+                               'https://images.unsplash.com/photo-1571011270518-20f9ce900af1',
+                               'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+                               'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b'
+                             ];
+                             e.target.src = fallbacks[i % fallbacks.length] + '?auto=format&fit=crop&q=80&w=800';
+                           }}
+                         />
+                       )}
+                    </div>
+                 ))}
               </div>
             </div>
           </motion.div>
@@ -166,36 +211,29 @@ const CategoryDetails = () => {
       {/* Main Container */}
       <div 
         ref={mobileContainerRef}
-        className="h-screen md:h-auto overflow-y-auto md:overflow-visible overflow-x-hidden md:max-w-[1400px] md:mx-auto md:px-6 pt-0 md:pt-20 pb-0 md:pb-4 scroll-smooth"
+        className="h-screen md:h-auto overflow-y-auto md:overflow-visible overflow-x-hidden md:max-w-[1400px] md:mx-auto md:px-6 pt-0 md:pt-20 pb-24 md:pb-4 scroll-smooth no-scrollbar"
       >
-        {/* Mobile Header (Fixed) */}
-        <div className="md:hidden sticky top-0 left-0 right-0 bg-[#f0fdfa]/95 backdrop-blur-md z-[100] px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-slate-600 active:scale-95 transition-transform">
-              <ArrowLeft size={24} />
-            </button>
-            <div>
-              <h2 className="text-sm font-bold text-slate-900 leading-none mb-0.5">{item.name}</h2>
-              <div className="flex items-center gap-1">
-                <div className="bg-[#008a00] text-white px-1 py-0.2 rounded-[3px] text-[8px] font-bold">{item.rating} ★</div>
-                <span className="text-[10px] font-bold text-slate-400">{item.reviewsCount} ratings</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-1 text-slate-600">
-            <Share2 size={18} className="mx-2" />
-            <Bookmark size={18} />
-          </div>
-        </div>
+        <style dangerouslySetInnerHTML={{ __html: `
+          .no-scrollbar::-webkit-scrollbar { display: none; }
+          .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        ` }} />
 
         {/* Global Content Padding for Mobile */}
         <div className="px-4 md:px-0">
           
           {/* Gallery Section */}
-          <div className="md:mt-0 mt-4">
+          <div className="md:mt-0 mt-0">
             <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-3 h-[360px] rounded-2xl overflow-hidden shadow-sm mb-8">
               <div className="col-span-2 row-span-2 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
-                <img src={item.images?.[0]?.url} alt="Main" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <video 
+                  src={hotelVideo} 
+                  autoPlay 
+                  muted 
+                  loop 
+                  playsInline
+                  poster={item.images?.[0]?.url}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
               </div>
               <div className="col-span-1 row-span-1 relative group cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
                 <img src={item.images?.[1]?.url || item.images?.[0]?.url} alt="G1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -217,19 +255,97 @@ const CategoryDetails = () => {
               </div>
             </div>
 
-            <div className="md:hidden -mx-4 mb-6 relative">
-              <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar">
+            <div className="md:hidden -mx-4 relative rounded-b-[32px] overflow-hidden shadow-2xl shadow-slate-200">
+              {/* Floating Actions for Mobile Gallery */}
+              <div className="absolute top-6 left-6 right-6 z-20 flex items-center justify-between pointer-events-none">
+                <button 
+                  onClick={() => navigate(-1)} 
+                  className="p-2.5 text-white bg-black/30 rounded-2xl backdrop-blur-md active:scale-95 transition-all duration-300 pointer-events-auto"
+                >
+                  <ArrowLeft size={24} />
+                </button>
+                
+                <div className="bg-white px-3.5 py-1.5 rounded-2xl flex items-center gap-1.5 shadow-xl border border-white/50 pointer-events-auto">
+                   <Star size={14} fill="#f59e0b" className="text-amber-500" />
+                   <span className="text-[13px] font-black text-slate-900">{item.rating}</span>
+                </div>
+              </div>
+
+              <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar h-[350px]">
                 {item.images?.map((img, i) => (
-                  <div key={i} className="min-w-full snap-center relative aspect-[16/10] overflow-hidden" onClick={() => setIsGalleryOpen(true)}>
-                    <img src={img.url} alt={`G${i}`} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                  <div key={i} className="min-w-full snap-center relative h-full" onClick={() => setIsGalleryOpen(true)}>
+                    {i === 0 ? (
+                      <video 
+                        src={hotelVideo} 
+                        autoPlay 
+                        muted 
+                        loop 
+                        playsInline
+                        poster={img.url}
+                        className="w-full h-full object-cover" 
+                      />
+                    ) : (
+                      <img 
+                        src={img.url || 'https://images.unsplash.com/photo-1571902953202-b5e1b2f7f917?auto=format&fit=crop&q=80&w=1200'} 
+                        alt={`G${i}`} 
+                        className="w-full h-full object-cover" 
+                        onError={(e) => {
+                          const fallbacks = [
+                            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
+                            'https://images.unsplash.com/photo-1571011270518-20f9ce900af1',
+                            'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+                            'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b',
+                            'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4'
+                          ];
+                          e.target.src = fallbacks[i % fallbacks.length] + '?auto=format&fit=crop&q=80&w=800';
+                        }}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   </div>
                 ))}
               </div>
-              <button className="absolute top-4 right-4 bg-black/40 backdrop-blur-md text-white px-3 py-1.5 rounded-full flex items-center gap-1 text-[10px] font-bold border border-white/20 active:scale-95">
-                 <Plus size={12} /> Add Your
-              </button>
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5">
+
+              {/* Info Overlay over Banner */}
+              <div className="absolute bottom-10 left-6 right-6 z-10 text-white">
+                 <h1 className="text-[28px] font-black leading-tight mb-1 font-display tracking-tight text-white drop-shadow-sm">{item.name}</h1>
+                 <div className="flex items-center gap-2 opacity-90 mb-6 text-white">
+                    <MapPin size={14} />
+                    <span className="text-[13px] font-medium">{item.location}</span>
+                 </div>
+
+                 {/* Mini Thumbnails Overlay (Click to Change Banner) */}
+                 <div className="flex gap-2">
+                    {item.images?.slice(0, 3).map((img, i) => (
+                        <div 
+                          key={i} 
+                          onClick={() => scrollToImage(i)}
+                          className="w-14 h-14 rounded-xl border-2 border-white/40 overflow-hidden shadow-lg transform active:scale-90 transition-all cursor-pointer"
+                        >
+                           {i === 0 ? (
+                             <video src={hotelVideo} autoPlay muted loop playsInline poster={img.url} className="w-full h-full object-cover" />
+                           ) : (
+                             <img 
+                               src={img.url || 'https://images.unsplash.com/photo-1571011270518-20f9ce900af1?auto=format&fit=crop&q=80&w=800'} 
+                               className="w-full h-full object-cover" 
+                               alt="" 
+                               onError={(e) => {
+                                 const fallbacks = [
+                                   'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
+                                   'https://images.unsplash.com/photo-1571011270518-20f9ce900af1',
+                                   'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+                                   'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b'
+                                 ];
+                                 e.target.src = fallbacks[i % fallbacks.length] + '?auto=format&fit=crop&q=80&w=800';
+                               }}
+                             />
+                           )}
+                        </div>
+                    ))}
+                 </div>
+              </div>
+              
+              <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-1.5">
                 {item.images?.slice(0, 6).map((_, i) => (
                   <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/50" />
                 ))}
@@ -237,67 +353,70 @@ const CategoryDetails = () => {
             </div>
           </div>
 
-          {/* Business Info Header */}
-          <div className="mb-0 md:flex flex-col md:flex-row md:items-start justify-between gap-6 md:mb-8">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2 flex-wrap">
-                <div className="hidden md:flex bg-slate-900 text-white rounded-md p-1.5"><Star size={20} fill="currentColor" /></div>
-                <h1 className="text-2xl md:text-[32px] font-bold text-slate-900 leading-tight">{item.name}</h1>
-                
-                {/* Verified Badge next to name on Mobile */}
-                {item.verified && (
-                  <div className="md:hidden flex items-center gap-1 text-[#20594e] bg-[#20594e]/10 px-2 py-0.5 rounded-full font-bold text-[12px] shrink-0">
-                     <CheckCircle2 size={14} fill="currentColor" /> Verified
-                  </div>
-                )}
-
-                <button className="hidden md:block p-2 border border-slate-200 rounded-lg text-slate-400 hover:bg-slate-50">
-                  <Bookmark size={20} />
-                </button>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3 text-sm mb-6">
-                <div className="hidden md:flex bg-[#008a00] text-white px-1.5 py-0.5 rounded text-[13px] font-bold items-center gap-1">{item.rating} ★</div>
-                <span className="hidden md:block text-slate-400 font-medium">{item.reviewsCount} Ratings</span>
-                {item.verified && (
-                  <div className="hidden md:flex items-center gap-1 text-[#20594e] bg-[#20594e]/10 px-2 py-0.5 rounded-full font-bold text-[12px]">
-                     <CheckCircle2 size={14} fill="currentColor" /> Verified
-                  </div>
-                )}
-                <div className="flex items-center gap-1 text-slate-500 font-medium"><MapPin size={14} />{item.location}</div>
-                <div className="text-slate-500 font-medium">• {item.yearsInBusiness || 5} Years Exp</div>
-              </div>
-
-              {/* Desktop Action Buttons */}
-              <div className="hidden md:flex flex-wrap items-center gap-3 mb-4 md:mb-0">
-                 <button className="bg-[#008a00] text-white px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px] shadow-lg shadow-green-500/10 active:scale-95 transition-all">
-                   <Phone size={18} fill="currentColor" /> {item.phone}
-                 </button>
-                  <button onClick={() => setIsBestDealModalOpen(true)} className="bg-[#20594e] text-white px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px] shadow-lg shadow-[#20594e]/10 active:scale-95 transition-all">
-                    <Zap size={18} fill="currentColor" /> Enquire Now
-                  </button>
-                 <button className="bg-white border border-slate-200 text-slate-700 px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px]">
-                   <div className="text-[#25d366]"><MessageSquare size={20} fill="currentColor" /></div> WhatsApp
-                 </button>
-              </div>
-            </div>
+          {/* Mobile Amenities Bar (Compact) */}
+          <div className="md:hidden flex items-center gap-3 overflow-x-auto no-scrollbar py-4 -mx-4 px-4">
+             {['Free WiFi', 'Parking', 'AC', 'Certified'].map((amenity, i) => (
+                <div key={i} className="flex items-center gap-2 bg-white px-5 py-3 rounded-lg shadow-sm border border-slate-100 flex-shrink-0">
+                   <div className="w-7 h-7 rounded bg-[#20594e]/5 flex items-center justify-center text-[#20594e] overflow-hidden">
+                      {i === 0 ? (
+                        <img src="https://cdn-icons-gif.flaticon.com/9284/9284465.gif" className="w-full h-full object-contain" alt="WiFi" />
+                      ) : i === 1 ? (
+                        <img src="https://cdn-icons-gif.flaticon.com/10606/10606386.gif" className="w-full h-full object-contain" alt="Parking" />
+                      ) : i === 2 ? (
+                        <img src="https://cdn-icons-gif.flaticon.com/10398/10398549.gif" className="w-full h-full object-contain" alt="AC" />
+                      ) : (
+                        <img src="https://cdn-icons-gif.flaticon.com/16441/16441482.gif" className="w-full h-full object-contain" alt="Certified" />
+                      )}
+                   </div>
+                   <span className="text-[12px] font-black text-slate-700 whitespace-nowrap">{amenity}</span>
+                </div>
+             ))}
           </div>
 
-          <div className="md:hidden flex items-center justify-around mb-6 px-2">
-             <div className="flex flex-col items-center gap-2">
-                <div className="w-10 h-10 bg-[#20594e] rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-[#20594e]/10 active:scale-95 transition-all"><Phone size={18} fill="currentColor" /></div>
-                <span className="text-[10px] font-bold text-slate-800 uppercase">Call Now</span>
-             </div>
-             <div onClick={() => setIsBestDealModalOpen(true)} className="flex flex-col items-center gap-2 cursor-pointer">
-                <div className="w-10 h-10 bg-white border border-slate-200 rounded-[1.25rem] flex items-center justify-center text-slate-800 active:scale-95 transition-all"><MessageSquare size={18} /></div>
-                <span className="text-[10px] font-bold text-slate-800 uppercase">Enquire</span>
-             </div>
-             <div className="flex flex-col items-center gap-2">
-                <div className="w-10 h-10 bg-[#25d366] rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-green-500/10 active:scale-95 transition-all">
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <div className="hidden md:block">
+            {/* Business Info Header (Desktop Only) */}
+            <div className="mt-6 md:mt-0 mb-0 md:flex flex-col md:flex-row md:items-start justify-between gap-6 md:mb-8">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2 flex-wrap">
+                  <div className="hidden md:flex bg-slate-900 text-white rounded-md p-1.5"><Star size={20} fill="currentColor" /></div>
+                  <h1 className="text-2xl md:text-[32px] font-bold text-slate-900 leading-tight">{item.name}</h1>
+                  
+                  {item.verified && (
+                    <div className="md:hidden flex items-center gap-1 text-[#20594e] bg-[#20594e]/10 px-2 py-0.5 rounded-full font-bold text-[12px] shrink-0">
+                      <CheckCircle2 size={14} fill="currentColor" /> Verified
+                    </div>
+                  )}
+
+                  <button className="hidden md:block p-2 border border-slate-200 rounded-lg text-slate-400 hover:bg-slate-50">
+                    <Bookmark size={20} />
+                  </button>
                 </div>
-                <span className="text-[10px] font-bold text-slate-800 uppercase">Whatsapp</span>
-             </div>
+
+                <div className="flex flex-wrap items-center gap-3 text-sm mb-6">
+                  <div className="hidden md:flex bg-[#008a00] text-white px-1.5 py-0.5 rounded text-[13px] font-bold items-center gap-1">{item.rating} ★</div>
+                  <span className="hidden md:block text-slate-400 font-medium">{item.reviewsCount} Ratings</span>
+                  {item.verified && (
+                    <div className="hidden md:flex items-center gap-1 text-[#20594e] bg-[#20594e]/10 px-2 py-0.5 rounded-full font-bold text-[12px]">
+                      <CheckCircle2 size={14} fill="currentColor" /> Verified
+                    </div>
+                  )}
+                  <div className="flex items-center gap-1 text-slate-500 font-medium">• {item.yearsInBusiness || 5} Years Exp</div>
+                </div>
+
+                {/* Desktop Action Buttons */}
+                <div className="hidden md:flex flex-wrap items-center gap-3 mb-4 md:mb-0">
+                  <button className="bg-[#008a00] text-white px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px] shadow-lg shadow-green-500/10 active:scale-95 transition-all">
+                    <Phone size={18} fill="currentColor" /> {item.phone}
+                  </button>
+                    <button onClick={() => setIsBestDealModalOpen(true)} className="bg-[#20594e] text-white px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px] shadow-lg shadow-[#20594e]/10 active:scale-95 transition-all">
+                      <Zap size={18} fill="currentColor" /> Enquire Now
+                    </button>
+                  <button className="bg-white border border-slate-200 text-slate-700 px-6 py-2.5 rounded-lg flex items-center gap-3 font-bold text-[14px]">
+                    <div className="text-[#25d366]"><MessageSquare size={20} fill="currentColor" /></div> WhatsApp
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Sticky Tab Bar */}
@@ -313,29 +432,22 @@ const CategoryDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:mt-10 md:pb-20">
             <div className="lg:col-span-2">
               
-              {/* CONTENT SECTIONS - Mobile Continuous Scroll / Desktop Tabbed */}
-              <div className="md:block hidden">
+              {/* CONTENT SECTIONS - Tabbed Content for both Desktop and Mobile */}
+              <div className="relative min-h-[400px]">
                 <AnimatePresence mode="wait" custom={direction}>
-                  <motion.div key={activeTab} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.2 }} className="relative">
+                  <motion.div 
+                    key={activeTab} 
+                    custom={direction} 
+                    variants={variants} 
+                    initial="enter" 
+                    animate="center" 
+                    exit="exit" 
+                    transition={{ duration: 0.2 }} 
+                    className="relative"
+                  >
                     {renderSectionContent(activeTab)}
                   </motion.div>
                 </AnimatePresence>
-              </div>
-
-              <div className="md:hidden block">
-                {tabs.map((tab) => (
-                  <div key={tab} ref={sectionRefs[tab]} className="pt-2 mb-4 scroll-mt-[95px]">
-                    <div className="sticky top-[95px] bg-white z-[85] -mx-4 px-4 py-2.5 border-b border-slate-100 mb-4 shadow-sm">
-                       <h4 className="text-[11px] font-black uppercase tracking-widest text-[#20594e] flex items-center gap-2">
-                         <div className="w-1 h-3 bg-[#20594e] rounded-full" />
-                         {tab}
-                       </h4>
-                    </div>
-                    {renderSectionContent(tab)}
-                  </div>
-                ))}
-                {/* Scroll Spacer: Allows even the last section to reach the top sticky position */}
-                <div className="h-[75vh] bg-gradient-to-b from-white to-slate-50/50" />
               </div>
             </div>
 
@@ -353,7 +465,36 @@ const CategoryDetails = () => {
           </div>
         </div>
       </div>
-      <BestDealModal isOpen={isBestDealModalOpen} onClose={() => setIsBestDealModalOpen(false)} itemName={item.name} />
+
+      {/* Mobile Sticky Bottom Bar (Redesigned matching Image) */}
+      <div className="md:hidden fixed bottom-6 left-6 right-6 z-[150] flex items-center gap-2">
+          <button className="flex-1 bg-white border-2 border-slate-100 text-slate-900 py-3.5 rounded-[20px] font-black text-[12px] active:scale-95 transition-all shadow-xl shadow-slate-200">
+             Call Now
+          </button>
+          <button 
+            onClick={() => {
+              setBookingType(item.actionType || 'booking');
+              setIsBookingModalOpen(true);
+            }} 
+            className={cn(
+              "flex-1 text-white py-3.5 rounded-[20px] font-black text-[12px] active:scale-95 transition-all shadow-xl",
+              item.actionType === 'shopping' ? "bg-amber-500 shadow-amber-500/20" : "bg-[#20594e] shadow-[#20594e]/20"
+            )}
+          >
+             {item.actionType === 'shopping' ? 'Shop Now' : 'Book Now'}
+          </button>
+          <button onClick={() => setIsBestDealModalOpen(true)} className="flex-1 bg-slate-900 text-white py-3.5 rounded-[20px] font-black text-[12px] active:scale-95 transition-all shadow-xl shadow-slate-900/20">
+             Enquire Now
+          </button>
+      </div>
+
+       <BookingModal 
+         isOpen={isBookingModalOpen} 
+         onClose={() => setIsBookingModalOpen(false)} 
+         item={item} 
+         type={bookingType}
+       />
+       <BestDealModal isOpen={isBestDealModalOpen} onClose={() => setIsBestDealModalOpen(false)} itemName={item.name} />
     </UserLayout>
   );
 
@@ -362,12 +503,32 @@ const CategoryDetails = () => {
     switch(tab) {
       case 'Overview':
         return (
-          <div className="space-y-6">
-            <Card className="p-6 bg-transparent md:bg-white border-none md:border-slate-100 shadow-none md:shadow-premium -mx-4 md:mx-0">
-               <h3 className="text-xl font-bold text-slate-900 mb-4">About {item.name}</h3>
-               <p className="text-slate-600 leading-relaxed font-medium text-sm md:text-base">
-                  {item.name} is a leading provider in {item.location} with {item.yearsInBusiness || 5} years of expertise. {item.highlight}.
+          <div className="space-y-3">
+            <Card className="p-4 bg-transparent md:bg-white border-none md:border-slate-100 shadow-none md:shadow-premium -mx-4 md:mx-0 rounded-xl">
+               <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-black text-slate-900 border-b-2 border-[#20594e] pb-1">Description</h3>
+                  <button className="text-[12px] font-bold text-[#20594e]">Read More</button>
+               </div>
+               <p className="text-slate-500 leading-relaxed font-medium text-[12px] md:text-sm">
+                  {item.name} is a leading provider in {item.location} with {item.yearsInBusiness || 5} years of expertise. {item.highlight}. Experience the best in class service with our dedicated team.
                </p>
+            </Card>
+
+            {/* Review Summary Card (Compact) */}
+            <Card className="p-4 bg-slate-50/50 border-slate-100 shadow-sm md:shadow-premium -mx-4 md:mx-0 rounded-xl flex items-center justify-between">
+               <div>
+                  <div className="flex gap-1 mb-2">
+                     {[1,2,3,4,5].map(i => <Star key={i} size={16} fill="#f59e0b" className="text-amber-500" />)}
+                  </div>
+                  <p className="text-sm font-black text-slate-900">{item.reviewsCount} Reviews</p>
+               </div>
+               <div className="flex -space-x-3">
+                  {[1,2,3,4].map(i => (
+                     <div key={i} className="w-10 h-10 rounded-full border-4 border-white overflow-hidden">
+                        <img src={`https://i.pravatar.cc/100?u=${i}`} alt="" />
+                     </div>
+                  ))}
+               </div>
             </Card>
             {item.facilities && (
               <Card className="p-6 bg-transparent md:bg-white border-none md:border-slate-100 shadow-none md:shadow-premium -mx-4 md:mx-0">
@@ -398,7 +559,21 @@ const CategoryDetails = () => {
                   <div className="space-y-3">
                     {(item.facilities || ['WiFi', 'Parking', 'AC']).map(f => (
                       <div key={f} className="flex items-center gap-3 text-sm font-bold text-slate-700">
-                         <div className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center"><CheckCircle2 size={12} /></div>
+                         <div className="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center overflow-hidden">
+                           <img 
+                             src={
+                               f === 'WiFi' ? 'https://cdn-icons-gif.flaticon.com/9284/9284465.gif' :
+                               f === 'Parking' || f === 'Valet Parking' ? 'https://cdn-icons-gif.flaticon.com/10606/10606386.gif' :
+                               f === 'AC' ? 'https://cdn-icons-gif.flaticon.com/10398/10398549.gif' :
+                               f === 'Elevator' ? 'https://cdn-icons-gif.flaticon.com/9284/9284490.gif' :
+                               f === 'Smoking Area' ? 'https://cdn-icons-gif.flaticon.com/11324/11324190.gif' :
+                               f === 'Wheelchair Accessible' ? 'https://cdn-icons-gif.flaticon.com/16678/16678533.gif' :
+                               'https://cdn-icons-gif.flaticon.com/9284/9284458.gif'
+                             } 
+                             className="w-full h-full object-contain" 
+                             alt="" 
+                           />
+                         </div>
                          {f}
                       </div>
                     ))}
@@ -409,7 +584,16 @@ const CategoryDetails = () => {
                   <div className="space-y-3">
                     {(item.services || ['Expert Team', 'Quality Check']).map(s => (
                       <div key={s} className="flex items-center gap-3 text-sm font-bold text-slate-700">
-                         <div className="w-5 h-5 rounded-full bg-[#20594e]/10 text-[#20594e] flex items-center justify-center"><Zap size={12} fill="currentColor" /></div>
+                         <div className="w-6 h-6 rounded-full bg-[#20594e]/10 flex items-center justify-center overflow-hidden">
+                           <img 
+                             src={
+                               s === 'Home Delivery' ? 'https://cdn-icons-gif.flaticon.com/9820/9820038.gif' :
+                               'https://cdn-icons-gif.flaticon.com/9284/9284458.gif'
+                             } 
+                             className="w-full h-full object-contain" 
+                             alt="" 
+                           />
+                         </div>
                          {s}
                       </div>
                     ))}
@@ -460,7 +644,11 @@ const CategoryDetails = () => {
                   )}
                 >
                   <div className="w-8 h-8 rounded-md overflow-hidden bg-slate-100 italic">
-                    <img src={cat.img} className="w-full h-full object-cover" alt="" />
+                    {cat.label === 'All' ? (
+                      <video src={hotelVideo} muted className="w-full h-full object-cover" />
+                    ) : (
+                      <img src={cat.img} className="w-full h-full object-cover" alt="" />
+                    )}
                   </div>
                   <div className="text-left">
                     <p className={cn("text-[10px] font-bold leading-none mb-0.5", selectedPhotoCategory === cat.label ? "text-[#20594e]" : "text-slate-800")}>{cat.label}</p>
@@ -475,7 +663,32 @@ const CategoryDetails = () => {
                 ?.filter(img => selectedPhotoCategory === 'All' || img.category === selectedPhotoCategory)
                 .map((img, i) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden bg-slate-100 cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
-                  <img src={img.url} alt="" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                  {i === 0 && selectedPhotoCategory === 'All' ? (
+                    <video 
+                      src={hotelVideo} 
+                      autoPlay 
+                      muted 
+                      loop 
+                      playsInline 
+                      poster={img.url}
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" 
+                    />
+                  ) : (
+                    <img 
+                      src={img.url} 
+                      alt="" 
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" 
+                      onError={(e) => {
+                        const fallbacks = [
+                          'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
+                          'https://images.unsplash.com/photo-1571011270518-20f9ce900af1',
+                          'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+                          'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b'
+                        ];
+                        e.target.src = fallbacks[i % fallbacks.length] + '?auto=format&fit=crop&q=80&w=800';
+                      }}
+                    />
+                  )}
                 </div>
               ))}
             </div>

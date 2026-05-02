@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Menu, X, Bell, LayoutGrid, Zap, Sparkles, ChevronDown } from 'lucide-react';
+import { Search, MapPin, Menu, X, Bell, LayoutGrid, Zap, Sparkles, ChevronDown, Bookmark, Share2 } from 'lucide-react';
 import Button from '../common/Button';
 import { cn } from '../../utils/cn';
 
@@ -70,43 +70,30 @@ const Navbar = ({ onSearch }) => {
     setShowLocSuggestions(false);
   };
 
-  const showGlassyNav = isScrolled || !isHomePage;
+  const showGlassyNav = true; // Always show glassy for consistency across swapped sections
 
   return (
     <nav className={cn(
       'fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b',
       showGlassyNav ? 'bg-[#D4F4FA]/90 backdrop-blur-xl border-cyan-100 py-2 shadow-md shadow-cyan-900/5' : 'bg-transparent border-transparent py-3',
-      isHomePage ? "md:block hidden" : "block"
+      (pathname === '/' || pathname === '/services' || pathname === '/profile') ? 'md:block hidden' : 'block'
     )}>
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
         {/* Logo (Desktop) / Location (Mobile) */}
         <div className="flex items-center gap-2 flex-shrink-0 cursor-pointer group">
-          {/* Desktop Logo */}
-          <div className="hidden md:flex items-center gap-2">
-            <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white group-hover:rotate-12 transition-transform shadow-lg shadow-primary-500/20">
-              <LayoutGrid size={24} />
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white group-hover:rotate-12 transition-transform shadow-lg shadow-primary-500/20">
+              <LayoutGrid size={20} className="md:w-6 md:h-6" />
             </div>
             <span className={cn(
-              "text-xl font-display font-bold tracking-tight transition-colors duration-300",
+              "text-lg md:text-xl font-display font-bold tracking-tight transition-colors duration-300",
               showGlassyNav ? "text-slate-900" : "text-white"
             )}>
               Service<span className="text-primary-500">Connect</span>
             </span>
           </div>
 
-          {/* Mobile Location Header (Target Design) */}
-          <div className="md:hidden flex items-center gap-3">
-             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-cyan-500 shadow-sm border border-cyan-50">
-                <MapPin size={22} fill="currentColor" fillOpacity={0.2} />
-             </div>
-             <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Your location</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-base font-bold text-slate-800">San Antione, Tx</span>
-                  <ChevronDown size={14} className="text-gray-400 stroke-[3px]" />
-                </div>
-             </div>
-          </div>
+          {/* Mobile Location Removed as requested */}
         </div>
 
         {/* Desktop Search Bar */}
@@ -180,13 +167,27 @@ const Navbar = ({ onSearch }) => {
         {/* Actions */}
         <div className="flex items-center gap-2 md:gap-4">
           <button className={cn(
+            "rounded-full transition-all relative flex items-center justify-center md:hidden",
+            showGlassyNav ? "w-10 h-10 bg-white text-slate-700 shadow-sm border border-gray-100" : "p-2 rounded-xl text-white hover:bg-white/10"
+          )}>
+            <Share2 size={20} />
+          </button>
+
+          <button className={cn(
+            "rounded-full transition-all relative flex items-center justify-center md:hidden",
+            showGlassyNav ? "w-10 h-10 bg-white text-slate-700 shadow-sm border border-gray-100" : "p-2 rounded-xl text-white hover:bg-white/10"
+          )}>
+            <Bookmark size={20} />
+          </button>
+          
+          <button className={cn(
             "rounded-full transition-all relative flex items-center justify-center",
-            showGlassyNav ? "w-11 h-11 bg-white text-slate-700 shadow-sm border border-gray-100" : "p-2.5 rounded-xl text-white/80 hover:bg-white/10"
+            showGlassyNav ? "w-10 h-10 bg-white text-slate-700 shadow-sm border border-gray-100" : "p-2 rounded-xl text-white hover:bg-white/10"
           )}>
             <Bell size={20} />
             <span className={cn(
               "absolute w-2 h-2 rounded-full border-2 border-white",
-              showGlassyNav ? "top-3 right-3 bg-cyan-400" : "top-2.5 right-2.5 bg-accent-500"
+              showGlassyNav ? "top-2 right-2 bg-cyan-400" : "top-1.5 right-1.5 bg-accent-500"
             )}></span>
           </button>
           
@@ -250,7 +251,7 @@ const Navbar = ({ onSearch }) => {
                      {[
                         { label: 'Home', path: '/' },
                         { label: 'All Categories', path: '/categories' },
-                        { label: 'Social Feed', path: '/social' },
+                        { label: 'Services', path: '/services' },
                         { label: 'My Profile', path: '/profile' },
                         { label: 'Be a Vendor', path: '/vendor-panel' },
                         { label: 'Help & FAQ', path: '#' }

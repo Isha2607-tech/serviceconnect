@@ -4,9 +4,37 @@ import { X, Calendar, Clock, MessageSquare, ShieldCheck, MapPin, Send, Settings,
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { cn } from '../../utils/cn';
+import { storage } from '../../utils/storage';
+import { useState } from 'react';
 
 const LeadFormModal = ({ isOpen, onClose, vendorName }) => {
+  const [formData, setFormData] = useState({
+    service: '',
+    budget: '',
+    date: '',
+    time: '',
+    description: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   if (!isOpen) return null;
+
+  const handleSubmit = () => {
+    setIsSubmitting(true);
+    
+    // Save to local storage
+    storage.saveEnquiry({
+      vendorName,
+      ...formData,
+      status: 'Sent'
+    });
+
+    // Simulate network delay
+    setTimeout(() => {
+      setIsSubmitting(false);
+      onClose();
+    }, 1500);
+  };
 
   return (
     <AnimatePresence>
@@ -44,18 +72,22 @@ const LeadFormModal = ({ isOpen, onClose, vendorName }) => {
 
           {/* Form - Full height on mobile */}
           <div className="p-5 md:p-8 space-y-4 md:space-y-6 overflow-y-auto no-scrollbar flex-1">
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <Input 
                    label="Service Needed" 
                    placeholder="Ex: AC Deep Cleaning"
                    leftIcon={<Settings size={18} />}
                    className="text-sm"
+                   value={formData.service}
+                   onChange={(e) => setFormData({...formData, service: e.target.value})}
                 />
                 <Input 
                    label="Estimated Budget" 
                    placeholder="₹ 500 - 2000"
                    leftIcon={<Zap size={18} />}
                    className="text-sm"
+                   value={formData.budget}
+                   onChange={(e) => setFormData({...formData, budget: e.target.value})}
                 />
              </div>
 
@@ -65,12 +97,16 @@ const LeadFormModal = ({ isOpen, onClose, vendorName }) => {
                    type="date"
                    leftIcon={<Calendar size={18} />}
                    className="text-sm"
+                   value={formData.date}
+                   onChange={(e) => setFormData({...formData, date: e.target.value})}
                 />
                 <Input 
                    label="Preferred Time" 
                    type="time"
                    leftIcon={<Clock size={18} />}
                    className="text-sm"
+                   value={formData.time}
+                   onChange={(e) => setFormData({...formData, time: e.target.value})}
                 />
              </div>
 
@@ -82,6 +118,8 @@ const LeadFormModal = ({ isOpen, onClose, vendorName }) => {
                 <textarea 
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 transition-all outline-none resize-none h-20 placeholder:text-slate-400"
                   placeholder="Need specific details..."
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
                 />
              </div>
 
@@ -103,10 +141,14 @@ const LeadFormModal = ({ isOpen, onClose, vendorName }) => {
              <div className="text-[10px] text-slate-400 font-medium leading-tight">
                 By submitting, it's <a href="#" className="text-primary-600 underline">Lead Policy</a>.
              </div>
-             <Button className="rounded-xl px-5 py-2.5 shadow-lg shadow-primary-500/30 font-bold flex items-center gap-2 text-xs">
-                Send Request
-                <Send size={14} />
-             </Button>
+              <Button 
+                onClick={handleSubmit}
+                loading={isSubmitting}
+                className="rounded-xl px-5 py-2.5 shadow-lg shadow-primary-500/30 font-bold flex items-center gap-2 text-xs"
+              >
+                 {isSubmitting ? 'Sending...' : 'Send Request'}
+                 {!isSubmitting && <Send size={14} />}
+              </Button>
           </div>
         </motion.div>
       </div>

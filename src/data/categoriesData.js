@@ -10,6 +10,7 @@ export const CATEGORIES_DATA = {
       image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800',
       verified: true,
       highlight: 'Top rated in Andheri',
+      actionType: 'booking',
       gstin: '27AAAPU3195L1Z6',
       phone: '09845258527',
       address: 'Plot No 50, Sunder Compound, Andheri West, Mumbai-400053',
@@ -36,17 +37,18 @@ export const CATEGORIES_DATA = {
       reviewsCount: 3500,
       location: 'Colaba, Mumbai',
       tags: ['Fine Dining', 'Italian', 'Wine Cellar'],
-      image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800',
       verified: true,
       highlight: 'Michelin Star Experience',
+      actionType: 'booking',
       gstin: '27AABCT1234F1Z1',
       phone: '022-22851234',
       address: 'Apollo Bandar, Colaba, Mumbai, Maharashtra 400001',
       yearsInBusiness: 25,
       images: [
+        { url: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=1200', category: 'Exterior' },
         { url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200', category: 'Interior' },
-        { url: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=800', category: 'Exterior' },
-        { url: 'https://images.unsplash.com/photo-1550966841-3ee7adac1ad0?auto=format&fit=crop&q=80&w=800', category: 'By User' }
+        { url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1200', category: 'By User' }
       ],
       facilities: ['Valet Parking', 'Wheelchair Accessible', 'Smoking Area', 'Elevator', 'WiFi'],
       amenities: ['Air Conditioned', 'Live Music', 'Bar', 'Private Dining'],
@@ -55,10 +57,7 @@ export const CATEGORIES_DATA = {
         { name: 'Alice', rating: 5, date: '15-04-2026', text: 'Amazing food!' },
         { name: 'Rohit Sharma', rating: 4, date: '18-04-2026', text: 'Great ambiance and the Italian food is authentic.' }
       ]
-    },
-    { id: 'v2', name: 'Bandra Blue', rating: 4.9, reviewsCount: 1200, location: 'Bandra, Mumbai', tags: ['Seafood', 'Coastal'], image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Bestseller' },
-    { id: 'v3', name: 'Spice Route', rating: 4.5, reviewsCount: 890, location: 'Juhu, Mumbai', tags: ['Indian', 'Spicy'], image: 'https://images.unsplash.com/photo-1550966841-3ee7adac1ad0?auto=format&fit=crop&q=80&w=800', verified: false, highlight: 'Locals Love It' },
-    { id: 'v20', name: 'Rustic Kitchen', rating: 4.5, reviewsCount: 1100, location: 'Andheri, Mumbai', tags: ['Farm to Table'], image: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Healthy' }
+    }
   ],
   beauty: [
     {
@@ -71,6 +70,7 @@ export const CATEGORIES_DATA = {
       image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800',
       verified: true,
       highlight: 'Best Bridal Studio 2026',
+      actionType: 'booking',
       yearsInBusiness: 8,
       phone: '09845258527',
       images: [
@@ -85,7 +85,30 @@ export const CATEGORIES_DATA = {
       ]
     }
   ],
+  shopping: [
+    {
+      id: 's1',
+      name: 'Modern Electronics',
+      rating: 4.5,
+      reviewsCount: 450,
+      location: 'Powai, Mumbai',
+      tags: ['Gadgets', 'Repair', 'Accessories'],
+      image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&q=80&w=800',
+      verified: true,
+      highlight: 'Best Gadget Store',
+      actionType: 'shopping',
+      yearsInBusiness: 5,
+      images: [
+        { url: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&q=80&w=1200', category: 'Interior' },
+        { url: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=1200', category: 'Exterior' }
+      ],
+      facilities: ['Repair Center', 'EMI Available', 'Home Delivery'],
+      amenities: ['Demo Units', 'Lounge'],
+      services: ['iPhone Repair', 'Laptop Service', 'Custom PC'],
+      userReviews: []
+    }
+  ],
   default: [
-    { id: 'v1', name: 'Elite Service Provider', rating: 4.6, reviewsCount: 500, location: 'Mumbai Central', tags: ['Expert', 'Reliable'], image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Verified Professional' }
+    { id: 'v1', name: 'Elite Service Provider', rating: 4.6, reviewsCount: 500, location: 'Mumbai Central', tags: ['Expert', 'Reliable'], image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800', verified: true, highlight: 'Verified Professional', actionType: 'booking' }
   ]
 };
