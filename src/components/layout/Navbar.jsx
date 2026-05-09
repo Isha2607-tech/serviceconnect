@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Menu, X, Bell, LayoutGrid, Zap, Sparkles, ChevronDown, Bookmark, Share2 } from 'lucide-react';
+import { Search, MapPin, Menu, X, Bell, LayoutGrid, Zap, Sparkles, ChevronDown, Bookmark, Share2, ChevronsUpDown, Navigation } from 'lucide-react';
+import { ALL_CITIES } from '../../data/cities';
 import Button from '../common/Button';
 import { cn } from '../../utils/cn';
 
@@ -15,14 +16,7 @@ const SEARCH_SUGGESTIONS = [
   { name: 'Pest Control', category: 'Category' },
 ];
 
-const LOCATION_SUGGESTIONS = [
-  'Indore, Madhya Pradesh',
-  'Vijay Nagar, Indore',
-  'Palasia, Indore',
-  'Bhawarkua, Indore',
-  'Mumbai, Maharashtra',
-  'Delhi, NCR'
-];
+
 
 const Navbar = ({ onSearch }) => {
   const { pathname } = useLocation();
@@ -33,6 +27,8 @@ const Navbar = ({ onSearch }) => {
   const [location, setLocation] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showLocSuggestions, setShowLocSuggestions] = useState(false);
+  const [selectedCity, setSelectedCity] = useState('Indore');
+  const [citySearch, setCitySearch] = useState('');
   
   const suggestionRef = useRef(null);
   const locRef = useRef(null);
@@ -41,12 +37,23 @@ const Navbar = ({ onSearch }) => {
     item.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  const filteredLocations = LOCATION_SUGGESTIONS.filter(item => 
-    item.toLowerCase().includes(location.toLowerCase())
+  const filteredLocations = ALL_CITIES.filter(city => 
+    city.toLowerCase().includes(citySearch.toLowerCase())
   );
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      if (isHomePage) {
+        const heroSearch = document.getElementById('hero-search-bar');
+        if (heroSearch) {
+          const rect = heroSearch.getBoundingClientRect();
+          // Trigger when the BOTTOM of hero search bar hits the navbar (approx 80px)
+          setIsScrolled(rect.bottom <= 80);
+        }
+      } else {
+        setIsScrolled(window.scrollY > 20);
+      }
+    };
     const handleClickOutside = (event) => {
       if (suggestionRef.current && !suggestionRef.current.contains(event.target)) setShowSuggestions(false);
       if (locRef.current && !locRef.current.contains(event.target)) setShowLocSuggestions(false);
@@ -59,6 +66,16 @@ const Navbar = ({ onSearch }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // Lock scroll when dropdowns or mobile menu are open
+  useEffect(() => {
+    if (showSuggestions || showLocSuggestions || isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [showSuggestions, showLocSuggestions, isMobileMenuOpen]);
 
   const handleSelectSuggestion = (s) => {
     setQuery(s.name);
@@ -75,7 +92,7 @@ const Navbar = ({ onSearch }) => {
   return (
     <nav className={cn(
       'fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b',
-      showGlassyNav ? 'bg-[#D4F4FA]/90 backdrop-blur-xl border-cyan-100 py-2 shadow-md shadow-cyan-900/5' : 'bg-transparent border-transparent py-3',
+      showGlassyNav ? 'bg-[#D4F4FA]/90 backdrop-blur-xl border-cyan-100 pt-8 pb-3 md:py-2 shadow-md shadow-cyan-900/5' : 'bg-transparent border-transparent py-3',
       (pathname === '/' || pathname === '/services' || pathname === '/profile') ? 'md:block hidden' : 'block'
     )}>
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
@@ -96,34 +113,80 @@ const Navbar = ({ onSearch }) => {
           {/* Mobile Location Removed as requested */}
         </div>
 
-        {/* Desktop Search Bar */}
+        {/* Desktop Search Bar - Conditional on Home Page */}
         <div className={cn(
           "hidden md:flex flex-1 max-w-2xl bg-white border border-slate-200 shadow-xl rounded-2xl p-1 items-center transition-all duration-300",
-          showGlassyNav ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
+          (!isHomePage || isScrolled) ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
         )}>
-          <div className="flex items-center gap-2 px-3 border-r border-slate-100 min-w-[140px] relative" ref={locRef}>
+          <div 
+            className="flex items-center gap-3 px-4 border-r border-slate-100 min-w-[140px] relative cursor-pointer group/loc" 
+            ref={locRef}
+            onClick={() => setShowLocSuggestions(!showLocSuggestions)}
+          >
             <MapPin size={18} className="text-primary-500" />
-            <input 
-              type="text" 
-              value={location}
-              onChange={(e) => { setLocation(e.target.value); setShowLocSuggestions(true); }}
-              onFocus={() => setShowLocSuggestions(true)}
-              placeholder="Indore" 
-              className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm font-bold text-slate-700 w-full placeholder:text-slate-400"
-            />
-            {/* Location Dropdown */}
+            <span className="text-[14px] font-bold text-slate-700 group-hover/loc:text-primary-600 transition-colors">{selectedCity}</span>
+            <div className="flex items-center ml-auto pl-2">
+                <ChevronsUpDown size={14} className="text-slate-300 group-hover/loc:text-primary-400 transition-colors" />
+            </div>
+
+            {/* City Dropdown - Matched with Home page */}
             <AnimatePresence>
               {showLocSuggestions && (
-                <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:10}} className="absolute top-full left-0 mt-3 w-64 bg-white rounded-xl shadow-2xl border border-slate-100 overflow-hidden z-50">
-                  <div className="px-4 py-2 border-b border-slate-50 bg-slate-50/50">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Locations</span>
+                <motion.div 
+                  initial={{opacity:0, y:10, scale: 0.95}} 
+                  animate={{opacity:1, y:0, scale: 1}} 
+                  exit={{opacity:0, y:10, scale: 0.95}} 
+                  className="absolute top-full left-0 mt-3 w-72 bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden z-50"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="p-3 border-b border-slate-50 bg-slate-50/50">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                        <input 
+                          type="text" 
+                          placeholder="Search city..." 
+                          value={citySearch}
+                          onChange={(e) => setCitySearch(e.target.value)}
+                          autoFocus
+                          className="w-full pl-9 pr-4 py-2 bg-white border border-slate-100 rounded-xl text-xs focus:ring-1 focus:ring-primary-500/20 outline-none placeholder:text-slate-400 font-medium"
+                        />
+                    </div>
                   </div>
-                  {filteredLocations.map((l, i) => (
-                    <button key={i} onClick={() => handleSelectLocation(l)} className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-50 text-left">
-                      <MapPin size={14} className="text-slate-300" />
-                      <span className="text-xs font-semibold text-slate-600">{l}</span>
-                    </button>
-                  ))}
+                  
+                  <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
+                    <div className="p-1.5">
+                        <span className="px-2.5 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Quick Actions</span>
+                        <button className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-primary-50 text-primary-600 transition-colors group">
+                          <div className="w-7 h-7 rounded-lg bg-primary-50 flex items-center justify-center group-hover:bg-white transition-colors">
+                            <Navigation size={14} />
+                          </div>
+                          <span className="text-xs font-bold">Detect my city</span>
+                        </button>
+                    </div>
+
+                    <div className="p-1.5">
+                        <span className="px-2.5 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Popular Cities</span>
+                        <div className="space-y-0.5">
+                          {filteredLocations.map((l, i) => (
+                            <button 
+                              key={i} 
+                              onClick={() => { setSelectedCity(l); setShowLocSuggestions(false); setCitySearch(''); }} 
+                              className={cn(
+                                "w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition-all",
+                                selectedCity === l ? "bg-primary-50 text-primary-700" : "text-slate-600 hover:bg-slate-50 hover:text-primary-600"
+                              )}
+                            >
+                              {l}
+                            </button>
+                          ))}
+                          {filteredLocations.length === 0 && (
+                            <div className="px-4 py-8 text-center">
+                              <p className="text-xs text-slate-400">No cities found</p>
+                            </div>
+                          )}
+                        </div>
+                    </div>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -136,8 +199,8 @@ const Navbar = ({ onSearch }) => {
               value={query}
               onChange={(e) => { setQuery(e.target.value); setShowSuggestions(true); }}
               onFocus={() => setShowSuggestions(true)}
-              placeholder="Search services..." 
-              className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-full placeholder:text-slate-400"
+              placeholder="Search products, services, businesses..." 
+              className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-full placeholder:text-slate-400 font-medium"
             />
             {/* Search Dropdown */}
             <AnimatePresence>
@@ -161,7 +224,10 @@ const Navbar = ({ onSearch }) => {
               )}
             </AnimatePresence>
           </div>
-          <Button size="sm" className="rounded-xl px-6">Search</Button>
+          <Button size="sm" className="rounded-xl px-6 flex items-center gap-2">
+            <Search size={16} />
+            Search
+          </Button>
         </div>
 
         {/* Actions */}

@@ -5,6 +5,8 @@ import { AnimatePresence } from 'framer-motion';
 // Lazy load pages for better performance
 import Home from './pages/user/Home';
 import Categories from './pages/user/Categories';
+import Marketplace from './pages/user/Marketplace';
+import ProductDetail from './pages/user/ProductDetail';
 
 // Lazy load remaining pages
 const HotelResults = lazy(() => import('./pages/user/HotelResults'));
@@ -18,7 +20,7 @@ const Profile = lazy(() => import('./pages/user/Profile'));
 
 const AppContent = () => {
   const location = useLocation();
-  
+
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -31,21 +33,23 @@ const AppContent = () => {
       <AnimatePresence mode="wait" initial={false}>
         <Routes location={location} key={location.pathname}>
           {/* User Routes */}
-          <Route path="/" element={<SocialFeed />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/marketplace/product/:id" element={<ProductDetail />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryName" element={<CategoryResults />} />
           <Route path="/category/:categoryName/:id" element={<CategoryDetails />} />
           <Route path="/hotels" element={<HotelResults />} />
           <Route path="/hotel/:id" element={<HotelDetails />} />
           <Route path="/vendor/:id" element={<div className="p-20 text-center">Vendor Details Page Coming Soon</div>} />
-          <Route path="/services" element={<Home />} />
+          <Route path="/services" element={<SocialFeed />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/my-requests" element={<div className="p-20 text-center">My Requests Page Coming Soon</div>} />
 
           {/* Vendor/Admin Routes */}
           <Route path="/vendor-panel" element={<VendorDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          
+
           {/* Default Redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

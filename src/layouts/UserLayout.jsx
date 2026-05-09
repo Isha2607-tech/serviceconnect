@@ -9,31 +9,27 @@ const UserLayout = ({ children }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isHomePage = pathname === '/';
+  const isDetailPage = pathname.includes('/hotel/') || pathname.match(/\/category\/[^/]+\/[^/]+/) || pathname.includes('/marketplace/product/');
   
   const bottomNavItems = [
     { icon: Home, label: 'Home', path: '/', active: pathname === '/' },
     { icon: LayoutGrid, label: 'Categories', path: '/categories', active: pathname === '/categories' },
-    { icon: Camera, label: 'Services', path: '/services', active: pathname === '/services', badge: 'New' },
+    { icon: Camera, label: 'Social', path: '/services', active: pathname === '/services', badge: 'New' },
     { icon: UserCircle, label: 'Profile', path: '/profile', active: pathname === '/profile' },
   ];
 
   return (
     <div className="min-h-screen bg-transparent overflow-x-hidden">
       {/* Hide standard Navbar on mobile for detail pages where we have custom headers */}
-      <div className={cn(
-        (!pathname.includes('/hotel/') && !pathname.match(/\/category\/[^/]+\/[^/]+/)) ? "block" : "hidden md:block"
-      )}>
+      <div className={cn(!isDetailPage ? "block" : "hidden md:block")}>
         <Navbar />
       </div>
-      <main className={cn(
-        (!pathname.includes('/hotel/') && !pathname.match(/\/category\/[^/]+\/[^/]+/)) ? "pb-20 md:pb-0" : "pb-0"
-      )}>
+      <main className={cn(!isDetailPage ? "pb-20 md:pb-0" : "pb-0")}>
         {children}
       </main>
 
-      {/* Mobile Bottom Navigation */}
       {/* Mobile Bottom Navigation - Hidden on Detail Pages */}
-      {!pathname.includes('/hotel/') && !pathname.match(/\/category\/[^/]+\/[^/]+/) && (
+      {!isDetailPage && (
         <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-2 py-2 flex items-center justify-around z-[100] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
           {bottomNavItems.map((item, idx) => (
             <button 
@@ -64,7 +60,7 @@ const UserLayout = ({ children }) => {
       )}
       
       {/* Premium Footer - Only on Home Page */}
-      {pathname === '/services' && (
+      {pathname === '/' && (
         <footer className="bg-slate-900 text-white pt-10 md:pt-20 pb-10 mt-0 md:mt-20">
         <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="col-span-1 md:col-span-1">

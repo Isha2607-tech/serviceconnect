@@ -1,166 +1,103 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Sparkles, Star, ShieldCheck, Zap, ArrowRight, Utensils, Hotel, Scissors, Sofa, Heart, GraduationCap, Key, Building2, UserCog, Dog, Bed, Store, Activity, Dumbbell, Banknote, Calendar, CarFront, Truck, Send, Menu, Clock, LayoutGrid, Bell, ChevronDown, Mic, ArrowLeft, History, TrendingUp, X, Compass, Navigation } from 'lucide-react';
+import { Search, MapPin, ChevronDown, ChevronsUpDown, Bell, LayoutGrid, UserCog, Navigation, ArrowRight, Menu, ChevronRight } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import UserLayout from '../../layouts/UserLayout';
-import Button from '../../components/common/Button';
-import Card from '../../components/common/Card';
-import Badge from '../../components/common/Badge';
-import heroBg from '../../assets/homepage.jpg';
-import hotelIcon from '../../assets/icons/hotel.png';
-import beautyIcon from '../../assets/icons/beauty.png';
 import LeadFormModal from '../../components/common/LeadFormModal';
 import ServicesOverlay from '../../components/user/ServicesOverlay';
 import AnimatedCategoriesOverlay from '../../components/user/AnimatedCategoriesOverlay';
+import FeaturedVendors from '../../components/user/FeaturedVendors';
+import SocialDiscovery from '../../components/user/SocialDiscovery';
+import MarketplacePreview from '../../components/user/MarketplacePreview';
 
-const CATEGORIES = [
-  { id: 1, name: 'Restaurants', icon: 'https://img.icons8.com/bubbles/180/restaurant.png', color: 'bg-primary-50/50' },
-  { id: 2, name: 'Hotels', icon: hotelIcon, color: 'bg-primary-50/50' },
-  { id: 3, name: 'Beauty', icon: beautyIcon, color: 'bg-primary-50/50' },
-  { id: 4, name: 'Home', icon: 'https://img.icons8.com/bubbles/180/home.png', color: 'bg-primary-50/50' },
-  { id: 5, name: 'Wedding', icon: 'https://img.icons8.com/bubbles/180/diamond-ring.png', color: 'bg-primary-50/50' },
-  { id: 6, name: 'Education', icon: 'https://img.icons8.com/bubbles/180/education.png', color: 'bg-primary-50/50' },
-  { id: 7, name: 'Rent', icon: 'https://img.icons8.com/bubbles/180/key.png', color: 'bg-primary-50/50' },
-  { id: 8, name: 'Hospitals', icon: 'https://img.icons8.com/bubbles/180/hospital.png', color: 'bg-primary-50/50' },
-  { id: 9, name: 'Contractors', icon: 'https://img.icons8.com/bubbles/180/hammer.png', color: 'bg-primary-50/50' },
-  { id: 10, name: 'Pet', icon: 'https://img.icons8.com/bubbles/180/dog.png', color: 'bg-primary-50/50' },
-  { id: 11, name: 'PG/Hostels', icon: 'https://img.icons8.com/bubbles/180/bed.png', color: 'bg-primary-50/50' },
-  { id: 12, name: 'Estate', icon: 'https://img.icons8.com/bubbles/180/commercial.png', color: 'bg-primary-50/50' },
-  { id: 13, name: 'Dentists', icon: 'https://img.icons8.com/bubbles/180/tooth.png', color: 'bg-primary-50/50' },
-  { id: 14, name: 'Gym', icon: 'https://img.icons8.com/bubbles/180/dumbbell.png', color: 'bg-primary-50/50' },
-  { id: 15, name: 'Loans', icon: 'https://img.icons8.com/bubbles/180/money-bag.png', color: 'bg-primary-50/50' },
-  { id: 20, name: 'More', icon: Menu, color: 'bg-primary-700', isMenu: true },
-];
+// Centralized Data Imports
+import { CATEGORIES, SERVICES_CATEGORIES, HOME_SERVICES, TOP_DEALS, FULL_PRODUCT_LIST, TOP_RANKED_CATEGORIES } from '../../data/marketplaceData';
+import { ALL_CITIES } from '../../data/cities';
 
-const FEATURED_VENDORS = [
-  { id: 1, name: 'AquaSmooth Plumbing', rating: 4.9, reviews: 1240, type: 'Premium', verified: true, image: 'https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 2, name: 'Apex Car Care', rating: 4.8, reviews: 3100, type: 'Featured', verified: true, image: 'https://images.pexels.com/photos/372810/pexels-photo-372810.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 3, name: 'Zenith Home Spa', rating: 4.7, reviews: 890, type: 'Promoted', verified: false, image: 'https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 4, name: 'Glow Dental Clinic', rating: 5.0, reviews: 450, type: 'Top Rated', verified: true, image: 'https://images.pexels.com/photos/3845766/pexels-photo-3845766.jpeg?auto=compress&cs=tinysrgb&w=400' },
-];
-
-const HOME_SERVICES = [
-  { id: 1, name: 'AC REPAIR & SERVICE', image: 'https://images.pexels.com/photos/5463575/pexels-photo-5463575.jpeg?auto=compress&cs=tinysrgb&w=400', color: 'from-[#1A2B4B]' },
-  { id: 2, name: 'PAINTERS', image: 'https://images.pexels.com/photos/6474471/pexels-photo-6474471.jpeg?auto=compress&cs=tinysrgb&w=400', color: 'from-[#9D446E]' },
-  { id: 3, name: 'PEST CONTROL', image: 'https://images.pexels.com/photos/4064560/pexels-photo-4064560.jpeg?auto=compress&cs=tinysrgb&w=400', color: 'from-[#C59D3F]' },
-  { id: 4, name: 'PLUMBERS', image: 'https://images.pexels.com/photos/5691653/pexels-photo-5691653.jpeg?auto=compress&cs=tinysrgb&w=400', color: 'from-[#E68D40]' },
-];
-
-const PREVIEW_CARDS = [
-  {
-    id: 0,
-    user: 'Luxe Interior Studio',
-    title: 'Minimalist Transformation',
-    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=600',
-    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100',
-    likes: '2k',
-    comments: '45',
-    text: 'Just finished this beautiful minimalist living room transformation in Goregaon. Every corner tells a story! ✨'
-  },
-  {
-    id: 1,
-    user: 'Zenith Home Spa',
-    title: 'Morning Wellness',
-    image: 'https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg?auto=compress&cs=tinysrgb&w=600',
-    likes: '1.2k',
-    comments: '28',
-    text: 'Relaxing home spa session today. Peace begins with a healthy mind and body. 🧘‍♀️'
-  },
-  {
-    id: 2,
-    user: 'Apex Car Care',
-    title: 'Extreme Detailing',
-    image: 'https://images.pexels.com/photos/3311574/pexels-photo-3311574.jpeg?auto=compress&cs=tinysrgb&w=600',
-    likes: '800',
-    comments: '15',
-    text: 'Brought this vintage beauty back to life with our premium detailing package! 🚗✨'
-  }
+const SEARCH_SUGGESTIONS = [
+  { name: 'Plumbers', category: 'Category' },
+  { name: 'Electricians', category: 'Category' },
+  { name: 'Carpenters', category: 'Category' },
+  { name: 'AC Repair', category: 'Category' },
+  { name: 'Cleaning Services', category: 'Category' },
+  { name: 'Painters', category: 'Category' },
+  { name: 'Pest Control', category: 'Category' },
 ];
 
 const Home = () => {
   const navigate = useNavigate();
-  const [isSearchFixed, setIsSearchFixed] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [locationQuery, setLocationQuery] = useState('');
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [isPreviewStackOpen, setIsPreviewStackOpen] = useState(false); // Existing state check
   const [isCategoriesOverlayOpen, setIsCategoriesOverlayOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('Products');
+  const [lookingFor, setLookingFor] = useState('Products');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestionRef = useRef(null);
   const moreButtonRef = useRef(null);
-  const [previewStack, setPreviewStack] = useState([0, 1, 2]);
+  const locationRef = useRef(null);
+  const [selectedCity, setSelectedCity] = useState('Indore');
+  const [citySearch, setCitySearch] = useState('');
 
-  const handleSwap = (id) => {
-    const newStack = [id, ...previewStack.filter(item => item !== id)];
-    setPreviewStack(newStack);
-  };
+  const filteredCities = ALL_CITIES.filter(city =>
+    city.toLowerCase().includes(citySearch.toLowerCase())
+  );
+  
+  const filteredSuggestions = SEARCH_SUGGESTIONS.filter(item => 
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  const RECENT_SEARCHES = [
-    'Gynaecologist & Obstetrician',
-    'Real Estate Agents'
-  ];
-
-  const TRENDING_SEARCHES = [
-    'Hostels For Women',
-    'Car Rental',
-    'Interior Designers',
-    'Electricians'
-  ];
-
-  const TRENDING_AREAS = [
-    'Vijay Nagar, Indore',
-    'Vijay Nagar Road Vijay Nagar, Indore',
-    'Bhawar Kuan, Indore',
-    'Khajrana, Indore',
-    'Sudama Nagar, Indore',
-    'Mhow, Indore',
-    'MG Road Indore, Indore',
-    'New Palasia, Indore',
-    'Kanadia, Indore',
-    'Rau, Indore'
-  ];
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (locationRef.current && !locationRef.current.contains(event.target)) {
+        setIsLocationOpen(false);
+      }
+      if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleCategoryClick = (cat) => {
     if (cat.isMenu) {
       setIsCategoriesOverlayOpen(true);
       return;
     }
-    
+
     const route = cat.name.toLowerCase() === 'hotels' ? '/hotels' : `/category/${cat.name.toLowerCase()}`;
     navigate(route);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsSearchFixed(window.scrollY > 80);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const handleEnquiry = (vendor) => {
+    setSelectedVendor(vendor);
+    setIsEnquiryOpen(true);
+  };
 
   return (
     <UserLayout>
       {/* Mobile-Only Home View (Sleek Modern) */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 1 }}
-        className="md:hidden"
+        className="md:hidden bg-white"
       >
-        <div className="px-4 pt-6 pb-2 bg-gradient-to-b from-[#D4F4FA] to-[#F2FBFD]">
-          <div className="flex items-center justify-between mb-2">
+        <div className="sticky top-0 z-50 px-4 pt-6 pb-2 bg-[#F2FBFD] shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3" onClick={() => setIsLocationOpen(true)}>
-              <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-cyan-500 shadow-sm border border-cyan-50">
+              <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-primary-500 shadow-sm border border-primary-50">
                 <MapPin size={22} fill="currentColor" fillOpacity={0.2} />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Your location</span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Your location</span>
                 <div className="flex items-center gap-1">
-                  <span className="text-base font-bold text-slate-800">San Antione, Tx</span>
-                  <ChevronDown size={14} className="text-gray-400 stroke-[3px]" />
+                  <span className="text-base font-bold text-slate-800">{selectedCity}</span>
+                  <ChevronDown size={14} className="text-gray-400" />
                 </div>
               </div>
             </div>
@@ -168,541 +105,573 @@ const Home = () => {
               <Bell size={20} />
             </div>
           </div>
-        </div>
 
-        {/* Sticky Mobile Search Bar Container - INCREASED pt-4 for top space */}
-        <div className={cn(
-          "z-[100] bg-[#F2FBFD]/95 backdrop-blur-md px-4 pt-4 pb-3 transition-all duration-300",
-          isSearchFixed ? "fixed top-0 left-0 right-0 shadow-lg" : "sticky top-0"
-        )} onClick={() => setIsSearchOpen(true)}>
-          <div className="bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-1 flex items-center">
-            <div className="flex items-center gap-3 px-4 flex-1">
-              <Search className="text-gray-400" size={18} />
-              <div className="w-full py-2 text-sm font-semibold text-slate-400">Restaurants near me</div>
-              <Mic size={18} className="text-blue-400" />
-            </div>
+          {/* Mobile Tab Bar */}
+          <div className="flex items-center justify-between gap-4 mb-6 overflow-x-auto no-scrollbar pb-1">
+            {['Products', 'Services', 'Businesses', 'Trade Fairs'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => {
+                  setActiveTab(tab);
+                  if (tab === 'Products' || tab === 'Services') {
+                    setLookingFor(tab);
+                  }
+                }}
+                className={cn(
+                  "text-sm font-medium whitespace-nowrap pb-2 px-1 transition-all relative",
+                  activeTab === tab ? "text-slate-900" : "text-slate-400"
+                )}
+              >
+                {tab}
+                {activeTab === tab && (
+                  <motion.div layoutId="activeTabMobile" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full" />
+                )}
+              </button>
+            ))}
           </div>
-        </div>
 
-        {/* Mobile Full Screen Search Experience (Target Design) */}
-        <AnimatePresence>
-          {isSearchOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 100 }}
-              className="fixed inset-0 z-[200] bg-white md:hidden overflow-y-auto"
+          {/* Integrated Mobile Search */}
+          <div className="bg-white rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.03)] border border-primary-50 p-1 flex items-center mb-6 relative z-50">
+            <div 
+              className="flex items-center gap-2 pl-4 pr-3 border-r border-slate-100 shrink-0 cursor-pointer"
+              ref={locationRef}
+              onClick={() => setIsLocationOpen(!isLocationOpen)}
             >
-              {/* Overlay Header */}
-              <div className="px-4 pt-6 pb-4 border-b border-gray-100 flex flex-col gap-4 sticky top-0 bg-white">
-                <div className="flex items-center justify-between">
-                  <button onClick={() => setIsSearchOpen(false)} className="p-1 -ml-1">
-                    <ArrowLeft size={24} className="text-slate-800" />
-                  </button>
-                  <div className="flex items-center gap-1 cursor-pointer" onClick={() => setIsLocationOpen(true)}>
-                    <MapPin size={18} className="text-slate-400" />
-                    <span className="text-sm font-bold text-slate-800">Indore</span>
-                    <ChevronDown size={14} className="text-slate-400" />
-                  </div>
-                  <Bell size={22} className="text-slate-800" />
-                </div>
-
-                <div className="bg-white border border-slate-300 rounded-lg p-1.5 flex items-center gap-3 shadow-sm">
-                  <Search className="text-slate-400 ml-2" size={20} />
-                  <input
-                    autoFocus
-                    type="text"
-                    placeholder="Search in Indore"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full py-1 focus:outline-none text-slate-800 font-medium placeholder:text-slate-400"
-                  />
-                  <Mic size={20} className="text-blue-500 mr-2" />
-                </div>
-              </div>
-
-              {/* Suggestions List */}
-              <div className="p-4 space-y-8 pb-20">
-                {/* Recent Searches */}
-                {!searchQuery && (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-xs font-bold text-slate-400 tracking-wider uppercase">Recent Searches</h4>
-                      <button className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Clear All</button>
+              <MapPin size={16} className="text-primary-500" />
+              <span className="text-[13px] font-bold text-slate-800">{selectedCity}</span>
+              
+              <AnimatePresence>
+                {isLocationOpen && (
+                  <motion.div 
+                    initial={{opacity:0, y:10, scale: 0.95}} 
+                    animate={{opacity:1, y:0, scale: 1}} 
+                    exit={{opacity:0, y:10, scale: 0.95}} 
+                    className="absolute top-full left-0 mt-3 w-[280px] bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden z-[60]"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="p-3 border-b border-slate-50 bg-slate-50/50">
+                      <div className="relative">
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                          <input 
+                            type="text" 
+                            placeholder="Search city..." 
+                            value={citySearch}
+                            onChange={(e) => setCitySearch(e.target.value)}
+                            autoFocus
+                            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-100 rounded-xl text-xs focus:ring-1 focus:ring-primary-500/20 outline-none placeholder:text-slate-400 font-medium"
+                          />
+                      </div>
                     </div>
-                    {RECENT_SEARCHES.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0 group">
-                        <div className="flex items-center gap-4 flex-1">
-                          <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
-                            <Search size={18} />
+                    
+                    <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
+                      <div className="p-1.5">
+                          <span className="px-2.5 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Quick Actions</span>
+                          <button className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-primary-50 text-primary-600 transition-colors group">
+                            <div className="w-7 h-7 rounded-lg bg-primary-50 flex items-center justify-center group-hover:bg-white transition-colors">
+                              <Navigation size={14} />
+                            </div>
+                            <span className="text-xs font-bold">Detect my city</span>
+                          </button>
+                      </div>
+
+                      <div className="p-1.5">
+                          <span className="px-2.5 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Popular Cities</span>
+                          <div className="space-y-0.5">
+                            {filteredCities.map((l, i) => (
+                              <button 
+                                key={i} 
+                                onClick={() => { setSelectedCity(l); setIsLocationOpen(false); setCitySearch(''); }} 
+                                className={cn(
+                                  "w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition-all",
+                                  selectedCity === l ? "bg-primary-50 text-primary-700" : "text-slate-600 hover:bg-slate-50 hover:text-primary-600"
+                                )}
+                              >
+                                {l}
+                              </button>
+                            ))}
+                          </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            <div className="flex items-center gap-2 px-3 flex-1 relative" ref={suggestionRef}>
+              <input
+                type="text"
+                placeholder="Search products, suppliers..."
+                className="w-full py-2.5 text-[13px] font-medium focus:outline-none placeholder:text-slate-300 bg-transparent"
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setShowSuggestions(true); }}
+                onFocus={() => setShowSuggestions(true)}
+              />
+              <AnimatePresence>
+                {showSuggestions && (
+                  <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:10}} className="absolute top-full left-[-100px] right-0 mt-3 w-[calc(100%+100px)] bg-white rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden z-[60]">
+                    <div className="px-5 py-3 border-b border-slate-50 bg-slate-50/50">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Trending Searches</span>
+                    </div>
+                    <div className="max-h-[300px] overflow-y-auto">
+                      {filteredSuggestions.map((s, i) => (
+                        <button key={i} onClick={() => { setSearchQuery(s.name); setShowSuggestions(false); }} className="w-full flex items-center gap-4 px-5 py-3 hover:bg-slate-50 text-left group border-b border-slate-50 last:border-none">
+                          <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
+                            <Search size={14} className="fill-current" />
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-sm font-bold text-slate-800">{item}</span>
-                            <span className="text-[10px] text-slate-400 font-medium">Category</span>
+                            <span className="text-sm font-bold text-slate-700 group-hover:text-primary-600">{s.name}</span>
+                            <span className="text-[11px] text-slate-400">{s.category}</span>
                           </div>
-                        </div>
-                        <X size={16} className="text-slate-300" />
-                      </div>
-                    ))}
-                  </div>
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
                 )}
+              </AnimatePresence>
+            </div>
+            <button className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-600/20 active:scale-90 transition-transform relative z-20 shrink-0">
+              <Search size={16} />
+            </button>
+          </div>
 
-                {/* Trending Searches */}
-                {!searchQuery && (
-                  <div className="space-y-4">
-                    <h4 className="text-xs font-bold text-slate-400 tracking-wider uppercase">Trending Searches</h4>
-                    {TRENDING_SEARCHES.map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-4 py-2 border-b border-gray-50 last:border-b-0" onClick={() => { setSearchQuery(item); navigate('/categories'); }}>
-                        <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
-                          <TrendingUp size={18} />
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-sm font-bold text-slate-800">{item}</span>
-                          <span className="text-[10px] text-slate-400 font-medium">Category</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+          <div className="space-y-1 mb-8">
+            <h2 className="text-2xl font-display font-bold text-slate-900 leading-tight">Browse by Category</h2>
+            <p className="text-xs text-slate-500 font-medium leading-relaxed">Explore top business categories across all major industries</p>
+          </div>
+
+          {/* Looking for Toggle */}
+          <div className="flex items-center gap-3 mb-8">
+            <span className="text-sm font-bold text-slate-700">I am looking for:</span>
+            <div className="bg-slate-50 p-1 rounded-xl flex items-center gap-1 border border-slate-100">
+              <button
+                onClick={() => setLookingFor('Products')}
+                className={cn(
+                  "px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2",
+                  lookingFor === 'Products' ? "bg-primary-600 text-white shadow-lg shadow-primary-600/20" : "text-slate-500"
                 )}
-
-                {/* Live Filtering (typing) */}
-                {searchQuery && (
-                  <div className="space-y-2">
-                    {CATEGORIES.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase())).map((cat, idx) => (
-                      <div key={idx} className="flex items-center gap-4 py-4 border-b border-gray-50" onClick={() => handleCategoryClick(cat)}>
-                        <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center bg-white shadow-sm border border-gray-50 overflow-hidden", cat.color)}>
-                          {typeof cat.icon === 'string' ? (
-                            <img src={cat.icon} alt={cat.name} className="w-8 h-8 object-contain" />
-                          ) : (
-                            <cat.icon size={20} className="text-primary-600" />
-                          )}
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-base font-bold text-slate-800">{cat.name}</span>
-                          <span className="text-xs text-slate-400 font-medium tracking-tight">Best services available in Indore</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+              >
+                <LayoutGrid size={14} /> Products
+              </button>
+              <button
+                onClick={() => setLookingFor('Services')}
+                className={cn(
+                  "px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2",
+                  lookingFor === 'Services' ? "bg-primary-600 text-white shadow-lg shadow-primary-600/20" : "text-slate-500"
                 )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              >
+                <UserCog size={14} /> Services
+              </button>
+            </div>
+          </div>
+        </div>
 
-        {/* Mobile Full Screen Location Experience (Target Design) */}
-        <AnimatePresence>
-          {isLocationOpen && (
+        {/* Mobile Categories Grid */}
+        <div className="bg-white px-4 pb-6 min-h-[220px]">
+          <AnimatePresence mode="wait">
             <motion.div
-              initial={{ opacity: 0, x: 100 }}
+              key={lookingFor}
+              initial={{ opacity: 0, x: lookingFor === 'Products' ? -20 : 20 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 100 }}
-              className="fixed inset-0 z-[300] bg-white md:hidden overflow-y-auto"
+              exit={{ opacity: 0, x: lookingFor === 'Products' ? 20 : -20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="grid grid-cols-3 gap-y-5 gap-x-3"
             >
-              {/* Overlay Header */}
-              <div className="px-4 pt-6 pb-4 border-b border-gray-100 flex flex-col gap-4 sticky top-0 bg-white">
-                <div className="flex items-center justify-between">
-                  <button onClick={() => setIsLocationOpen(false)} className="p-1 -ml-1">
-                    <ArrowLeft size={24} className="text-slate-800" />
-                  </button>
-                  <h3 className="text-lg font-bold text-slate-800">Your Location</h3>
-                  <Bell size={22} className="text-slate-800" />
-                </div>
-
-                <div className="bg-white border border-slate-300 rounded-lg p-1.5 flex items-center gap-3 shadow-sm">
-                  <input
-                    autoFocus
-                    type="text"
-                    placeholder="Start typing your location..."
-                    value={locationQuery}
-                    onChange={(e) => setLocationQuery(e.target.value)}
-                    className="w-full py-1.5 px-3 focus:outline-none text-slate-800 font-medium placeholder:text-slate-400"
-                  />
-                  <Search className="text-slate-400 mr-2" size={20} />
-                </div>
-              </div>
-
-              {/* Location Content */}
-              <div className="p-4 space-y-6">
-                <button className="flex items-center gap-3 text-primary-600 font-bold active:scale-95 transition-transform">
-                  <div className="w-5 h-5 flex items-center justify-center border-2 border-primary-600 rounded-full">
-                    <div className="w-2 h-2 bg-primary-600 rounded-full"></div>
+              {(lookingFor === 'Products' ? CATEGORIES : SERVICES_CATEGORIES).slice(0, 9).map((cat) => (
+                <div
+                  key={cat.id}
+                  className="flex flex-col items-center gap-2 active:scale-95 transition-transform"
+                  onClick={() => handleCategoryClick(cat)}
+                >
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shadow-sm hover:shadow-md border border-slate-200 bg-slate-50 transition-shadow">
+                    <img src={cat.icon} alt={cat.name} className="w-full h-full object-cover" />
                   </div>
-                  <span>Detect my location</span>
-                </button>
-
-                <div className="flex items-center gap-4 py-2 border-b border-gray-50 pb-4">
-                  <MapPin size={20} className="text-slate-400" />
-                  <span className="text-base font-bold text-slate-800">Anywhere in Indore</span>
-                </div>
-
-                <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-slate-400 tracking-tight">Trending Areas</h4>
-                  <div className="space-y-1">
-                    {TRENDING_AREAS.filter(a => a.toLowerCase().includes(locationQuery.toLowerCase())).map((area, idx) => (
-                      <div key={idx} className="flex items-center gap-4 py-4 border-b border-gray-50 last:border-0 active:bg-slate-50 transition-colors" onClick={() => setIsLocationOpen(false)}>
-                        <MapPin size={18} className="text-slate-400 flex-shrink-0" />
-                        <span className="text-base font-bold text-slate-800 leading-tight">{area}</span>
-                      </div>
-                    ))}
+                  <div className="flex flex-col items-center">
+                    <span className="text-[11px] font-bold text-slate-800 text-center leading-tight line-clamp-1">
+                      {cat.name}
+                    </span>
+                    <span className="text-[9px] font-bold text-primary-500">{cat.count}</span>
                   </div>
                 </div>
-              </div>
+              ))}
             </motion.div>
-          )}
-        </AnimatePresence>
+          </AnimatePresence>
 
-        {/* Mobile Categories (JustDial Style Grid) */}
-        <div className="bg-white px-3 pt-6 pb-4">
-          <div className="grid grid-cols-4 gap-y-4 gap-x-1">
-             {CATEGORIES.slice(0, 15).map((cat) => (
-               <div 
-                 key={cat.id} 
-                 className="flex flex-col items-center gap-0 active:scale-90 transition-transform"
-                 onClick={() => handleCategoryClick(cat)}
-               >
-                 <div className="w-14 h-12 bg-white flex items-center justify-center">
-                    {typeof cat.icon === 'string' ? (
-                       <img src={cat.icon} alt={cat.name} className="w-12 h-12 object-contain" />
-                    ) : (
-                       <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600">
-                          <cat.icon size={22} />
-                       </div>
-                    )}
-                 </div>
-                 <span className="text-[11px] font-bold text-slate-800 text-center leading-tight h-5 flex items-center justify-center px-1">
-                   {cat.name}
-                 </span>
-               </div>
-             ))}
-             
-             <div 
-               ref={moreButtonRef}
-               className="flex flex-col items-center gap-0 active:scale-90 transition-transform cursor-pointer"
-               onClick={() => setIsCategoriesOverlayOpen(true)}
-             >
-               <div className="w-14 h-12 flex items-center justify-center">
-                  <div className="w-11 h-11 bg-primary-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-600/20 active:rotate-180 transition-all duration-300">
-                    <ChevronDown size={24} className="stroke-[3px]" />
-                  </div>
-               </div>
-               <span className="text-[11px] font-bold text-slate-800 text-center leading-tight h-5 flex items-center justify-center">
-                 More
-               </span>
-             </div>
-          </div>
+          <button
+            className="w-full mt-6 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-primary-600 flex items-center justify-center gap-2"
+            onClick={() => setIsCategoriesOverlayOpen(true)}
+          >
+            See All Categories <ArrowRight size={16} />
+          </button>
         </div>
 
-        {/* Mobile Promotional Banner - Compacted */}
-        <div className="px-4 mb-3">
-          <div className="bg-[#0D4D47] rounded-xl py-4 px-5 text-white relative overflow-hidden shadow-xl shadow-emerald-900/10">
-            <div className="relative z-10 w-2/3">
-              <h3 className="text-lg font-display font-bold mb-1 leading-tight uppercase tracking-tight">Your Solution, <br /> One Tap Away!</h3>
-              <p className="text-white/70 text-[10px] font-medium mb-3 leading-tight">Seamless, Fast & Reliable <br /> Services at Your Fingertips</p>
-              <button className="bg-white text-[#0D4D47] text-[10px] font-bold px-5 py-2 rounded-lg shadow-lg active:scale-95 transition-transform">Explore</button>
-            </div>
-            <div className="absolute right-[-10px] bottom-0 top-0 w-2/5 flex items-center justify-center">
-              <img
-                src="https://img.freepik.com/free-vector/professional-engineers-fixing-air-conditioner_23-2148560064.jpg?t=st=1713628461~exp=1713632061~hmac=6b9e5e7e0e7e1e8e9e7e6e5e4e3e2e1e0e9e8e7e6e5e4e3e2e1"
-                alt="service"
-                className="w-full h-full object-contain mix-blend-overlay opacity-80"
-                onError={(e) => { e.target.style.display = 'none'; }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-l from-white/10 to-transparent pointer-events-none"></div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom Nav Spacer - REDUCED h-1 */}
-        <div className="h-1 md:h-20" />
+        {/* Restore Products Preview for Mobile */}
+        {lookingFor === 'Products' && <MarketplacePreview />}
       </motion.div>
 
-      {/* Hero Section (Desktop Only) */}
-      <section
-        className="hidden md:flex relative overflow-hidden pt-52 pb-44 px-6 min-h-[90vh] items-center justify-center border-b-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2)), url(${heroBg})`
-        }}
-      >
-        <div className="absolute inset-0 bg-black/40 z-0"></div>
-
-        <div className="max-w-[1400px] mx-auto flex flex-col items-center text-center relative z-10">
-          <Badge variant="primary" className="mb-6 backdrop-blur-md bg-white/20 border-white/20 text-white animate-bounce">
-            <Sparkles size={14} className="mr-1 inline text-primary-300" />
-            Empowering over 1M+ small businesses globally
-          </Badge>
-
-          <h1 className="text-7xl font-display font-bold leading-tight max-w-4xl mb-8 text-white drop-shadow-lg">
-            Find the Best <span className="text-white relative">
-              Services
-              <svg className="absolute -bottom-2 left-0 w-full h-3 text-white/40" viewBox="0 0 100 10" preserveAspectRatio="none">
-                <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="4" />
-              </svg>
-            </span> Near You
-          </h1>
-
-          <p className="text-lg text-white/90 max-w-2xl mb-12 drop-shadow">
-            Instantly discover verified vendors, compare prices, and book the most trusted experts for your needs with AI-powered search.
-          </p>
-
-          <div className="w-full max-w-2xl bg-white p-1.5 rounded-2xl shadow-2xl border border-white/20 flex flex-row items-center gap-1">
-            <div className="flex-1 flex items-center gap-2 px-3 w-full">
-              <Search className="text-primary-500 flex-shrink-0" size={20} />
-              <input
-                type="text"
-                placeholder="Search for Services near me"
-                className="w-full py-2.5 text-sm border-none focus:ring-0 focus:outline-none placeholder:text-slate-400 font-medium"
-              />
-            </div>
-            <div className="w-px h-8 bg-slate-100 mx-1"></div>
-            <div className="flex-shrink-0 flex items-center gap-2 px-3 w-64">
-              <MapPin className="text-primary-500 flex-shrink-0" size={18} />
-              <input
-                type="text"
-                placeholder="Indore"
-                className="w-full py-2.5 border-none focus:ring-0 focus:outline-none text-slate-600 font-semibold text-sm placeholder:text-slate-400"
-              />
-            </div>
-            <Button size="sm" className="w-auto rounded-xl px-10 py-3 shadow-lg shadow-primary-500/20">
-              Discover
-            </Button>
+      {/* Desktop Hero Section */}
+      <section className="hidden md:flex flex-col bg-gradient-to-b from-[#F2FBFD] to-white pt-24 pb-10 overflow-hidden">
+        <div className="max-w-[1400px] mx-auto w-full px-6 flex flex-col items-center">
+          {/* Tabs */}
+          <div className="flex items-center gap-10 mb-6">
+            {['Products', 'Services', 'Businesses', 'Trade Fairs'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => {
+                  setActiveTab(tab);
+                  if (tab === 'Products' || tab === 'Services') {
+                    setLookingFor(tab);
+                  }
+                }}
+                className={cn(
+                  "text-xl font-medium transition-all relative pb-2",
+                  activeTab === tab ? "text-slate-900" : "text-slate-400 hover:text-slate-600"
+                )}
+              >
+                {tab}
+                {activeTab === tab && (
+                  <motion.div layoutId="activeTabDesktop" className="absolute bottom-0 left-0 right-0 h-1 bg-primary-500 rounded-full" />
+                )}
+              </button>
+            ))}
           </div>
+
+          {/* Unified Search Pill */}
+          <div
+            id="hero-search-bar"
+            className="w-full max-w-4xl bg-white rounded-full shadow-[0_15px_50px_rgba(0,0,0,0.06)] border border-primary-200 p-1 flex items-center gap-2 mb-20 relative group transition-all hover:shadow-[0_20px_60px_rgba(13,77,71,0.1)]"
+          >
+            <div
+              ref={locationRef}
+              className="flex items-center gap-3 px-6 border-r border-slate-100 min-w-[150px] relative cursor-pointer group/loc"
+              onClick={() => setIsLocationOpen(!isLocationOpen)}
+            >
+              <MapPin size={18} className="text-primary-500" />
+              <span className="text-[14px] font-bold text-slate-600 group-hover/loc:text-primary-600 transition-colors">{selectedCity}</span>
+              <div className="flex items-center ml-auto pl-3">
+                <ChevronsUpDown size={16} className="text-slate-300 group-hover/loc:text-primary-400 transition-colors" />
+              </div>
+
+              {/* City Dropdown */}
+              <AnimatePresence>
+                {isLocationOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 5, scale: 0.98 }}
+                    className="absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-slate-100 z-50 overflow-hidden"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="p-3 border-b border-slate-50">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                        <input
+                          type="text"
+                          placeholder="Search city..."
+                          value={citySearch}
+                          onChange={(e) => setCitySearch(e.target.value)}
+                          autoFocus
+                          className="w-full pl-9 pr-4 py-1.5 bg-slate-50 border-none rounded-xl text-sm focus:ring-1 focus:ring-primary-500/20 outline-none placeholder:text-slate-400"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
+                      <div className="p-1.5">
+                        <span className="px-2.5 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Actions</span>
+                        <button className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-primary-50 text-primary-600 transition-colors group">
+                          <div className="w-7 h-7 rounded-lg bg-primary-50 flex items-center justify-center group-hover:bg-white transition-colors">
+                            <Navigation size={14} />
+                          </div>
+                          <span className="text-sm font-bold">Detect my city</span>
+                        </button>
+                      </div>
+
+                      <div className="p-1.5">
+                        <span className="px-2.5 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Available Cities</span>
+                        <div className="space-y-0.5">
+                          {filteredCities.map((city) => (
+                            <button
+                              key={city}
+                              className={cn(
+                                "w-full text-left px-3 py-1.5 rounded-lg text-sm font-medium transition-all",
+                                selectedCity === city ? "bg-primary-50 text-primary-700" : "text-slate-600 hover:bg-slate-50 hover:text-primary-600"
+                              )}
+                              onClick={() => {
+                                setSelectedCity(city);
+                                setIsLocationOpen(false);
+                                setCitySearch('');
+                              }}
+                            >
+                              {city}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <div className="flex items-center flex-1 gap-4 px-6">
+              <input
+                type="text"
+                placeholder={
+                  activeTab === 'Products' ? "Search products, suppliers, brands..." :
+                    activeTab === 'Services' ? "Search services, suppliers, brands..." :
+                      activeTab === 'Businesses' ? "Search businesses, suppliers, brands..." :
+                        "Search trade fairs, suppliers, brands..."
+                }
+                className="w-full py-2.5 text-[16px] font-medium border-none focus:ring-0 focus:outline-none placeholder:text-slate-400 text-slate-700 bg-transparent"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            <button className="bg-primary-600 hover:bg-primary-700 text-white rounded-full px-7 py-2.5 flex items-center gap-2 shadow-lg shadow-primary-600/20 transition-all active:scale-95 group shrink-0">
+              <Search size={18} className="group-hover:scale-110 transition-transform" />
+              <span className="font-bold text-[14px]">Search</span>
+            </button>
+          </div>
+
+          {/* Browse by Category Header */}
+          <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+            <div className="space-y-1">
+              <h2 className="text-3xl font-display font-bold text-slate-900 tracking-tight">Browse by Category</h2>
+              <p className="text-sm text-slate-500 font-medium">Explore top business categories across all major industries</p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-bold text-slate-700">I am looking for:</span>
+              <div className="bg-slate-50 p-1 rounded-xl flex items-center gap-1 border border-slate-100">
+                <button
+                  onClick={() => setLookingFor('Products')}
+                  className={cn(
+                    "px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2",
+                    lookingFor === 'Products' ? "bg-primary-600 text-white shadow-lg shadow-primary-600/20" : "text-slate-400 hover:text-slate-600"
+                  )}
+                >
+                  <LayoutGrid size={14} /> Products
+                </button>
+                <button
+                  onClick={() => setLookingFor('Services')}
+                  className={cn(
+                    "px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2",
+                    lookingFor === 'Services' ? "bg-primary-600 text-white shadow-lg shadow-primary-600/20" : "text-slate-400 hover:text-slate-600"
+                  )}
+                >
+                  <UserCog size={14} /> Services
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Category Grid */}
+          <div className="w-full min-h-[140px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={lookingFor}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-x-4 gap-y-10 w-full"
+              >
+                {(lookingFor === 'Products' ? CATEGORIES : SERVICES_CATEGORIES)
+                  .slice(0, 12)
+                  .map((cat) => (
+                    <div
+                      key={cat.id}
+                      className="flex flex-col items-center group cursor-pointer"
+                      onClick={() => handleCategoryClick(cat)}
+                    >
+                      <div className={cn(
+                        "w-16 h-16 md:w-20 md:h-20 rounded-2xl mb-3 overflow-hidden shadow-sm border-2 border-transparent transition-all duration-300 group-hover:shadow-md group-hover:border-primary-500 bg-slate-50 relative",
+                        cat.isMenu ? "bg-primary-600 border-primary-600" : ""
+                      )}>
+                        {typeof cat.icon === 'string' ? (
+                          <img src={cat.icon} alt={cat.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-white">
+                            <cat.icon size={24} className={!cat.isMenu ? "text-slate-400 group-hover:text-primary-600" : ""} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <span className="text-[10px] font-bold text-slate-700 text-center leading-tight transition-colors group-hover:text-primary-600 mb-0.5 line-clamp-1">
+                          {cat.name}
+                        </span>
+                        <span className="text-[9px] font-bold text-slate-400 group-hover:text-primary-500/70">{cat.count}</span>
+                      </div>
+                    </div>
+                  ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <button
+            className="mt-6 mb-12 text-sm font-bold text-primary-600 hover:underline flex items-center gap-1 transition-all"
+            onClick={() => setIsCategoriesOverlayOpen(true)}
+          >
+            View All <ArrowRight size={14} />
+          </button>
         </div>
+
+        {/* Restore Products Preview for Desktop */}
+        {lookingFor === 'Products' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <MarketplacePreview />
+          </motion.div>
+        )}
       </section>
 
-      {/* Category Grid (Desktop) */}
-      <section className="hidden md:block max-w-[1400px] mx-auto px-6 py-20">
-        <div className="flex justify-between items-end mb-12">
+      {/* Top Deals Section */}
+      {lookingFor === 'Products' && (
+      <>
+      <section className="max-w-[1400px] mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-8 md:mb-12">
+        <div className="flex justify-between items-end mb-6">
           <div>
-            <h2 className="text-3xl font-display font-bold text-slate-900 mb-2">Explore Popular Categories</h2>
-            <p className="text-slate-500">Fast tracking your search for local experts</p>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight mb-1">Top Deals</h2>
+            <p className="text-slate-500 text-xs md:text-sm font-medium">Score the lowest prices on ServiceConnect</p>
           </div>
-          <Button variant="ghost" className="hidden sm:flex items-center gap-2 text-primary-600 font-bold">
-            See All Categories <ArrowRight size={18} />
-          </Button>
+          <button 
+            onClick={() => navigate('/marketplace')}
+            className="text-sm font-bold text-slate-600 hover:text-primary-600 flex items-center gap-0.5 transition-colors mb-1"
+          >
+            View more <ChevronRight size={16} />
+          </button>
         </div>
-
-        <div className="grid grid-cols-10 gap-x-4 gap-y-10">
-          {CATEGORIES.map((cat) => (
-            <div
-              key={cat.id}
-              className="flex flex-col items-center group cursor-pointer"
-              onClick={() => handleCategoryClick(cat)}
+        
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
+          {[...TOP_DEALS, ...FULL_PRODUCT_LIST].slice(0, 12).map((item, idx) => (
+            <div 
+              key={idx} 
+              onClick={() => navigate(`/marketplace/product/${item.id || '1'}`)}
+              className="group cursor-pointer bg-white rounded-xl md:rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col p-1.5 md:p-2 hover:-translate-y-1"
             >
-              <div className={cn(
-                "w-16 h-16 rounded-2xl mb-3 flex items-center justify-center transition-all duration-300 border border-slate-100 shadow-sm group-hover:shadow-md group-hover:-translate-y-1 bg-white",
-                cat.isMenu && "bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-500/20"
-              )}>
-                {typeof cat.icon === 'string' ? (
-                   <img src={cat.icon} alt={cat.name} className="w-12 h-12 object-contain drop-shadow-md" />
-                ) : (
-                   <cat.icon size={cat.isMenu ? 28 : 24} className={!cat.isMenu ? "text-primary-600" : ""} />
-                )}
+              <div className="aspect-[4/3] md:aspect-square rounded-lg md:rounded-xl overflow-hidden bg-[#F7F8FA] mb-1.5 md:mb-2 relative group-hover:bg-slate-100 transition-colors">
+                <img src={item.image} alt="deal" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute bottom-2 left-2 w-7 h-7 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                  <Search size={14} />
+                </div>
               </div>
-              <span className="text-[11px] md:text-sm font-bold text-slate-700 text-center leading-tight transition-colors group-hover:text-primary-600">
-                {cat.name}
-              </span>
+              
+              <div className="flex flex-col flex-1 px-0.5">
+                <h3 className="text-[11px] md:text-[13px] font-medium text-slate-800 line-clamp-2 leading-snug mb-0.5 md:mb-1">
+                  {item.name || 'Premium Quality Product for Industrial and Commercial use'}
+                </h3>
+                
+                <div className="flex items-center gap-1 text-[#FF4747] mb-1 md:mb-1.5 mt-auto">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="mt-px md:w-2.5 md:h-2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                  <span className="text-[9px] md:text-[11px] font-bold tracking-tight leading-none">Lower priced than similar</span>
+                </div>
+                
+                <span className="text-base md:text-xl font-black text-slate-900 tracking-tight leading-none mb-0.5 md:mb-1">{item.price}</span>
+                
+                <div className="flex items-center gap-1.5 text-[9px] md:text-[11px] text-slate-600 mb-0.5">
+                  <span>MOQ: {item.moq || '1'} {item.moq === '1' ? 'pc' : 'pcs'}</span>
+                  <span className="text-slate-400">{item.sold || (15 + idx * 3)} sold</span>
+                </div>
+                <span className="text-[8px] md:text-[10px] text-slate-400">1 yr · CN</span>
+              </div>
             </div>
           ))}
         </div>
       </section>
-      
+
+      {/* Top-Ranked Categories Section */}
+      <section className="max-w-[1400px] mx-auto px-4 md:px-6 mb-8 md:mb-12">
+        <div className="flex justify-between items-end mb-4">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">Top-Ranked Categories For You</h2>
+          <button 
+            onClick={() => navigate('/marketplace')}
+            className="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors"
+          >
+            View all
+          </button>
+        </div>
+        
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 md:gap-4 pb-4 no-scrollbar">
+          {TOP_RANKED_CATEGORIES.map((cat) => (
+            <div 
+              key={cat.id}
+              className="flex-none w-[140px] md:w-[200px] bg-white rounded-2xl p-2 md:p-3 border border-slate-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer snap-start"
+              onClick={() => navigate('/marketplace')}
+            >
+              <div className="aspect-square rounded-xl bg-[#F7F8FA] mb-3 overflow-hidden relative group">
+                <img 
+                  src={cat.image} 
+                  alt={cat.name} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <h3 className="text-center text-[12px] md:text-sm font-bold text-slate-800 line-clamp-1">{cat.name}</h3>
+            </div>
+          ))}
+        </div>
+      </section>
+      </>
+      )}
+
+      {lookingFor === 'Services' && (
+      <>
       {/* Home Services Quick Links */}
-      <section className="max-w-[1400px] mx-auto px-4 md:px-6 mb-4 mt-4 md:mt-10 md:mb-20">
+      <section className="max-w-[1400px] mx-auto px-4 md:px-6 mb-4 mt-2 md:mt-2 md:mb-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Home services</h2>
           <ChevronDown size={24} className="-rotate-90 text-slate-400" />
         </div>
-        <div className="grid grid-cols-4 gap-2">
-          {HOME_SERVICES.map((s) => (
-            <div 
-              key={s.id} 
-              className="relative aspect-[0.7/1] rounded-lg overflow-hidden group cursor-pointer active:scale-95 transition-all shadow-sm"
-              onClick={() => navigate('/categories')}
-            >
-              <img src={s.image} alt={s.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              
-              {/* Dynamic Bottom Gradient Overlay */}
-              <div className={cn(
-                "absolute inset-x-0 bottom-0 h-3/5 flex flex-col justify-end",
-                "bg-gradient-to-t via-black/40 to-transparent",
-                s.color
-              )}></div>
-              
-              <div className="absolute inset-x-0 bottom-0 p-1.5 z-10">
-                <span className="text-white text-[9px] md:text-[14px] font-black uppercase leading-[1.1] tracking-tighter block">
-                  {s.name.split(' ').map((word, i) => (
-                    <React.Fragment key={i}>
-                      {word} {i === 1 && <br />}
-                    </React.Fragment>
-                  ))}
-                </span>
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 md:gap-4 px-1 pb-4 no-scrollbar">
+          {HOME_SERVICES.slice(0, 6).map((s) => {
+            const hexColor = s.color ? s.color.replace('from-[', '').replace(']', '') : '#000000';
+            return (
+              <div
+                key={s.id}
+                className="relative flex-none w-[140px] md:w-auto md:flex-1 aspect-[0.75/1] rounded-xl overflow-hidden group cursor-pointer active:scale-95 transition-all shadow-md hover:shadow-xl hover:-translate-y-1 duration-300 snap-start"
+                onClick={() => navigate('/categories')}
+              >
+                <img src={s.image} alt={s.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <div 
+                  className="absolute inset-x-0 bottom-0 h-[60%] flex flex-col justify-end"
+                  style={{ background: `linear-gradient(to top, ${hexColor}F2 0%, ${hexColor}B3 40%, transparent 100%)` }}
+                ></div>
+                <div className="absolute inset-x-0 bottom-0 p-3 z-10 text-center">
+                  <span className="text-white text-[12px] md:text-[14px] font-black uppercase leading-[1.2] tracking-wide block">
+                    {s.name}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
-      {/* Featured Vendors - Compacted */}
-      <section className="md:max-w-[1400px] md:mx-auto bg-primary-50/30 pt-4 pb-4 md:pt-16 md:pb-4 px-4 md:px-6">
-          <div className="text-left mb-4 md:mb-16">
-            <h2 className="text-lg md:text-2xl font-display font-bold text-slate-900 mb-1">Handpicked Top Rated Experts</h2>
-            <p className="text-slate-500 text-xs md:text-lg leading-tight">Proven track records and high customer satisfaction.</p>
-          </div>
+      {/* Featured Vendors Component */}
+      <FeaturedVendors onEnquiry={handleEnquiry} />
 
-          <div className="flex md:grid overflow-x-auto md:overflow-visible no-scrollbar -mx-4 md:mx-0 px-4 md:px-0 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 pb-4">
-            {FEATURED_VENDORS.map((vendor) => (
-              <Card key={vendor.id} className="overflow-hidden group flex flex-col shrink-0 w-[240px] md:w-auto border-slate-100 shadow-sm md:shadow-md">
-                <div className="relative h-34 md:h-48 overflow-hidden">
-                  <img src={vendor.image} alt={vendor.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute top-3 left-3">
-                    <Badge variant={vendor.type === 'Premium' ? 'primary' : 'neutral'} className="shadow-lg backdrop-blur-md text-[9px] px-1.5 py-0.5">
-                      {vendor.type}
-                    </Badge>
-                  </div>
-                  {vendor.verified && (
-                    <div className="absolute bottom-3 right-3 bg-white p-1 rounded-full shadow-lg border border-primary-50">
-                      <ShieldCheck size={16} className="text-primary-600" />
-                    </div>
-                  )}
-                </div>
-                <div className="p-3 md:p-6 flex-1 flex flex-col">
-                  <div className="flex items-center gap-1 text-amber-500 mb-1">
-                    <Star size={12} fill="currentColor" />
-                    <span className="text-xs font-bold text-slate-900">{vendor.rating}</span>
-                    <span className="text-[10px] text-slate-400 font-medium ml-1">({vendor.reviews})</span>
-                  </div>
-                  <h4 className="text-base md:text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-600 transition-colors cursor-pointer line-clamp-1">{vendor.name}</h4>
-                  <p className="text-[10px] md:text-sm text-slate-400 font-medium mb-4 leading-tight line-clamp-1">Expert professional service in Indore.</p>
-                  <Button
-                    variant="outline"
-                    onClick={() => { setSelectedVendor(vendor); setIsEnquiryOpen(true); }}
-                    className="w-full mt-auto border-primary-100 text-primary-600 transition-all duration-300 font-bold py-2 rounded-xl text-xs"
-                  >
-                    Get Quote
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-      </section>
+      {/* Social Discovery Component */}
+      <SocialDiscovery />
+      </>
+      )}
 
-      {/* Social Discovery Segment - Compacted Padding */}
-      <section className="max-w-[1400px] mx-auto px-6 pt-0 pb-12 bg-transparent">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          <div className="lg:col-span-7">
-            <Badge variant="primary" className="mb-2 px-3 py-1 bg-primary-50 text-primary-700 text-[10px]">Social Discovery</Badge>
-            <h2 className="text-2xl md:text-6xl font-display font-bold text-slate-900 mb-4 leading-tight">
-              See What's Trending <br />
-              in <span className="text-primary-600">Your Community</span>
-            </h2>
-            <p className="text-slate-500 text-sm md:text-xl mb-6 leading-relaxed max-w-2xl">
-              Stay updated with the latest service works, tips, and transformations posted by vendors near you.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="flex items-center gap-4 p-3 rounded-2xl bg-white shadow-sm border border-slate-100">
-                <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600 flex-shrink-0">
-                  <Sparkles size={20} />
-                </div>
-                <div>
-                  <h5 className="font-bold text-sm text-slate-900">Real Work Samples</h5>
-                  <p className="text-[12px] text-slate-500 leading-tight">Unfiltered photos and videos from jobs.</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 p-3 rounded-2xl bg-white shadow-sm border border-slate-100">
-                <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 flex-shrink-0">
-                  <Star size={20} />
-                </div>
-                <div>
-                  <h5 className="font-bold text-sm text-slate-900">Community Reviews</h5>
-                  <p className="text-[12px] text-slate-500 leading-tight">Read what your neighbors say.</p>
-                </div>
-              </div>
-            </div>
-            <Button 
-              size="sm" 
-              className="mt-6 rounded-xl w-full sm:w-auto px-8 py-3 text-sm shadow-lg shadow-primary-500/20"
-              onClick={() => navigate('/')}
-            >
-              Open Social Feed
-            </Button>
-          </div>
-
-          <div className="lg:col-span-5 relative h-[380px] md:h-[650px] flex items-center justify-center group">
-            <div className="absolute inset-0 bg-primary-50 rounded-3xl blur-3xl opacity-30 transform scale-90 group-hover:scale-100 transition-transform duration-700"></div>
-
-            <div className="relative w-full h-full flex items-center justify-center">
-              {previewStack.slice().reverse().map((cardId, index) => {
-                const card = PREVIEW_CARDS.find(c => c.id === cardId);
-                const stackPos = previewStack.indexOf(cardId);
-                
-                return (
-                  <motion.div
-                    key={cardId}
-                    layout
-                    initial={false}
-                    animate={{
-                      scale: 1 - stackPos * 0.05,
-                      y: stackPos * 15,
-                      x: stackPos === 1 ? -30 : stackPos === 2 ? 30 : 0,
-                      rotate: stackPos === 1 ? -5 : stackPos === 2 ? 5 : 0,
-                      zIndex: 30 - stackPos * 10,
-                      opacity: 1
-                    }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    onClick={() => stackPos !== 0 && handleSwap(cardId)}
-                    className={cn(
-                      "absolute w-[280px] md:w-[350px] aspect-[4/5] bg-cover bg-center rounded-3xl shadow-2xl border-4 border-white overflow-hidden",
-                      stackPos === 0 ? "cursor-default" : "cursor-pointer"
-                    )}
-                    style={{ backgroundImage: `url("${card.image}")` }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-                    <AnimatePresence>
-                      {stackPos === 0 && (
-                        <motion.div 
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0 }}
-                          className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8"
-                        >
-                          <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 rounded-2xl border-2 border-white/20 bg-white/10 backdrop-blur-md flex items-center justify-center overflow-hidden shrink-0">
-                              <img src={card.avatar} alt="avatar" className="w-full h-full object-cover" />
-                            </div>
-                            <div>
-                              <span className="text-white text-lg font-bold block leading-none mb-1">{card.user}</span>
-                              <span className="text-primary-300 text-[11px] font-bold uppercase tracking-wider">Verified Artist</span>
-                            </div>
-                          </div>
-                          <p className="text-white text-sm md:text-lg font-medium line-clamp-3 leading-relaxed">
-                            {card.text}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
       {/* Enquiry Form Modal */}
-      <LeadFormModal 
-        isOpen={isEnquiryOpen} 
-        onClose={() => setIsEnquiryOpen(false)} 
-        vendorName={selectedVendor?.name || "Expert"} 
+      <LeadFormModal
+        isOpen={isEnquiryOpen}
+        onClose={() => setIsEnquiryOpen(false)}
+        vendorName={selectedVendor?.name || "Expert"}
       />
 
-      {/* Services Full Screen Overlay (Original if needed) */}
-      <ServicesOverlay 
-        isOpen={isServicesOpen} 
-        onClose={() => setIsServicesOpen(false)} 
+      {/* Services Full Screen Overlay */}
+      <ServicesOverlay
+        isOpen={isServicesOpen}
+        onClose={() => setIsServicesOpen(false)}
       />
 
       {/* Premium Animated Categories Overlay */}
-      <AnimatedCategoriesOverlay 
+      <AnimatedCategoriesOverlay
         isOpen={isCategoriesOverlayOpen}
         onClose={() => setIsCategoriesOverlayOpen(false)}
         triggerRef={moreButtonRef}
